@@ -9,6 +9,7 @@ function saveplayer() {
   savechallenges();
   savedata["lastplaytime"] = Date.now().toFixed();
 }
+//test
 
 function saveachievements() {
   var achievements = [];
