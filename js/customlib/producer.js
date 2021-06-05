@@ -9,6 +9,7 @@ class Producer {
     this.buyauto = false;
     this.autobuyunlocked = false;
     this.doproduce = true;
+    this.unlocked = false;
 
     if (Array.isArray(productions))
       this.productions = productions;
@@ -48,6 +49,8 @@ class Producer {
         this.autobuyunlocked = true;
       }
     }
+    if(!this.unlocked)
+      this.checkForUnlock();
   }
 
   get autostate() {
@@ -83,16 +86,24 @@ class Producer {
   }
 
   checkForUnlock() {
-    if (this.unlockrequirements == null || this.unlockrequirements == undefined)
-      return true;
+    if(this.unlocked == true)
+      return;
+    if (this.unlockrequirements == undefined){
+      this.unlocked = true;
+      return;
+    }
     var unlock = true;
     this.unlockrequirements.forEach(element => {
       if (!element.hasrequirement) {
         unlock = false;
-        return false;
+        return;
       }
     });
-    return unlock;
+    if(unlock){
+      this.unlocked = true;
+      this.recalculatecosts();
+      return;
+    }
   }
 
   checkforautounlock() {
@@ -106,10 +117,6 @@ class Producer {
       }
     });
     return unlock;
-  }
-
-  get unlocked() {
-    return this.checkForUnlock();
   }
 
   get saveData() {

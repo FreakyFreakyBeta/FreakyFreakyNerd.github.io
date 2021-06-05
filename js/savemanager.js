@@ -8,7 +8,7 @@ function saveplayer() {
   saveachievements();
   savechallenges();
   savedata["lastplaytime"] = Date.now().toFixed();
-  if(checkbeta())
+  if(checkurl())
     savedata["beta"] = true;
 }
 
