@@ -107,9 +107,9 @@ class EffectsBoardPiece extends BoardPiece {
         this.effecttypes = effecttypes;
         this.effectweights = effectweights;
         this.effects = [];
-        for(var i = 0; i < effecttypes.length; i++){
+        for(var i = 0; i < this.effecttypes.length; i++){
             console.log(this.effecttypes[i]);
-            this.effects.push(new PieceFunctionEffect(effectobjects[this.effecttypes[i]], effecttypes[this.effecttypes[i]], (blocks, weights, amount, ind) => effectfunctions[this.effecttypes[ind]](blocks, weights, amount), (obj) => effectdescriptions[this.effecttypes[obj.ind]](obj), this.blocks, this.effectweights[i], i));
+            this.effects.push(new PieceFunctionEffect(effectobjects[this.effecttypes[i]](), effecttypes[this.effecttypes[i]], (blocks, weights, amount, ind) => effectfunctions[this.effecttypes[ind]](blocks, weights, amount), (obj) => effectdescriptions[this.effecttypes[obj.ind]](obj), this.blocks, this.effectweights[i], i));
         }
         this.updateeffectamounts();
     }

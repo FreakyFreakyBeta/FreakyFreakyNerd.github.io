@@ -80,7 +80,7 @@ upgradenames = {
     "height": "Maximum Piece Height",
     "min0": "Weight 1 Minimum Value (Generally Base Value)",
     "min1": "Weight 2 Minimum Value (Generally Multipler to Effect Value)",
-    "min2": "Weight 3 Minimum Value (Generally Power to Effct Value)",
+    "min2": "Weight 3 Minimum Value (Generally Power to Effect Value)",
     "max0": "Weight 1 Maximum Value (Generally Base Value)",
     "max1": "Weight 2 Maximum Value (Generally Multipler to Effect Value)",
     "max2": "Weight 3 Maximum Value (Generally Power to Effect Value)",
@@ -99,7 +99,7 @@ function setpieceupgradeeffects(){
         "neutrongenbase": (obj) => "Neutron Base Generation: " + formatDecimalNormal(obj.value)
     }
     effectobjects = {
-        "neutrongenbase": [player.nucleonstage.split.protongenerator]
+        "neutrongenbase": () => player.nucleonstage.split.protongenerator
     }
     effecttypes = {
         "neutrongenbase": EffectTypes.ProducerBaseProduction

@@ -8,8 +8,9 @@ function saveplayer() {
   saveachievements();
   savechallenges();
   savedata["lastplaytime"] = Date.now().toFixed();
+  if(checkbeta())
+    savedata["beta"] = true;
 }
-//test
 
 function saveachievements() {
   var achievements = [];
@@ -88,6 +89,8 @@ function loadQuarkStage() {
 }
 
 function loadplayer() {
+  if(loadeddata["beta"] && !checkurl())
+    loadeddata = undefined;
   loadoptions();
   loadstats();
   loadQuarkStage();
@@ -149,7 +152,7 @@ function loadstats() {
   }
 }
 
-mainurl = "freakyfreakynerd.github.io"
+mainurl = "freakyfreakybeta.github.io"
 
 function checkurl(){
   return window.location.href.includes(mainurl);  
