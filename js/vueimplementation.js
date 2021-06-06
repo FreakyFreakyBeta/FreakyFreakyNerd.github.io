@@ -158,7 +158,7 @@ Vue.component('currency-display', {
   template: `
   <div class="currencydisplaydiv">
     <img class="currencyimage" v-bind:src='currency.iconpath' @error="$event.target.src='images/missing.png'"/>
-    <span v-bind:class='currency.colorclass+" currencydisplay"'>{{formatSpecial(currency.amount, 1)}}</span>
+    <span v-bind:class='currency.colorclass+" currencydisplay"'>{{formatSpecial(currency.amount, 2)}}</span>
   </div>
   `,
   methods: {
