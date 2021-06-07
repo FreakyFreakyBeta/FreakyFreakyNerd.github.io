@@ -75,13 +75,6 @@ function togglechallenges() {
   subatomicidlingapp.$forceUpdate();
 }
 
-function resetchallenges(startind, endind) {
-  for (var i = startind; i < endind; i++) {
-    player.challenges[i].reset();
-  }
-  updateeffects();
-}
-
 function raisechallengescore(startind, endind, value) {
   for (var i = startind; i < endind; i++) {
     player.challenges[i].raisescore(value);

@@ -256,7 +256,7 @@ function resetgame() {
   resetnucleonstage(true);
   resetstats();
   resetachievements();
-  resetchallenges(0, player.challenges.length);
+  resetchallenges(1, player.challenges.length);
   resetSettings();
   resetAutoBuyers();
   closeproducersscreen();
