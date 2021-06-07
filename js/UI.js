@@ -230,8 +230,12 @@ function formatsmallnumber(num, dec){
 }
 
 function openproducersscreen(screen){
-  document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
-  document.getElementById(screen + "producersscreen").style.display = "block";
+  var doc = document.getElementById(player.options.currentproducersscreen + "producersscreen");
+  if(doc != undefined)
+   doc.style.display = "none";
+  doc = document.getElementById(screen + "producersscreen")
+  if(doc != undefined)
+    doc.style.display = "block";
   player.options.currentproducersscreen = screen;
 }
 function closeproducersscreen(){

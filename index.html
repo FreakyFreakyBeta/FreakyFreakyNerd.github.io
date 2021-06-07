@@ -178,9 +178,13 @@
           <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
             <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark Producers</a>
             <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quarkboosts")'>Quark Boosts</a>
-            <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
-            <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")'
-              v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
+            <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Quark Spin</a>
+            <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("gluon")'
+              v-if='hasachievement("nucleonizeunlock")'>Gluon</a>
+              <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("free")'
+                v-if='hasachievement("nucleonizeunlock")'>Free Electron</a>
+                <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("charge")'
+                  v-if='hasachievement("nucleonizeunlock")'>Electron Charge</a>
           </div>
           <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
             <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark">
@@ -201,25 +205,29 @@
             </upgrades-display>
             <buy-amount-selector type="qsp"></buy-amount-selector>
           </div>
-          <div class="subcontent producerscreen" id="nucleonproducersscreen" style="display:none;">
+          <div class="subcontent producerscreen" id="gluonproducersscreen" style="display:none;">
             <upgrade-bonus v-bind:upgrade="player.nucleonstage.gluons"></upgrade-bonus>
             <producers-display v-bind:producers="player.nucleonstage.gluonproducers" type="quark">
             </producers-display>
             <upgrades-display v-bind:upgrades="player.nucleonstage.gluonupgrades" type="quark">
             </upgrades-display>
-            <br>
+            <buy-amount-selector type="gluonp"></buy-amount-selector>
+          </div>
+          <div class="subcontent producerscreen" id="chargeproducersscreen" style="display:none;">
             <upgrade-bonus v-bind:upgrade="player.nucleonstage.electroncharge"></upgrade-bonus>
             <producers-display v-bind:producers="player.nucleonstage.electronchargeproducers" type="quark">
             </producers-display>
             <upgrades-display v-bind:upgrades="player.nucleonstage.electronchargeupgrades" type="quark">
             </upgrades-display>
-            <br>
+            <buy-amount-selector type="chargep"></buy-amount-selector>
+          </div>
+          <div class="subcontent producerscreen" id="freeproducersscreen" style="display:none;">
             <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
             <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark">
             </producers-display>
             <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark">
             </upgrades-display>
-            <buy-amount-selector type="fep"></buy-amount-selector>
+            <buy-amount-selector type="freep"></buy-amount-selector>
           </div>
         </div>
         <div id="upgradesscreen" style="display: none;">

@@ -446,6 +446,22 @@ body{
   border-color: #ebcb2d;
 }
 
+.qbpbuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
+.gluonpbuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
+.freepbuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
+.chargebuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
 .buyamounttext{
   color: white;
 }

@@ -352,7 +352,7 @@ class Upgrade {
   get requirementstext(){
     if(this.requirements == undefined)
       return "No Requirements"
-    var text = "";
+    var text = "Requires: ";
     for(var i = 0; i < this.requirements.length; i++){
       text += this.requirements[i].requirementtext;
       if(i < this.requirements.length - 1){
