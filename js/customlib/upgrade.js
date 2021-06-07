@@ -349,6 +349,19 @@ class Upgrade {
     return description;
   }
 
+  get requirementstext(){
+    if(this.requirements == undefined)
+      return "No Requirements"
+    var text = "";
+    for(var i = 0; i < this.requirements.length; i++){
+      text += this.requirements[i].requirementtext;
+      if(i < this.requirements.length - 1){
+        text += ", "
+      }
+    }
+    return text;
+  }
+
   onunlock() {
     if (this.effects == undefined)
       return;

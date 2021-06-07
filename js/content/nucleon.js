@@ -10,7 +10,7 @@ function setupbasicnucleonstage() {
 
   var donucleonize = async (hadrequire, producedamounts, forced) => {
     if (!forced && player.options.confirmations.nucleonize) {
-      var confirm = await confirmtest("Gain nucleons but reset all quark producers, quark upgrades, quark spin producers, quark spin upgrades, electron upgrades, orbitals, electron power, and challenges 1-4 score will be raised to .5?");
+      var confirm = await confirmtest("Gain nucleons but reset all quark producers, quark upgrades, quark spin producers, quark spin upgrades, electron upgrades, orbitals, electron power, and challenges 1-4 score?");
       if (!confirm)
         return false;
     }
@@ -23,7 +23,7 @@ function setupbasicnucleonstage() {
     return true;
   }
 
-  player.electronstage.nucleonize = new Prestige("nucleonize", "Nucleonize", donucleonize, () => { resetQuarkStage(); resetElectronStage(); if(!hasachievement("100nucleonize")) raisechallengescore(0, 4, .5); }, new NumRequirement(player.electronstage.electrons, "1e100"), new PrestigeReward(player.nucleonstage.nucleons, player.electronstage.electrons, nucleongain));
+  player.electronstage.nucleonize = new Prestige("nucleonize", "Nucleonize", donucleonize, () => { resetQuarkStage(); resetElectronStage(); if(!hasachievement("100nucleonize")) resetchallenges(1, 4); }, new NumRequirement(player.electronstage.electrons, "1e100"), new PrestigeReward(player.nucleonstage.nucleons, player.electronstage.electrons, nucleongain));
 }
 
 //Setup nucleon producers

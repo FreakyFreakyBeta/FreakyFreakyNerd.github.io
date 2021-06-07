@@ -143,6 +143,10 @@ class Challenge {
     });
   }
 
+  hasscore(score){
+    return this.score.greaterThanOrEqualTo(score);
+  }
+
   start() {
     if (this.startfunc != undefined)
       this.startfunc();

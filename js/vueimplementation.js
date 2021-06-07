@@ -254,7 +254,7 @@ Vue.component('upgrade-bonus', {
 Vue.component('achievement-grid', {
     props: ['achievementslist'],
     template: `
-    <table>
+    <table class="achievementtable">
       <tr class="achievementrow" v-for="achievements in achievementslist">
         <td class="achievementcell" v-for="achievement in achievements">
           <achievement-item v-bind:achievement="achievement">
@@ -319,14 +319,15 @@ Vue.component('appliable-upgrade', {
 Vue.component('applied-upgrades-display', {
   props: ['upgrades','type'],
   template: `
-    <table>
-      <tr class="upgraderow" v-for="upgrade in upgrades" v-if="upgrade.unlocked">
-        <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
-        <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
-        <td v-bind:class='"upgradeprogress upgrade"+type+"progress"'>Progress: {{upgrade.progress}}</td>
-        <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
-        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="applyamount(upgrade,type)">+</button></td>
-        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="removeamount(upgrade,type)">-</button></td>
+    <table class="upgradetable">
+      <tr class="upgraderow" v-for="upgrade in upgrades">
+          <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
+          <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
+          <td v-if="upgrade.unlocked" v-bind:class='"upgradeprogress upgrade"+type+"progress"'>Progress: {{upgrade.progress}}</td>
+          <td v-if="!upgrade.unlocked" class="upgradecell"><div v-bind:class='"upgraderequirement upgrade"+type+"requirement"'>{{upgrade.requirementstext}}</div></td>
+          <td v-if="upgrade.unlocked" v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
+          <td v-if="upgrade.unlocked"><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="applyamount(upgrade,type)">+</button></td>
+          <td v-if="upgrade.unlocked"><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="removeamount(upgrade,type)">-</button></td>
       </tr>
     </table>
   `,
@@ -421,7 +422,7 @@ var subatomicidlingapp = new Vue({
         player : player,
         settings : settings,
         selectedupgrade : player.quarkstage.upgrades[0],
-        selectedachievement : player.achievements[0][0],
+        selectedachievement : player.achievements.basic[0][0],
         selectedchallenge : player.challenges[0],
         selectedprestige : prestigeregistry[0],
         selectedboardpiece : boringpiece,

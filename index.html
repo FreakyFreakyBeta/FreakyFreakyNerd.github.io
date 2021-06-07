@@ -176,7 +176,8 @@
         </div>
         <div id="producersscreen" style="display: none">
           <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
-            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
+            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark Producers</a>
+            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quarkboosts")'>Quark Boosts</a>
             <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
             <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")'
               v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
@@ -184,10 +185,12 @@
           <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
             <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark">
             </producers-display>
-            <div class="spacer32"></div>
+            <buy-amount-selector type="qp"></buy-amount-selector>
+          </div>
+          <div class="subcontent producerscreen" id="quarkboostsproducersscreen" style="display: none;">
             <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" fasttoggle="true" type="quark">
             </upgrades-display>
-            <buy-amount-selector type="qp"></buy-amount-selector>
+            <buy-amount-selector type="qbp"></buy-amount-selector>
           </div>
           <div class="subcontent producerscreen" id="electronproducersscreen" style="display:none;">
             <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
@@ -256,7 +259,7 @@
         </div>
         <div id="achievementsscreen" style="display: none">
           <div class="achievementdisplay">
-            <achievement-grid v-bind:achievementslist="player.achievements"></achievement-grid>
+            <achievement-grid v-bind:achievementslist="player.achievements.basic"></achievement-grid>
           </div>
           <div id="achievementinfo">
             <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>

@@ -209,6 +209,9 @@ td.righttablecolumn {
 .upgradename{
   font-size: 18px;
 }
+.upgraderequirement{
+  font-size: 18px;
+}
 .upgradelevel{
   font-size: 18px;
 }
@@ -336,6 +339,8 @@ td.righttablecolumn {
 
 .achievementdisplay{
   height: 45%;
+}
+.achievementtable{
   overflow-y: scroll;
   overflow-x: scroll;
 }
@@ -542,6 +547,16 @@ td.righttablecolumn {
 .upgradename{
   width: 220px;
   white-space: pre-line;
+}
+.upgradecell{
+  overflow-x: visible;
+}
+.upgraderequirement{
+  width: 220px;
+  white-space: nowrap;
+}
+.upgradetable{
+  table-layout: fixed;
 }
 .upgradeproduction{
   width: 220px;

@@ -20,7 +20,7 @@ var player = {
   options : {
     buyamount : new Decimal(1)
   },
-  achievements : [],
+  achievements : {},
   challenges : [],
   stats : {
   }
@@ -54,9 +54,13 @@ function gameLogicTick(){
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
-  produce(timedif/1000 * settings.gamespeedmodifier);
+  doprogress(timedif);
   if(Date.now() > nextaddtime)
     updatetimes();
+}
+
+function doprogress(time){
+  produce(time / 1000 * settings.gamespeedmodifier);
 }
 
 function updatelogictickspersec(amount){

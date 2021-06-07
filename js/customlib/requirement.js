@@ -72,7 +72,7 @@ class AchievementRequirement{
     }
 
     get requirementtext(){
-      return "Achievement: " + this.requiredachievement;
+      return "Achievement Obtained: " + this.requiredachievement;
     }
 }
 
@@ -91,6 +91,32 @@ class InChallengeRequirement{
 
     get requirementtext(){
       return "In Challenge: " + this.requiredchallenge.displayname;
+    }
+}
+
+class ChallengeScoreRequirement{
+    constructor(requiredchallenge, num){
+        this.requiredchallenge = requiredchallenge;
+        this.num = new Decimal(num);
+    }
+    
+    hasRequirement(){
+        return this.challenge.hasscore(this.num);
+    }
+
+    get challenge(){
+        if(typeof this.requiredchallenge === "function")
+            return this.requiredchallenge();
+        else
+            return this.requiredchallenge;
+    }
+
+    get hasrequirement(){
+        return this.hasRequirement();
+    }
+
+    get requirementtext(){
+      return "Challenge " + this.challenge.displayname + " Score: " + formatDecimalNormal(this.num);
     }
 }
 

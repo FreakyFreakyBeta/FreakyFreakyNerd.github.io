@@ -270,7 +270,7 @@ function handleoffline() {
     var old = loadeddata["lastplaytime"];
     var dif = now - old;
     var time = dif / 2;
-    produce(time / 1000);
+    doprogress(time);
     showinfomodal("You were offline for " + formattime(dif, true) + ". And during this time you producers produced at half efficiency. Giving you " + formatDecimal(player.quarkstage.quarks.gained.divide(Decimal.fromString(loadeddata["game"]["currencies"]["quark"][1]))) + "x your quarks");
   }
 }

@@ -89,6 +89,13 @@ function raisechallengescore(startind, endind, value) {
   updateeffects();
 }
 
+function resetchallenges(startind, endind){{
+  for (var i = startind - 1; i < endind; i++) {
+    player.challenges[i].reset();
+  }
+  updateeffects();
+}}
+
 function getchallenges(startind, endind){
   var chals = [];
   for (var i = startind; i < endind; i++) {
