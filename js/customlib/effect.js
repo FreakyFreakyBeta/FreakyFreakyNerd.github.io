@@ -428,6 +428,22 @@ class FlavorEffect extends Effect {
   }
 }
 
+class UnlockLogEffect extends Effect{
+  constructor(infotext) {
+    super();
+    this.infotext = infotext;
+  }
+
+  apply() {
+    logregistry.push(new LogInfo("Unlocked: " + this.infotext, "unlock"))
+  }
+  remove() { }
+  recalculatevalue() { }
+  get description() {
+    return "Unlocks: " + this.infotext;
+  }
+}
+
 const EffectTypes = {
   ProducerBaseProduction: 1,
   ProducerMultiplierProduction: 2,

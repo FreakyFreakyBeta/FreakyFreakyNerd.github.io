@@ -105,14 +105,6 @@ class Achievement{
       if(this.effects != null && this.effects != undefined && !this.hastag("hideeffects"))
         description += "\n\n";
     }
-    if(this.effects != null && this.effects != undefined && !this.hastag("hideeffects")){
-      description += "Effects\n";
-      this.effects.forEach((effect, i) => {
-        description += effect.geteffect();
-        if(i < this.effects.length)
-          description += "\n"
-      });
-    }
     return description;
 
   }
@@ -124,7 +116,16 @@ class Achievement{
   get effect(){
     if(this.effects == undefined)
       return "Nothing! Absoluting Nothing"
-    return this.effects[0].geteffect();
+    var description = "";
+    if(this.effects != null && this.effects != undefined && !this.hastag("hideeffects")){
+      description += "Effects:\n";
+      this.effects.forEach((effect, i) => {
+        description += effect.geteffect();
+        if(i < this.effects.length - 1)
+          description += ", "
+      });
+    }
+    return description;
   }
   get requirement(){
     if(this.requirements == undefined)

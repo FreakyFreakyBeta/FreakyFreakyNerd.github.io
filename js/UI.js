@@ -255,3 +255,12 @@ const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+class LogInfo{
+  constructor(text, type){
+    this.text = text;
+    this.type = type;
+  }
+}
+
+logregistry = [];

@@ -49,14 +49,17 @@ function gameLogicTick(){
   achievementtick();
   var timenow = new Date().getTime();
   var timedif = timenow - lastticktime;
+  if(settings.gamespeedmodifier > 1){
+    for (let [key, value] of Object.entries(player.stats.times)) {
+      player.stats.times[key] = value - (settings.gamespeedmodifier - 1) * timedif;
+    }
+  }
   lastticktime = timenow;
   updateeffects();
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
   doprogress(timedif);
-  if(Date.now() > nextaddtime)
-    updatetimes();
 }
 
 function doprogress(time){

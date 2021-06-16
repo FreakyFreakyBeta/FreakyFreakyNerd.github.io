@@ -414,6 +414,13 @@ Vue.component('piece-information-display', {
   `
 })
 
+Vue.component("log-info", {
+  props: ["data"],
+  template: `
+    <span v-bind:class='"logdata + log" + data.type'>{{data.text}}\n</span>
+  `
+})
+
 var boringpiece = new BoardPiece([[1]], "green")
 
 var subatomicidlingapp = new Vue({

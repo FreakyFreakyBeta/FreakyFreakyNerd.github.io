@@ -11,6 +11,9 @@
          -moz-user-drag: none;
            -o-user-drag: none;
 
+
+    font-family: "Lucida Console", "Courier New", monospace;
+
 }
 
 .centered {
@@ -751,4 +754,9 @@ a {
 
 .pieceinfo{
   font-size: 12px;
+}
+
+/*User Information*/
+.logdata{
+  font-size: 18px;
 }

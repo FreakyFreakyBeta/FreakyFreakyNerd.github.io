@@ -523,3 +523,8 @@ a {
 .pieceinfo{
   color: white;
 }
+
+/*User Information*/
+.logunlock{
+  color: #42b844;
+}
