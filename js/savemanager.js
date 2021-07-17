@@ -1,5 +1,6 @@
 var savedata = {}
 var loadeddata = {}
+var inloadstate = true;
 
 function saveplayer() {
   saveQuarkStage();
@@ -89,6 +90,7 @@ function loadQuarkStage() {
 }
 
 function loadplayer() {
+  inloadstate = true;
   if(loadeddata["beta"] && !checkurl())
     loadeddata = undefined;
   loadoptions();
@@ -97,6 +99,7 @@ function loadplayer() {
   loadachievements();
   loadchallenges();
   handleoffline();
+  inloadstate = false;
 }
 
 function loadachievements() {

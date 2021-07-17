@@ -9,6 +9,8 @@ var autobuyerregistry = [];
 var updaterequiredregistry = []
 var effectneedsrecalculated = []
 
+var afterGameSetup = [];
+
 var player = {
   quarkstage : {
   },
@@ -36,6 +38,25 @@ function getevery(list, stepsize, step, offset){
   return temp;
 }
 
+function getupgrade(id){
+  var out = undefined
+  upgraderegistry.forEach(upg => {
+    if(upg.id == id){
+      out = upg;
+      return;
+    }
+  });
+  return out;
+}
+function getupgradelog(id){
+  upgraderegistry.forEach(upg => {
+    console.log(upg.id);
+    if(upg.id == id)
+      return upg;
+  });
+  return undefined;
+}
+
 function shallowcopy(obj){
   return JSON.parse(JSON.stringify(obj));
 }
@@ -43,15 +64,21 @@ function shallowcopy(obj){
 setupGame();
 setupachievements();
 
+afterGameSetup.forEach(element => {
+  element();
+});
+
+afterGameSetup = null;
+
 var lastticktime = new Date().getTime();
 let gameLogicIntervalID = 0;
 function gameLogicTick(){
   achievementtick();
   var timenow = new Date().getTime();
   var timedif = timenow - lastticktime;
-  if(settings.gamespeedmodifier > 1){
+  if(player.options.gamespeedmodifier > 1){
     for (let [key, value] of Object.entries(player.stats.times)) {
-      player.stats.times[key] = value - (settings.gamespeedmodifier - 1) * timedif;
+      player.stats.times[key] = value - (player.options.gamespeedmodifier - 1) * timedif;
     }
   }
   lastticktime = timenow;
@@ -63,7 +90,7 @@ function gameLogicTick(){
 }
 
 function doprogress(time){
-  produce(time / 1000 * settings.gamespeedmodifier);
+  produce(time / 1000 * player.options.gamespeedmodifier);
 }
 
 function updatelogictickspersec(amount){

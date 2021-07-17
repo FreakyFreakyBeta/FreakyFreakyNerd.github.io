@@ -62,10 +62,10 @@ Vue.component('producers-display', {
     <table>
       <tr class="producerrow" v-for="producer in producers" v-if="producer.unlocked">
         <td v-bind:class='"producerimage producer"+type+"image"'><img v-bind:src='"images/producer/"+producer.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
-        <td v-bind:class='"producername producer"+type+"name"'>{{producer.displayname}}: {{producer.amountdescription}}</td>
-        <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='{producercostbutton:true, producercostbuttonbuyable: producer.canbuy}' v-on:click="buyProducer(producer)">Cost: {{producer.costdescription}}</button></td>
+        <td v-bind:class='"producername producer"+type+"name"'>{{producer.displayname}}: {{Producer.getAmountDescription(producer)}}</td>
+        <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='{producercostbutton:true, producercostbuttonbuyable: producer.canbuy}' v-on:click="buyProducer(producer)">Cost: {{Producer.getCostDescription(producer)}}</button></td>
         <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: producer.autobuyunlocked && producer.buyauto, autobuttonoff: producer.autobuyunlocked && !producer.buyauto}' v-on:click="toggleproducer(producer)" v-if="producer.autobuyunlocked">AUTO: [{{producer.autostate}}]</button></td>
-        <td v-bind:class='"producerproduction producer"+type+"production"'>{{producer.productiondescription}}</td>
+        <td v-bind:class='"producerproduction producer"+type+"production"'>{{Producer.getProductionDescription(producer)}}</td>
       </tr>
       <fast-toggle v-if='fasttoggle == "true" && producers[0].autobuyunlocked' v-bind:totoggle="producers"></fast-toggle>
     </table>
@@ -204,7 +204,8 @@ Vue.component('challenge-item', {
     template: `
     <div class="challengedisplay" @mouseover="showChallenge(challenge)" v-if="challenge.unlocked">
       <img v-bind:class="{challengeimage : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" />
-      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.toggleactive()">{{challenge.activetext}}</button></div>
+      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeinactive: challenge.in, challengeactive: !challenge.in}" v-on:click="challenge.toggleinchallenge()" v-if='!hasachievement("betterchallenges")'>{{challenge.entertext}}</button></div>
+      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.toggleactive()" v-if='hasachievement("betterchallenges")'>{{challenge.activetext}}</button></div>
       <div class="centered challengedifficulty" v-if="challenge.maxdifficulty > 1"><button class="changechallengedifficulty" v-on:click="challenge.decreasedifficulty()">-</button><span class="challengedifficulty">{{challenge.difficultyinformation}}</span><button class="changechallengedifficulty" v-on:click="challenge.increasedifficulty()">+</button></div>
       </div>
     `,

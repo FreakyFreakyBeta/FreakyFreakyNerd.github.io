@@ -47,12 +47,16 @@ window.addEventListener('keydown', function(e){
             player.quarkstage.producers[9].buy();
             break;
         case "KeyM":
-            player.quarkstage.producers.forEach(prod => {
-                prod.buy();
-            });
-            player.quarkstage.upgrades.forEach(prod => {
-                prod.buy();
-            });
+            for(var i = player.quarkstage.producers.length -1; i >= 0; i--){
+                player.quarkstage.producers[i].buy();
+            }
+            for(var i = player.quarkstage.upgrades.length -1; i >= 0; i--){
+                player.quarkstage.upgrades[i].buy();
+            }
+            for(var i = player.quarkstage.singletonupgrades.length -1; i >= 0; i--){
+                if(player.quarkstage.singletonupgrades[i].unlocked)
+                    player.quarkstage.singletonupgrades[i].buy();
+            }
             break;
         case "KeyE":
             if(!player.options.confirmations.electrify)

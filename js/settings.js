@@ -1,7 +1,6 @@
 var settings = {
   tickspersecond: 10,
   logictickspersecond: 10,
-  gamespeedmodifier: 1,
   version: "v0.1",
   defaultoptions: {
     notation: "standard",
@@ -19,7 +18,8 @@ var settings = {
     confirmations: {
       electrify: true,
       nucleonize: true
-    }
+    },
+    gamespeedmodifier: 1
   },
   defaultstats: {
     times: { game: Date.now() },

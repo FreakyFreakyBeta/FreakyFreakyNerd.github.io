@@ -100,6 +100,21 @@ class Challenge {
     return "Inactive"
   }
 
+  get entertext(){
+    if(this.in)
+      return "Exit";
+    return "Enter"
+  }
+
+  toggleinchallenge(){
+    if(!this.in && runningchallenges.length == 0){
+      this.start();
+      return;
+    }
+    if(this.in)
+      this.exit();
+  }
+
   toggleactive() {
     if (runningchallenges.length > 0)
       return;

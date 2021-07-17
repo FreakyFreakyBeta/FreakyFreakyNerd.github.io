@@ -71,6 +71,10 @@ class Cost{
       this.cost = Decimal.max(this.basecost.times(this.costmult), 1);
     }
 
+    reset(){
+      this.recalculatemult();
+    }
+
     get hascost(){
       if(this.cost.equals(0))
         return true;
@@ -182,6 +186,12 @@ class CombinedCost {
     }
   }
 
+  reset(){
+    this.costs.forEach(elem => {
+      elem.reset();
+    });
+  }
+
   recalcluateeffectvalues(){
     this.costs.forEach(cost => {
       cost.recalcluateeffectvalues();
@@ -231,7 +241,7 @@ class CombinedCost {
       this.costs[this.costs.length - 1].cost = new Decimal();
       for(var i = 0; i < this.startingamounts.length + 1; i++){
         if(amount.lessThan(this.startingamounts[i]) ){
-          var ba = this.startingamounts[i].minus(amount.minus(this.startingamounts[i])).greaterThanOrEqualTo(buyamount) ? buyamount : this.startingamounts[i];
+          var ba = new Decimal(this.startingamounts[i].minus(amount.minus(this.startingamounts[i])).greaterThanOrEqualTo(buyamount) ? buyamount : this.startingamounts[i]);
           if(ba.greaterThan(0))
             this.costs[i].recalculatecost(amount, ba);
           else

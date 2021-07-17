@@ -435,7 +435,10 @@ class UnlockLogEffect extends Effect{
   }
 
   apply() {
-    logregistry.push(new LogInfo("Unlocked: " + this.infotext, "unlock"))
+    var loginfo = new LogInfo("Unlocked: " + this.infotext, "unlock");
+    logregistry.push(loginfo);
+    if(!inloadstate)
+      showInformation(loginfo);
   }
   remove() { }
   recalculatevalue() { }

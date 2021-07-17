@@ -1,8 +1,14 @@
 class Upgrade {
-  constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, autobuyrequirements, extra) {
+  constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra) {
     this.id = id;
     this.buykey = buykey;
     this.displayname = displayname;
+
+    if (extra != null && extra != undefined)
+      for (let [key, value] of Object.entries(extra)) {
+        this[key] = value;
+      }
+    
     if (maxbuyable != undefined)
       this.maxbuyable = new Decimal(maxbuyable);
     else
@@ -30,15 +36,19 @@ class Upgrade {
       this.effects = undefined;
     }
 
-    if (Array.isArray(autobuyrequirements) || autobuyrequirements == undefined)
-      this.autobuyrequirements = autobuyrequirements;
+    if (Array.isArray(this.autobuyrequirements) || this.autobuyrequirements == undefined)
+      this.autobuyrequirements = this.autobuyrequirements;
     else
-      this.autobuyrequirements = [autobuyrequirements];
+      this.autobuyrequirements = [this.autobuyrequirements];
 
     this.applied = false;
     if (this.autobuyrequirements != undefined) {
       this.autobuyunlocked = false;
       this.buyauto = false;
+    }
+
+    if(this.tag != undefined){
+      this.displayname = "[" + this.tag + getCounterTag(this.tag)+ "] " + this.displayname;
     }
 
     this.bought = new Decimal(0);
@@ -51,10 +61,7 @@ class Upgrade {
     this.amountmultiplier = new Decimal(1);
     this.amountmulteffects = [];
 
-    if (extra != null && extra != undefined)
-      for (let [key, value] of Object.entries(extra)) {
-        this[key] = value;
-      }
+    this.unlocked = false;
 
     upgraderegistry.push(this);
     updaterequiredregistry.push(this);
@@ -74,6 +81,9 @@ class Upgrade {
         this.autobuyunlocked = true;
       }
     }
+    if(!this.unlocked){
+      this.checkForUnlock();
+    }
   }
 
   get extraamount() {
@@ -83,12 +93,17 @@ class Upgrade {
   reset(hard) {
     this.bought = new Decimal(0);
     this.produced = new Decimal(0);
-    this.recalculatecosts();
     this.updateeffects();
     if (hard) {
       this.buyauto = false;
       this.autobuyunlocked = false;
     }
+    this.costs?.forEach((cost, i) => {
+      console.log(cost);
+      cost.reset();
+    });
+    this.unlocked = false;
+    this.recalculatecosts();
     this.onrevoke();
   }
 
@@ -190,8 +205,12 @@ class Upgrade {
   }
 
   checkForUnlock() {
-    if (this.requirements == null || this.requirements == undefined)
-      return true;
+    if (this.unlocked)
+      return;
+    if(this.requirements == undefined){
+      this.unlocked = true;
+      return;
+    }
     var unlock = true;
     this.requirements.forEach(element => {
       if (!element.hasrequirement) {
@@ -199,7 +218,8 @@ class Upgrade {
         return false;
       }
     });
-    return unlock;
+    if(unlock)
+      this.unlocked = true;
   }
 
   buy() {
@@ -217,16 +237,14 @@ class Upgrade {
     }
   }
 
-  get unlocked() {
-    return this.checkForUnlock();
-  }
-
   get canbuy() {
     if (this.limit.equals(0))
       return false;
     if (!this.limit.equals(-1) && this.bought.greaterThanOrEqualTo(this.limit))
       return false;
     if (this.bought.greaterThanOrEqualTo(this.maxbuyable) && this.maxbuyable != -1)
+      return false;
+    if(!this.unlocked)
       return false;
     var boolcan = true;
     this.costs.forEach((cost, i) => {
@@ -278,8 +296,6 @@ class Upgrade {
   }
 
   get buyamount() {
-    if (!this.unlocked)
-      return "Locked";
     if (this.buykey == null || this.buykey == undefined)
       return 1;
     if (player.options.buyamounts[this.buykey] == undefined)
@@ -334,6 +350,8 @@ class Upgrade {
   get costdescription() {
     if (this.ismaxbuyable)
       return "Max Level"
+    if(!this.unlocked)
+      return "Locked"
     var description = "";
     if (this.costs.length == 1)
       description += "Cost:\n";

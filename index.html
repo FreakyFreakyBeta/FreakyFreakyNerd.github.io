@@ -19,6 +19,7 @@
 
 <div id="subatomicidling">
   <div class="sidenav">
+    <a class="gamespeedmodifier">Gamespeed: {{player.options.gamespeedmodifier}}</a>
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
@@ -39,6 +40,9 @@
     <a class="menubutton changelogmenubutton" onclick='openscreen("changelog")'>Changelog</a>
   </div>
   <div id="gamecontent">
+    <div id=notifications>
+      <log-info v-for="data in popupregistry" v-bind:data="data"></log-info>
+    </div>>
     <div>
       <table id="topbardisplay">
         <td class="currencymarker">
@@ -400,7 +404,7 @@
               </tr>
             </table>
           </div>
-          <div class="challengeentercontainer">
+          <div class="challengeentercontainer"  v-if='hasachievement("betterchallenges")'>
             <button
               v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}'
               v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span

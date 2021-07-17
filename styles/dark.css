@@ -92,7 +92,13 @@ body{
 .htpmenubutton{
   border-color: #999 !important;
   color: white !important;
+
+}/*Notifcation Thingy*/
+#notifications > *{
+  background-color: #333;
+  border-color: #555;
 }
+
 
 /*Submenu side stuff*/
 .quarksubmenubutton{

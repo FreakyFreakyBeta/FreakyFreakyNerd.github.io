@@ -263,4 +263,19 @@ class LogInfo{
   }
 }
 
+function showInformation(loginfo){
+  popupregistry.push(loginfo);
+  setTimeout(() => {popupregistry.splice(popupregistry.indexOf(loginfo), 1)}, 2000)
+}
+
 logregistry = [];
+popupregistry = [];
+
+tags = {};
+function getCounterTag(tag){
+  if(tags[tag] == undefined)
+    tags[tag] = 1;
+  else
+    tags[tag] += 1;
+  return tags[tag]
+}
