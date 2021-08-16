@@ -58,6 +58,18 @@ class NumRequirement{
         this.recalculatemult();
     }
 }
+
+class TotalNumRequirement extends NumRequirement{
+    constructor(requiredobject , amount){
+        super(requiredobject, amount);
+    }
+
+    hasRequirement(){
+        return this.requiredobject.hastotalrequirement(this.finalamount);
+    }
+
+}
+
 class AchievementRequirement{
     constructor(requiredachievement){
         this.requiredachievement = requiredachievement;

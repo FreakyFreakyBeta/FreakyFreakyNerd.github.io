@@ -15,7 +15,7 @@ class Upgrade {
       this.maxbuyable = new Decimal(-1);
     this.onbuymax = false;
     this.lastbuyamount = undefined;
-    if (requirements != null && requirements != undefined)
+    if (requirements != undefined)
       if (Array.isArray(requirements))
         this.requirements = requirements;
       else
@@ -405,6 +405,10 @@ class Upgrade {
     return this.bought.greaterThanOrEqualTo(amount);
   }
 
+  hastotalrequirement(amount) {
+    return this.amount.greaterThanOrEqualTo(amount);
+  }
+
   get ismaxbuyable() {
     if (this.maxbuyable.lessThan(0))
       return false;
@@ -747,6 +751,7 @@ class AppliedToUpgrade extends Upgrade {
     this.upgradeproducer = new Producer(id + "_prod", null, null, new LinearProduction(this.upgradecurrency, 1, 0));
     this.costs[0].costobject = this.upgradecurrency;
     this.appliedpoints = new Decimal();
+    updaterequiredregistry.push(this);
 
     updaterequiredregistry.push(this);
   }
@@ -770,6 +775,7 @@ class AppliedToUpgrade extends Upgrade {
   }
 
   tick() {
+    super.tick()
     this.buy();
   }
 

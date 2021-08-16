@@ -149,7 +149,7 @@ function setupachievements() {
   //Electron Milestones
   player.achievements.basic.push([]);
   row = player.achievements.basic.length - 1;
-  player.achievements.basic[row].push(new Achievement("1e24electrons", achievementlabel(row, player.achievements.basic[row].length, "Alvocadros Number"), [new NumRequirement(player.electronstage.electrons, "6.022e23")], null, [new FlavorEffect("Unlocks orbitals mechanic.")]));
+  player.achievements.basic[row].push(new Achievement("1e24electrons", achievementlabel(row, player.achievements.basic[row].length, "A Reasonable Number"), [new NumRequirement(player.electronstage.electrons, "1e16")], null, [new FlavorEffect("Unlocks orbitals mechanic.")]));
   player.achievements.basic[row].push(new Achievement("1e32electrons", achievementlabel(row, player.achievements.basic[row].length, "Electron Power?"), [new NumRequirement(player.electronstage.electrons, "1e32")], null, [new StaticEffect(player.electronstage.clouds.power, 2, EffectTypes.UpgradeAmountMultiplier, null, () => "Electron Power Amount *2")]));
   player.achievements.basic[row].push(new Achievement("nucleonizeunlock", achievementlabel(row, player.achievements.basic[row].length, "Nucleonize"), [new NumRequirement(player.electronstage.electrons, "1e100")], null, [new FlavorEffect("Unlocks a new prestige layer with added mechanics. (Coming Soonish)")]));
   player.achievements.basic[row].push(new Achievement("1e128electrons", achievementlabel(row, player.achievements.basic[row].length, "How about some bonus electrons?"), [new NumRequirement(player.electronstage.electrons, "1e128")], null, [new StaticEffect(player.quarkstage.electrify, 2, EffectTypes.PrestigeMultiplicativeGain, null, () => "Electron Gain *2")]));

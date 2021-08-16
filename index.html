@@ -19,7 +19,7 @@
 
 <div id="subatomicidling">
   <div class="sidenav">
-    <a class="gamespeedmodifier">Gamespeed: {{player.options.gamespeedmodifier}}</a>
+    <a class="gamespeedmodifier" v-if="player.options.gamespeedmodifier != 1">Gamespeed: {{player.options.gamespeedmodifier}}</a>
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>

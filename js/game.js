@@ -48,13 +48,16 @@ function getupgrade(id){
   });
   return out;
 }
-function getupgradelog(id){
-  upgraderegistry.forEach(upg => {
-    console.log(upg.id);
-    if(upg.id == id)
-      return upg;
+
+function getcurrency(id){
+  var out = undefined
+  currencyregistry.forEach(cur => {
+    if(cur.id == id){
+      out = cur;
+      return;
+    }
   });
-  return undefined;
+  return out;
 }
 
 function shallowcopy(obj){
@@ -83,7 +86,7 @@ function gameLogicTick(){
   }
   lastticktime = timenow;
   updateeffects();
-  this.updaterequiredregistry.forEach((item, i) => {
+  updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
   doprogress(timedif);
