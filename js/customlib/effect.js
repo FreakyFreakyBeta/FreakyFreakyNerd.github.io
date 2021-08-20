@@ -246,12 +246,16 @@ class LinkedLinearEffect extends Effect {
 class ExponentialEffect extends Effect {
 
   recalculateincrease() {
-    this.increase = this.defaultincrease.minus(1).add(this.bonusincrease);
+    if(this.defaultincrease.lessThan(2))
+      this.increase = this.defaultincrease.minus(1).add(this.bonusincrease)
+    else
+      this.increase = this.defaultincrease.add(this.bonusincrease)
     this.increasemultipliereffects.forEach((effect, i) => {
       if (effect.value)
         this.increase = this.increase.times(effect.value);
     });
-    this.increase = this.increase.add(1);
+    if(this.defaultincrease.lessThan(2))
+      this.increase = this.increase.add(1);
   }
 
   recalculatevalue(amount) {
@@ -404,13 +408,23 @@ class PieceFunctionEffect extends Effect {
 }
 
 class FunctionalEffect{
-  constructor(applyfunc, unapplyfunc){
+  constructor(applyfunc, unapplyfunc, descriptionfunc){
     this.applyfunc = applyfunc;
     this.unapplyfunc = unapplyfunc;
+    this.descfunc = descriptionfunc;
   }
 
   apply(){
     this.applyfunc();
+  }
+  remove(){
+    this.unapplyfunc();
+  }
+  geteffect(){
+    return this.description;
+  }
+  get description(){
+    return this.descfunc != undefined ? this.descfunc() : "No Description For Effect";
   }
 }
 
@@ -451,6 +465,7 @@ const EffectTypes = {
   ProducerBaseProduction: 1,
   ProducerMultiplierProduction: 2,
   ProducerExponentialProduction: 3,
+  ProducerStaticProduction: 4,
   PriceMultiplier: 8,
   PriceScaling: 9,
 
@@ -468,6 +483,7 @@ const EffectTypes = {
   UpgradeAmountMultiplier: 27,
   UpgradeIncreaseAddition: 28,
   UpgradeSoftCapMultiplier : 29,
+  UpgradeBonusMaxLevel : 30,
 
-  ChallengeScoreMult: 30
+  ChallengeScoreMult: 40
 }

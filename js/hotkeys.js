@@ -12,8 +12,10 @@ window.addEventListener('keyup', function(event){
     shiftdown = event.shiftKey;
 })
 
+var globalhotkeyenabled = true;
+
 window.addEventListener('keydown', function(e){
-    if(!player.options.hotkeysenabled)
+    if(!player.options.hotkeysenabled || ! globalhotkeyenabled)
         return;
     switch(e.code){
         case "Digit1":

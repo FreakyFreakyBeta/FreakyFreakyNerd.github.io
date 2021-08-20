@@ -10,9 +10,9 @@ class Upgrade {
       }
     
     if (maxbuyable != undefined)
-      this.maxbuyable = new Decimal(maxbuyable);
+      this.basemaxbuyable = new Decimal(maxbuyable);
     else
-      this.maxbuyable = new Decimal(-1);
+      this.basemaxbuyable = new Decimal(-1);
     this.onbuymax = false;
     this.lastbuyamount = undefined;
     if (requirements != undefined)
@@ -61,6 +61,9 @@ class Upgrade {
     this.amountmultiplier = new Decimal(1);
     this.amountmulteffects = [];
 
+    this.bonusmaxlevel = new Decimal();
+    this.bonusmaxeffects = [];
+
     this.unlocked = false;
 
     upgraderegistry.push(this);
@@ -99,7 +102,6 @@ class Upgrade {
       this.autobuyunlocked = false;
     }
     this.costs?.forEach((cost, i) => {
-      console.log(cost);
       cost.reset();
     });
     this.unlocked = false;
@@ -482,10 +484,21 @@ class Upgrade {
       this.onunlock();
   }
 
+  get maxbuyable(){
+    return this.basemaxbuyable.add(this.bonusmaxlevel);
+  }
+
   recalculatebonus() {
     this.bonus = new Decimal();
     this.bonuseffects.forEach((effect, i) => {
       this.bonus = this.bonus.add(effect.value);
+    });
+  }
+
+  recalculatebonusmax(){
+    this.bonusmaxlevel = new Decimal();
+    this.bonusmaxeffects.forEach(effect => {
+      this.bonusmaxlevel = this.bonusmaxlevel.add(effect.value);
     });
   }
 
@@ -533,6 +546,10 @@ class Upgrade {
       case EffectTypes.ForceLimit:
         this.applylimit(effect);
         break;
+      case EffectTypes.UpgradeBonusMaxLevel:
+        this.bonusmaxeffects.push(effect);
+        this.recalculatebonusmax();
+        break;
       default:
         return;
     }
@@ -543,7 +560,6 @@ class Upgrade {
     if (this.limiteffect == undefined) {
       this.limiteffect = effect;
       this.limit = effect.value;
-      log("Apple");
     } else {
       console.log("A limit is already defined for " + this.id);
     }
@@ -585,6 +601,14 @@ class Upgrade {
         break;
       case EffectTypes.ForceLimit:
         this.removelimit(effect);
+        break;
+      case EffectTypes.UpgradeBonusMaxLevel:
+        ind = this.bonusmaxeffects.indexOf(effect);
+        if (ind > -1) {
+          this.bonusmaxeffects.splice(ind, 1);
+          this.recalculatebonusmax();
+        }
+        break;
         break;
       default:
         return;
@@ -752,8 +776,6 @@ class AppliedToUpgrade extends Upgrade {
     this.costs[0].costobject = this.upgradecurrency;
     this.appliedpoints = new Decimal();
     updaterequiredregistry.push(this);
-
-    updaterequiredregistry.push(this);
   }
 
   reset() {
@@ -817,10 +839,27 @@ class AppliedToUpgrade extends Upgrade {
     this.upgradeproducer.recalculateproductions();
   }
 
+  applyeffect(effect){
+    super.applyeffect(effect);
+    this.upgradeproducer.applyeffect(effect);
+    this.updateproducer();
+  }
+
+  removeeffect(effect){
+    super.removeeffect(effect);
+    this.upgradeproducer.removeeffect(effect);
+    this.updateproducer();
+  }
+
+  updateeffects(){
+    super.updateeffects();
+    this.upgradeproducer.effectchanged();
+  }
+
   get progress() {
     var data = formatDecimalNormal(this.upgradecurrency.amount) + "/" + formatDecimalNormal(this.getcost(0));
-    if (this.appliedpoints.greaterThan(0))
-      data += " (+" + formatDecimalNormal(this.appliedpoints) + "/s)"
+    if (this.upgradeproducer.getproduction(0))
+      data += " (+" + formatDecimalNormal(this.upgradeproducer.getproduction(0)) + "/s)"
     return data;
   }
 }

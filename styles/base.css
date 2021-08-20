@@ -409,7 +409,7 @@ td.righttablecolumn {
 }
 
 .subsidenav {
-  width: 80px;
+  width: 100px;
   position: absolute;
   z-index: 1;
   left: 165px;
@@ -609,7 +609,7 @@ td.righttablecolumn {
   margin-left: 4px;
 }
 .upgradeprogress{
-  width: 220px;
+  width: 380px;
   white-space: pre-line;
 }
 .upgradeauto{

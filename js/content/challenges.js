@@ -43,7 +43,8 @@ function setupchallenges() {
 
   //Challenge 2x1-5
   var c5effects = [new StaticEffect(player.electronstage.quarkspinproducers, 0, EffectTypes.ProducerMultiplierProduction, null, () => "Quark Spin Producers No Longer Produce")];
-  player.challenges.push(new Challenge("c2x1", "[c5] Quarky", "Nucleonize and gain score, but quark spin producers do not work", c5effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 1, 1, 1, 1], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
+  var c5productions = [new LinearProduction(getproducer("qs1"), ".1"), new LinearProduction(getproducer("qs2"), ".1"), new LinearProduction(getproducer("qs3"), "1e-10"), new LinearProduction(getproducer("qs4"), "1e-10"), new LinearProduction(getproducer("qs5"), "1e-10"), new LinearProduction(getproducer("qs6"), "1e-10"), new LinearProduction(getproducer("qs7"), "1e-10"), new LinearProduction(getproducer("qs8"), "1e-10"), new LinearProduction(getproducer("qs9"), "1e-10")];
+  player.challenges.push(new Challenge("c2x1", "[c5] Quarky", "Nucleonize and gain score, but quark spin producers do not work", c5effects, [new Decimal("10"), new FunctionalEffect(() => getproducer("qs2").addproduction(c5productions[0]), () => getproducer("qs2").removeproduction(c5productions[0]), () => "Red Quark Produces Green Quark at reduced rate"), new Decimal("100"), new FunctionalEffect(() => getproducer("qs3").addproduction(c5productions[0]), () => getproducer("qs3").removeproduction(c5productions[0]), () => "Blue Quark Produces Red Quark at reduced rate")], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 1, 1, 1, 1], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
 
   //Challenge 2x2-6
   var c6effects = [new StaticEffect(player.quarkstage.singletonupgrades, 0, EffectTypes.ForceLimit, null, () => "No quark upgrades buyable")];
@@ -54,7 +55,7 @@ function setupchallenges() {
   player.challenges.push(new Challenge("c2x3", "[c7] Blasphamy v2.0", "Nucleonize and gain score, but you cannot buy electron upgrades", c7effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => Decimal.Log(player.electronstage.electrons.gained, 10).divide(125), 1, [100, 2, 2, 2, 1, 1, 1, 1], "Log10(Electrons Gained)/125", [new AchievementRequirement("nucleonizeunlock")]));
   
   //Challenge 2x4-8
-  var c8effects = [new StaticEffect(player.electronstage.clouds.power, 0, EffectTypes.ForceLimit, null, () => "No electron power buyable")];
+  var c8effects = [new StaticEffect(player.electronstage.clouds.power, 0, EffectTypes.ForceLimit, null, () => "No Electron Power, thus no orbitals")];
   player.challenges.push(new Challenge("c2x4", "[c8] Blasphamy 3000", "Nucleonize and gain score, but you cannot buy electron power", c8effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.nucleonize.rewards[0].producedamount, 1, [100, 2, 2, 2, 1, 1, 1], "Nucleons Gained On Nucleonize", [new AchievementRequirement("nucleonizeunlock")]));
 }
 

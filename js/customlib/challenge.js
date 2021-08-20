@@ -107,7 +107,7 @@ class Challenge {
   }
 
   toggleinchallenge(){
-    if(!this.in && runningchallenges.length == 0){
+    if(!this.in) {// && runningchallenges.length == 0){
       this.start();
       return;
     }

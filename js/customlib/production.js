@@ -14,10 +14,29 @@ class LinearProduction {
     this.additioneffects = [];
     this.multipliereffects = [];
     this.exponentialeffects = [];
+    this.staticeffects = [];
     this.additionproduction = new Decimal(0);
     this.multiplier = new Decimal(1);
     this.exponent = new Decimal(1);
+    this.staticproduction = new Decimal(0);
     this.queuedamount = new Decimal();
+  }
+
+  getalleffects(){
+    var out = [];
+    out.push(this.additioneffects);
+    out.push(this.multipliereffects);
+    out.push(this.exponentialeffects);
+    out.push(this.staticeffects);
+    return out;
+  }
+
+  removealleffects(){
+    this.multipliereffects = [];
+    this.additioneffects = [];
+    this.exponentialeffects = [];
+    this.staticeffects = [];
+    this.recalculateeffectvalues();
   }
 
   recalculateproductionaddition() {
@@ -40,17 +59,25 @@ class LinearProduction {
       this.multiplier = this.multiplier.times(effect.value);
     });
   }
+  
+  recalculatestaticproduction(){
+    this.staticproduction = new Decimal();
+    this.staticeffects.forEach(effect => {
+      this.staticproduction = this.staticproduction.add(effect.value);
+    });
+  }
 
   recalculateeffectvalues() {
     this.recalculateproductionaddition();
     this.recalculateproductionmultiplier();
     this.recalculateproductionexponential();
+    this.recalculatestaticproduction();
     this.recalculateproduction(this.queuedamount);
   }
 
   recalculateproduction(amount) {
     this.queuedamount = amount;
-    this.production = this.startingproduction.add(this.productionper.times(amount));
+    this.production = this.startingproduction.add(this.staticproduction).add(this.productionper.times(amount));
   }
 
   produce(prodratio) {
@@ -73,6 +100,10 @@ class LinearProduction {
     if (effect.effecttype == EffectTypes.ProducerExponentialProduction) {
       this.exponentialeffects.push(effect);
       this.recalculateproductionexponential();
+    }
+    if (effect.effecttype == EffectTypes.ProducerStaticProduction) {
+      this.staticeffects.push(effect);
+      this.recalculatestaticproduction();
     }
   }
 
@@ -97,6 +128,13 @@ class LinearProduction {
       if (ind2 > -1) {
         this.exponentialeffects.splice(ind2, 1);
         this.recalculateproductionexponential();
+      }
+    }
+    if (effect.effecttype == EffectTypes.ProducerStaticProduction) {
+      var ind2 = this.staticeffects.indexOf(effect);
+      if (ind2 > -1) {
+        this.staticeffects.splice(ind2, 1);
+        this.recalculatestaticproduction();
       }
     }
   }

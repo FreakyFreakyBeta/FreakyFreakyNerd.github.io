@@ -201,11 +201,11 @@ class CombinedCost {
   getmaxbuyable(amount){
     var costind = 0;
     for(var i = 0; i < this.startingamounts.length; i++){
-      if(amount > this.startingamounts[i])
+      if(amount.greaterThanOrEqualTo(this.startingamounts[i]))
         costind = i+1;
     }
     if(costind>1)
-      return this.costs[costind].getmaxbuyable(amount.minus(this.startingamounts[costind-1])).add(this.startingamounts[costind-1].minus(amount));
+      return this.costs[costind - 1].getmaxbuyable(amount.minus(this.startingamounts[costind-1])).add(this.startingamounts[costind-1].minus(amount));
     else
       return this.costs[costind].getmaxbuyable(amount);
   }

@@ -49,6 +49,28 @@ function getupgrade(id){
   return out;
 }
 
+function getupgrades(...ids){
+  var out = []
+  upgraderegistry.forEach(upg => {
+    if(ids.includes(upg.id)){
+      out.push(upg);
+      return;
+    }
+  });
+  return out;
+}
+
+function getproducer(id){
+  var out = undefined
+  producerregistry.forEach(prod => {
+    if(prod.id == id){
+      out = prod;
+      return;
+    }
+  });
+  return out;
+}
+
 function getcurrency(id){
   var out = undefined
   currencyregistry.forEach(cur => {

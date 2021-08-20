@@ -287,6 +287,9 @@ class Producer {
       case EffectTypes.ProducerExponentialProduction:
         this.applyproductioneffect(effect);
         break;
+      case EffectTypes.ProducerStaticProduction:
+        this.applyproductioneffect(effect);
+        break;
       case EffectTypes.PriceScaling:
         this.applycosteffect(effect);
         break;
@@ -332,6 +335,9 @@ class Producer {
         this.removeproductioneffect(effect);
         break;
       case EffectTypes.ProducerExponentialProduction:
+        this.removeproductioneffect(effect);
+        break;
+      case EffectTypes.ProducerStaticProduction:
         this.removeproductioneffect(effect);
         break;
       case EffectTypes.PriceScaling:
@@ -386,6 +392,23 @@ class Producer {
       });
     this.recalculateproductions();
     this.recalculatecosts();
+  }
+
+  addproduction(production){
+    if(this.productions.indexOf(production) == -1){
+      this.productions[0].getalleffects().forEach(effect => {
+        production.applyeffect(effect);
+      })
+      this.productions.push(production);
+    }
+  }
+
+  removeproduction(production){
+    var ind = this.productions.indexOf(production);
+    if(ind > -1){
+      this.productions = this.productions.splice(ind, 0)
+      production.removealleffects();
+    }
   }
 
   static getAmountDescription(producer) {
