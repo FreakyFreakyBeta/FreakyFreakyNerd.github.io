@@ -9,11 +9,11 @@ function setupGame() {
 
   setupquarkspinproducers();
   setupbasicelectronupgrades();
-  setupbasicquarkspinupgrades();
 
   setupbasicelectroncloud();
   
   setupchallenges();
+  setupbasicquarkspinupgrades();
 
   setupstage2quarksingletonupgrades();
 

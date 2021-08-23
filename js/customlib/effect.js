@@ -423,6 +423,8 @@ class FunctionalEffect{
   geteffect(){
     return this.description;
   }
+  effectchanged(){}
+  recalculatevalue() { }
   get description(){
     return this.descfunc != undefined ? this.descfunc() : "No Description For Effect";
   }

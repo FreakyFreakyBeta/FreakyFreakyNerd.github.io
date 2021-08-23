@@ -28,11 +28,18 @@ function openscreen(screen){
   document.getElementById(screen + "screen").style.display = "block";
   player.options.currentscreen = screen;
 }
+function screenopen(screen){
+  return player.options.currentscreen == screen;
+}
+
 //stat menu
 function openstatscreen(screen){
   document.getElementById(player.options.currentstatscreen + "statscreen").style.display = "none";
   document.getElementById(screen + "statscreen").style.display = "block";
   player.options.currentstatscreen = screen;
+}
+function statscreenopen(screen){
+  return player.options.currentstatscreen == screen;
 }
 
 function closestatscreen(){
@@ -241,6 +248,9 @@ function openproducersscreen(screen){
 function closeproducersscreen(){
   document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
 }
+function producerscreenopen(screen){
+  return player.options.currentproducersscreen == screen;
+}
 
 function openupgradesscreen(screen){
   document.getElementById(player.options.currentupgradesscreen + "upgradesscreen").style.display = "none";
@@ -249,6 +259,9 @@ function openupgradesscreen(screen){
 }
 function closeupgradesscreen(){
   document.getElementById(player.options.currentupgradesscreen + "upgradesscreen").style.display = "none";
+}
+function upgradescreenopen(screen){
+  return player.options.currentupgradesscreen == screen;
 }
 
 const capitalize = (s) => {
@@ -265,7 +278,7 @@ class LogInfo{
 
 function showInformation(loginfo){
   popupregistry.push(loginfo);
-  setTimeout(() => {popupregistry.splice(popupregistry.indexOf(loginfo), 1)}, 2000)
+  setTimeout(() => {popupregistry.splice(popupregistry.indexOf(loginfo), 1)}, 5000)
 }
 
 logregistry = [];

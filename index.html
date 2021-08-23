@@ -21,23 +21,23 @@
   <div class="sidenav">
     <a class="gamespeedmodifier" v-if="player.options.gamespeedmodifier != 1">Gamespeed: {{player.options.gamespeedmodifier}}</a>
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
-    <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
-    <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
-    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")'
+    <a class="menubutton producersmenubutton" v-bind:class='{menubuttonactive : screenopen("producers")}' onclick='openscreen("producers")'>Producers</a>
+    <a class="menubutton upgradesmenubutton" v-bind:class='{menubuttonactive : screenopen("upgrades")}' onclick='openscreen("upgrades")'>Upgrades</a>
+    <a class="menubutton challengemenubutton" v-bind:class='{menubuttonactive : screenopen("challenges")}' onclick='openscreen("challenges")'
       v-if='hasachievement("challengeunlock")'>Challenges</a>
-    <a class="menubutton orbitalmenubutton" onclick='openscreen("orbitals")'
+    <a class="menubutton orbitalmenubutton" v-bind:class='{menubuttonactive : screenopen("orbitals")}' onclick='openscreen("orbitals")'
       v-if='hasachievement("1e24electrons")'>Orbitals</a>
-      <a class="menubutton nucleonsplitmenubutton" onclick='openscreen("nucelonsplit")'
+      <a class="menubutton nucleonsplitmenubutton" v-bind:class='{menubuttonactive : screenopen("nucelonsplit")}' onclick='openscreen("nucelonsplit")'
         v-if='hasachievement("250nucleonize")'>Nucleon Split</a>
-      <a class="menubutton hydrogenmenubutton" onclick='openscreen("hydrogenhill")'
+      <a class="menubutton hydrogenmenubutton" v-bind:class='{menubuttonactive : screenopen("hydrogenhill")}' onclick='openscreen("hydrogenhill")'
         v-if='hasachievement("impnucleonize")'>Hydrogen Hill</a>
-      <a class="menubutton antiversemenubutton" onclick='openscreen("antiverse")'
+      <a class="menubutton antiversemenubutton" v-bind:class='{menubuttonactive : screenopen("antiverse")}' onclick='openscreen("antiverse")'
         v-if='hasachievement("impnucleonize")'>Antiverse</a>
-    <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
-    <a class="menubutton logmenubutton" onclick='openscreen("log")'>Log</a>
-    <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
-    <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
-    <a class="menubutton changelogmenubutton" onclick='openscreen("changelog")'>Changelog</a>
+    <a class="menubutton achievementmenubutton" v-bind:class='{menubuttonactive : screenopen("achievements")}' onclick='openscreen("achievements")'>Achievements</a>
+    <a class="menubutton logmenubutton" v-bind:class='{menubuttonactive : screenopen("log")}' onclick='openscreen("log")'>Log</a>
+    <a class="menubutton statisticsmenubutton" v-bind:class='{menubuttonactive : screenopen("stats")}' onclick='openscreen("stats")'>Statistics</a>
+    <a class="menubutton settingsmenubutton" v-bind:class='{menubuttonactive : screenopen("options")}' onclick='openscreen("options")'>Settings</a>
+    <a class="menubutton changelogmenubutton" v-bind:class='{menubuttonactive : screenopen("changelog")}' onclick='openscreen("changelog")'>Changelog</a>
   </div>
   <div id="gamecontent">
     <div id=notifications>
@@ -181,14 +181,14 @@
         </div>
         <div id="producersscreen" style="display: none">
           <div class="subsidenav">
-            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark Producers</a>
-            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quarkboosts")' v-if='hasachievement("100quarkgenone")'>Quark Boosts</a>
-            <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")' v-if='hasachievement("electrifyunlock")'>Quark Spin</a>
-            <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("gluon")'
+            <a class="menubutton quarksubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("quark")}' onclick='openproducersscreen("quark")'>Quark Producers</a>
+            <a class="menubutton quarksubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("quarkboosts")}' onclick='openproducersscreen("quarkboosts")' v-if='hasachievement("100quarkgenone")'>Quark Boosts</a>
+            <a class="menubutton electronsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("electron")}' onclick='openproducersscreen("electron")' v-if='hasachievement("electrifyunlock")'>Quark Spin</a>
+            <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("gluon")}' onclick='openproducersscreen("gluon")'
               v-if='hasachievement("nucleonizeunlock")'>Gluon</a>
-              <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("free")'
+              <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("free")}' onclick='openproducersscreen("free")'
                 v-if='hasachievement("nucleonizeunlock")'>Free Electron</a>
-                <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("charge")'
+                <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("charge")}' onclick='openproducersscreen("charge")'
                   v-if='hasachievement("nucleonizeunlock")'>Electron Charge</a>
           </div>
           <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
@@ -237,9 +237,9 @@
         </div>
         <div id="upgradesscreen" style="display: none;">
           <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
-            <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
-            <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
-            <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")'
+            <a class="menubutton quarksubmenubutton" v-bind:class='{menubuttonactive : upgradescreenopen("quark")}' onclick='openupgradesscreen("quark")'>Quark</a>
+            <a class="menubutton electronsubmenubutton" v-bind:class='{menubuttonactive : upgradescreenopen("electron")}' onclick='openupgradesscreen("electron")'>Electron</a>
+            <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : upgradescreenopen("nucleon")}' onclick='openupgradesscreen("nucleon")'
               v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
           </div>
           <div id="upgradelist">
@@ -284,10 +284,10 @@
         </div>
         <div id="statsscreen" class="centered" style="display: none">
           <div class="subsidenav">
-            <a class="menubutton" onclick='openstatscreen("general")'>General</a>
-            <a class="menubutton" onclick='openstatscreen("electrify")'
+            <a class="menubutton" v-bind:class='{menubuttonactive : statscreenopen("general")}' onclick='openstatscreen("general")'>General</a>
+            <a class="menubutton" v-bind:class='{menubuttonactive : statscreenopen("electrify")}' onclick='openstatscreen("electrify")'
               v-if='hasachievement("electrifyunlock")'>Electrify</a>
-            <a class="menubutton" onclick='openstatscreen("nucleonize")'
+            <a class="menubutton" v-bind:class='{menubuttonactive : statscreenopen("nucleonize")}' onclick='openstatscreen("nucleonize")'
               v-if='hasachievement("nucleonizeunlock")'>Nucleonize</a>
           </div>
           <div class="subcontent">

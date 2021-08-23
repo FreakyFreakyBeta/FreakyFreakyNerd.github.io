@@ -243,6 +243,7 @@ class Challenge {
   }
 
   applyeffect(effect) {
+    console.log(this.id + effect);
     switch (effect.effecttype) {
       case EffectTypes.ChallengeScoreMult:
         this.scoremultipliereffects.push(effect);

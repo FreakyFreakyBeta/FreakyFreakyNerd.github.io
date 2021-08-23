@@ -42,6 +42,9 @@ body{
 .sidenav .menubutton:hover {
   background-color: #444;
 }
+.menubuttonactive {
+  background-color: #666;
+}
 .subsidenav .menubutton:hover {
   background-color: #444;
 }
