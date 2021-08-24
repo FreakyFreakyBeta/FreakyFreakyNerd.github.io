@@ -204,3 +204,7 @@ function unlockachievement(achieveid){
     }
   });
 }
+
+player.nucleonstage.electroncharge.getsproduced = true
+player.nucleonstage.gluon.getsproduced = true
+player.nucleonstage.freeelectron.getsproduced = true

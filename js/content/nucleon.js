@@ -49,7 +49,7 @@ function setupnucleonproducers() {
     return num;
   }
 
-  player.nucleonstage.electroncharge = new Upgrade("electroncharge", "Electron Charge", 0, null, new FunctionEffect(player.quarkstage.electrify, EffectTypes.PrestigeMultiplicativeGain, electronchargemult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Electron Charge, providing x" + formatDecimal(obj.value) + " electron gain on electrify." }), null, null, null, {getsproduced : true});
+  player.nucleonstage.electroncharge = new Upgrade("electroncharge", "Electron Charge", 0, null, new FunctionEffect(player.quarkstage.electrify, EffectTypes.PrestigeMultiplicativeGain, electronchargemult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Electron Charge, providing x" + formatDecimal(obj.value) + " electron gain on electrify." }), null, null, {getsproduced : true});
   player.nucleonstage.electronchargeproducers = [];
   player.nucleonstage.electronchargeproducers.push(new Producer("ecp1", "Charging Chamber 1", new ExponentialCost(player.nucleonstage.nucleons, 1, 10), new LinearProduction(player.nucleonstage.electroncharge, 1, 0), null, "chargep", null));
   player.nucleonstage.electronchargeproducers.push(new Producer("ecp2", "Charging Chamber 2", new ExponentialCost(player.nucleonstage.nucleons, 1e3, 10), new LinearProduction(player.nucleonstage.electroncharge, 10, 0), new NumRequirement(player.nucleonstage.electronchargeproducers[0], 5), "chargep", null));
@@ -57,7 +57,7 @@ function setupnucleonproducers() {
   player.nucleonstage.electronchargeproducers.push(new Producer("ecp4", "Charging Chamber 4", new ExponentialCost(player.nucleonstage.nucleons, 1e50, 10), new LinearProduction(player.nucleonstage.electroncharge, 1, 0), new NumRequirement(player.nucleonstage.electronchargeproducers[2], 5), "chargep", null));
   player.nucleonstage.electronchargeproducers.push(new Producer("ecp5", "Chargin Chamber 5", new ExponentialCost(player.nucleonstage.nucleons, 1e100, 10), new LinearProduction(player.nucleonstage.electroncharge, 1, 0), new NumRequirement(player.nucleonstage.electronchargeproducers[3], 5), "chargep", null));
 
-  player.nucleonstage.freeelectrons = new Upgrade("freeelectrons", "Free Electrons", 0, null, new FunctionEffect(player.electronstage.clouds.power, EffectTypes.UpgradeAmountMultiplier, freeelectronmult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Free Electrons, providing a x" + formatDecimal(obj.value) + " boost to Electron Power." }), null, null, null, {getsproduced : true});
+  player.nucleonstage.freeelectrons = new Upgrade("freeelectrons", "Free Electrons", 0, null, new FunctionEffect(player.electronstage.clouds.power, EffectTypes.UpgradeAmountMultiplier, freeelectronmult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Free Electrons, providing a x" + formatDecimal(obj.value) + " boost to Electron Power." }), null, null, {getsproduced : true});
   player.nucleonstage.freeelectronproducers = [];
   player.nucleonstage.freeelectronproducers.push(new Producer("fep1", "Electron Releaser 1", new ExponentialCost(player.nucleonstage.nucleons, 1, 10), new LinearProduction(player.nucleonstage.freeelectrons, 1, 0), null, "freep", null));
   player.nucleonstage.freeelectronproducers.push(new Producer("fep2", "Electron Releaser 2", new ExponentialCost(player.nucleonstage.nucleons, 1e3, 10), new LinearProduction(player.nucleonstage.freeelectronproducers[0], 1, 0), new NumRequirement(player.nucleonstage.freeelectronproducers[0], 5), "freep", null));
@@ -66,7 +66,7 @@ function setupnucleonproducers() {
   player.nucleonstage.freeelectronproducers.push(new Producer("fep5", "Electron Releaser 5", new ExponentialCost(player.nucleonstage.nucleons, 1e100, 10), new LinearProduction(player.nucleonstage.freeelectronproducers[3], 1, 0), new NumRequirement(player.nucleonstage.freeelectronproducers[3], 5), "freep", null));
 
 
-  player.nucleonstage.gluons = new Upgrade("gluons", "Gluons", 0, null, new FunctionEffect(player.quarkstage.producers.concat(player.electronstage.quarkspinproducers), EffectTypes.ProducerMultiplierProduction, gluonnmult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Gluons, providing a x" + formatDecimal(obj.value) + " production boost to Quark and Quark Spin Producers." }), null, null, null, {getsproduced : true});
+  player.nucleonstage.gluons = new Upgrade("gluons", "Gluons", 0, null, new FunctionEffect(player.quarkstage.producers.concat(player.electronstage.quarkspinproducers), EffectTypes.ProducerMultiplierProduction, gluonnmult, (obj) => { return "You have " + formatDecimalNormal(obj.amount) + " Gluons, providing a x" + formatDecimal(obj.value) + " production boost to Quark and Quark Spin Producers." }), null, null, {getsproduced : true});
   player.nucleonstage.gluonproducers = [];
   player.nucleonstage.gluonproducers.push(new Producer("gp1", "Gluon Producer 1", new ExponentialCost(player.nucleonstage.nucleons, 1, 10), new LinearProduction(player.nucleonstage.gluons, 1, 0), null, "gluonp", null));
   player.nucleonstage.gluonproducers.push(new Producer("gp2", "Gluon Producer 2", new ExponentialCost(player.nucleonstage.nucleons, 1e3, 10), new LinearProduction(player.nucleonstage.gluonproducers[0], 1, 0), new NumRequirement(player.nucleonstage.gluonproducers[0], 5), "gluonp", null));
