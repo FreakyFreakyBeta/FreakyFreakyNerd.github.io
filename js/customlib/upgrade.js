@@ -831,6 +831,7 @@ class AppliedToUpgrade extends Upgrade {
 
   setamount(amount) {
     this.appliedpoints = new Decimal(amount);
+    this.usedappliableupgrade.applyamount(amount);
     this.updateproducer();
   }
 

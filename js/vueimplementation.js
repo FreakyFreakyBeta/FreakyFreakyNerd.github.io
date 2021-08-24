@@ -312,6 +312,7 @@ Vue.component('appliable-upgrade', {
       <span class="upgradename">{{upgrade.displayname}} Available: {{formatDecimalNormal(upgrade.available)}}/{{formatDecimalNormal(upgrade.maxappliable)}}</span>
       <button v-bind:class='{appliableupgradecostbutton:true, appliableupgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="upgrade.buy()">Upgrade Max: {{upgrade.specialcostdescription}}</button>
       <button class='appliableupgradebutton' v-on:click="upgrade.buymax()">Buy Max</button>
+      <button class='appliableupgradebutton' v-on:click="upgrade.unapplyall(); var num = 0; appliesto.forEach(e => {if(e.unlocked){num += 1;}}); var amount = Decimal.floor(upgrade.amount.div(num)); appliesto.forEach(e => { if(e.unlocked){ e.unapplyall(); e.setamount(amount); }});">Apply Evenly</button>
       <button class='appliableupgradebutton' v-on:click="upgrade.unapplyall(); appliesto.forEach(e => { e.unapplyall(); })">Unapply All</button>
     </div>
     `

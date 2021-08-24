@@ -64,6 +64,10 @@ window.addEventListener('keydown', function(e){
             if(!player.options.confirmations.electrify)
                 player.quarkstage.electrify.doprestige();
             break;
+        case "KeyN":
+            if(!player.options.confirmations.nucleonize)
+                player.electronstage.nucleonize.doprestige();
+            break;
         case "KeyC":
             togglechallenges();
             break;
