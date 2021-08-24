@@ -125,8 +125,8 @@ class HyperExponentialCost extends Cost{
 
     getmaxbuyable(amount){
       var amountavailable = this.costobject.amount;
-      var sae = new Decimal(Decimal.log(amountavailable.divide(this.startingcost), 10)).divide(Decimal.log(this.scaling, 10));
-      var max = Decimal.pow(sae, new Decimal(1).divide(this.hyperscaling))
+      var scaledmax = new Decimal(Decimal.log(amountavailable.divide(this.startingcost),this.scaling));
+      var max = Decimal.pow(10, new Decimal(Decimal.log(scaledmax, 10)).divide(this.hyperscaling))
       var buyamount = max.minus(amount);
       return Decimal.floor(buyamount);//Decimal.floor(Decimal.pow(buyamount, (new Decimal(1)).divide(this.hyperscaling)));
     }
