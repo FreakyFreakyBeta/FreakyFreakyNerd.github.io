@@ -5,7 +5,10 @@ function setupbasicnucleonstage() {
   var nucleongain = (amount) => {
     if (amount.lessThan("1e100"))
       return new Decimal();
-    return Decimal.floor(Decimal.pow(amount.divide("1e100"), 1 / 1000));
+    var dec = 1000;
+    if(hasachievement("100nucleonize"))
+      dec /= 10;
+    return Decimal.floor(Decimal.pow(amount.divide("1e100"), 1 / dec));
   }
 
   var donucleonize = async (hadrequire, producedamounts, forced) => {

@@ -443,8 +443,8 @@ class Upgrade {
     if (this.ismaxbuyable)
       return "Max Level";
     var info = formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
-    if (this.buyamount && this.onbuymax && this.getmaxbuyable().greaterThan(1) && (this.maxbuyable.greaterThan(1) || this.maxbuyable.equals(-1)))
-      info = info + ` +${formatDecimalNormal(Decimal.min(this.getmaxbuyable(), this.maxbuyable.min(this.getmaxbuyable())))}`
+    if (this.buyamount && this.onbuymax && this.getmaxbuyable().greaterThan(1) && this.maxbuyable.subtract(this.getmaxbuyable()).greaterThan(1) && ((this.maxbuyable.greaterThan(1) || this.maxbuyable.equals(-1))))
+      info = info + ` +${formatDecimalNormal(Decimal.min(this.getmaxbuyable(), this.maxbuyable.subtract(this.getmaxbuyable())))}`
     return info;
   }
 
