@@ -777,6 +777,30 @@ a {
 .pieceinfo{
   font-size: 12px;
 }
+.boardoperation{
+  font-size: 16px;
+  margin-top: 5px;
+}
+.boardoperation:hover{
+  cursor: pointer;
+}
+.generatorupgrade{
+  font-size: 16px;
+}
+.buygeneratorupgrade{
+  margin-left: 10px;
+  font-size: 14px;
+}
+.buygeneratorupgrade:hover{
+  cursor: pointer;
+}
+.newpiece{
+  margin-left: 10px;
+  font-size: 14px;
+}
+.newpiece:hover{
+  cursor: pointer;
+}
 
 /*User Information*/
 .logdata{

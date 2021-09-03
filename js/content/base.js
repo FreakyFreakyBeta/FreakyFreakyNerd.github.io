@@ -30,6 +30,7 @@ function setupGame() {
 
   setupautobuyers();
   setpieceupgradeeffects();
+  player.nucleonstage.split.gridinfo.grid.addpendingpiece(new EffectsBoardPiece([[1]],"key", ["neutrongenbase"], [[1,1,1]]));
 }
 
 function totalproducerbought(producers) {

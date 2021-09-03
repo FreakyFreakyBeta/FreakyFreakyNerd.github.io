@@ -356,6 +356,15 @@ body{
 .currencynucleondisplay{
   color: #DDDDDD;
 }
+.currencyprotondisplay{
+  color: #96176c;
+}
+.currencyneutrondisplay{
+  color: #c3c779;
+}
+.currencynucleondustdisplay{
+  color: #c3c779;
+}
 
 /*Producer Display*/
 .producerquarkname{
@@ -533,6 +542,24 @@ a {
   color: white;
 }
 
+.generatorupgrade{
+  color:#ccb678;
+}
+.boardoperation{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
+.buygeneratorupgrade{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
+.newpiece{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
 /*User Information*/
 .logunlock{
   color: #42b844;

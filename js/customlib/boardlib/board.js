@@ -1,7 +1,8 @@
 class Board {
-    constructor(basewidth, baseheight) {
+    constructor(basewidth, baseheight, scrapcurrency) {
         this.basewidth = basewidth;
         this.baseheight = baseheight;
+        this.scrapcurrency =  scrapcurrency;
 
         this.rows = [];
         for (var y = 0; y < this.basewidth; y++) {
@@ -14,6 +15,17 @@ class Board {
         this.pieces = [];
         this.selectedpiece = undefined;
         this.pendingpieces = [];
+    }
+
+    scrapselected(){
+        this.scrapcurrency.add(this.selectedpiece.scrapvalue);
+        this.selectedpiece = undefined;
+        this.updateboardtiles();
+    }
+
+    addpendingpiece(piece){
+        if(piece != undefined)
+            this.pendingpieces.push(piece);
     }
 
     placepiecetoposition(x, y, piece) {
@@ -141,6 +153,46 @@ class Board {
             }
         });
         return piece;
+    }
+
+    get savedata(){
+        var data = {};
+
+        var placed = [];
+        this.pieces.forEach(piece => {
+            placed.push(piece.savedata);
+        });
+        data.placed = placed;
+
+        var pending = [];
+        this.pendingpieces.forEach(piece => {
+            pending.push(piece.savedata);
+        });
+        data.pending = pending;
+
+        return data
+    }
+
+    parse(data){
+        if(data.placed != undefined){
+            this.pieces = [];
+            data.placed.forEach(piece =>{
+                var pie = new EffectsBoardPiece();
+                pie.parse(piece);
+                this.pieces.push(pie);
+                pie.applypiece();
+            });
+        }
+        if(data.pending != undefined){
+            this.pendingpieces = [];
+            data.pending.forEach(piece =>{
+                var pie = new EffectsBoardPiece();
+                pie.parse(piece);
+                this.pendingpieces.push(pie);
+            });
+        }
+
+        this.updateboardtiles();
     }
 }
 

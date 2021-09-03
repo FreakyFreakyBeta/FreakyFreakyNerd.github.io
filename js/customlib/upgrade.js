@@ -772,7 +772,9 @@ class AppliedToUpgrade extends Upgrade {
     this.usedappliableupgrade = usedappliableupgrade;
     this.upgradecurrency = new Currency(id + "_xp", null, new Decimal());
     this.upgradeproducer = new Producer(id + "_prod", null, null, new LinearProduction(this.upgradecurrency, 1, 0));
-    this.costs[0].costobject = this.upgradecurrency;
+    this.costs.forEach(co => {
+      co.setcostobject(this.upgradecurrency);
+    });
     this.appliedpoints = new Decimal();
     updaterequiredregistry.push(this);
   }

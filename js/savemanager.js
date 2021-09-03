@@ -8,6 +8,7 @@ function saveplayer() {
   savestats();
   saveachievements();
   savechallenges();
+  savespecial();
   savedata["lastplaytime"] = Date.now().toFixed();
   if(checkurl())
     savedata["beta"] = true;
@@ -21,6 +22,16 @@ function saveachievements() {
     }
   });
   savedata["achievements"] = achievements;
+}
+
+function savespecial(){
+  if(hasachievement("25nucleonize"))
+    savedata["nucleonsplit"] = nucleonsplitsavedata();
+}
+
+function loadspecial(){
+  if(hasachievement("25nucleonize"))
+    nucleonsplitload(loadeddata["nucleonsplit"]);
 }
 
 function savechallenges() {
@@ -98,6 +109,7 @@ function loadplayer() {
   loadQuarkStage();
   loadachievements();
   loadchallenges();
+  loadspecial();
   handleoffline();
   inloadstate = false;
 }
@@ -222,7 +234,8 @@ function safeload(data) {
   try {
     resetgame();
     loadfrom64(data);
-  } catch {
+  } catch (error) {
+    console.error(error);
     console.log("Can not load save file");
     resetgame();
     loadfrom64(textbackup);

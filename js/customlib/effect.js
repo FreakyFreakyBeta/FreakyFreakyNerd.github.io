@@ -396,7 +396,7 @@ class PieceFunctionEffect extends Effect {
   }
 
   apply() {
-    console.log(this.objectsappliesto);
+    console.log(this.effecttype);
     if (!this.applied) {
       this.appliesto.forEach((obj, i) => {
         if (obj != undefined)

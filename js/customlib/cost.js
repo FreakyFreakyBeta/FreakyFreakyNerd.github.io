@@ -10,6 +10,10 @@ class Cost{
         this.costmult = new Decimal(1);
         this.multeffects = [];
     }
+    
+    setcostobject(obj){
+      this.costobject = obj;
+    }
 
     recalculateeffectvalues(){
       this.recalculatescaling();
@@ -250,16 +254,26 @@ class CombinedCost {
         }
       }
       var ba = amount.add(buyamount).minus(this.startingamounts[this.startingamounts.length - 1]).greaterThan(0) ? buyamount : amount.minus(this.startingamounts[this.startingamounts.length - 1]);
-      if(ba.greaterThan(0))
+      try{
+      if(ba.greaterThan(-1))
         this.costs[this.startingamounts.length].recalculatecost(amount, ba);
       else
         this.costs[this.startingamounts.length].cost = new Decimal();
+      }catch{
+
+      }
     }
   }
 
   subtractcost(){
     this.costs.forEach(cost => {
       cost.subtractcost();
+    });
+  }
+
+  setcostobject(obj){
+    this.costs.forEach(cost => {
+      cost.costobject = obj;
     });
   }
 

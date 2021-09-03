@@ -354,8 +354,9 @@ Vue.component('board-grid-display', {
         </td>
       </tr>
     </table>
-    <button @click="rotate(board)">Rotate</button>
-    <button @click="deselectpiece(board)">Deselect</button>
+    <button class="boardoperation" @click="rotate(board)">Rotate</button>
+    <button class="boardoperation"  @click="deselectpiece(board)">Deselect</button>
+    <button class="boardoperation"  @click="board.scrapselected()">Scrap Selected</button>
   </div>
   `,
   methods: {
@@ -363,7 +364,7 @@ Vue.component('board-grid-display', {
       board.displaypiecetotile(tile, board.selectedpiece);
       selectedboard = board;
       piece = board.getpieceat(tile.x, tile.y);
-      if(piece != undefined)
+      if(piece != undefined && board.selectedpiece == undefined)
         subatomicidlingapp.selectedboardpiece = piece;
     },
     click: function(board, tile){
@@ -410,6 +411,11 @@ Vue.component('piece-information-display', {
     <div>
       <span class="pieceinfo">Block Count: {{piece.blocks}}</span><br>
       <span class="pieceinfo">Effect Count: {{piece.effects != undefined ? piece.effects.length : 0}}</span><br>
+      <span class="pieceinfo">Level: {{piece.level != undefined ? piece.level : 0}}</span><br>
+      <span class="pieceinfo" v-if='piece.type == "key"'>Cannot Be Scrapped</span>
+      <span class="pieceinfo" v-if='piece.type != "key"'>Scrap Value: {{piece.scrapvalue}}</span><br>
+      <span class="pieceinfo">Shape: </span><br>
+      <piece-display v-bind:piece="piece"></piece-display><br>
       <span class="pieceinfotitle">Piece Effects</span><br>
       <span class="pieceinfo" v-for="(effect, x) in piece.effectinformation">{{effect}}<br></span>
     </div>
@@ -422,6 +428,32 @@ Vue.component("log-info", {
     <span v-bind:class='"logdata + log" + data.type'>{{data.text}}\n</span>
   `
 })
+
+Vue.component("piece-generator", {
+  props: ["generator", "board"],
+  template: `
+    <div>
+      <table>
+        <piece-generator-upgrade v-for="type in generator.types" v-bind:generator="generator" v-bind:type="type"></piece-generator-upgrade>
+      </table>
+      <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button>
+    </div>
+  `
+});
+
+Vue.component("piece-generator-upgrade",{
+  props: ["generator", "type"],
+  template: `
+    <tr>
+      <td>
+        <span class="generatorupgrade">{{generator.getupgradename(type)}} : {{generator.getupgradelevel(type)}}</span>
+      </td>
+      <td>
+        <button class="buygeneratorupgrade" @click="generator.buyupgrade(type)">{{generator.getupgradecost(type)}}</button>
+      </td>
+    </tr>
+  `
+});
 
 var boringpiece = new BoardPiece([[1]], "green")
 

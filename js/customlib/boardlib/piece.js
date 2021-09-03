@@ -102,14 +102,18 @@ class BoardPiece {
 class EffectsBoardPiece extends BoardPiece {
     constructor(defaultshape, type, effecttypes, effectweights) {
         super(defaultshape, type);
-        this.level = new Decimal(1);
-        console.log(effecttypes);
+        this.level = 1;
         this.effecttypes = effecttypes;
         this.effectweights = effectweights;
         this.effects = [];
+        if(this.defaultshape != undefined)
+            this.updateimportantvalues();
+    }
+
+    updateimportantvalues(){
         for(var i = 0; i < this.effecttypes.length; i++){
-            console.log(this.effecttypes[i]);
-            this.effects.push(new PieceFunctionEffect(effectobjects[this.effecttypes[i]](), effecttypes[this.effecttypes[i]], (blocks, weights, amount, ind) => effectfunctions[this.effecttypes[ind]](blocks, weights, amount), (obj) => effectdescriptions[this.effecttypes[obj.ind]](obj), this.blocks, this.effectweights[i], i));
+            console.log(effecttypesdef[this.effecttypes[i]]);
+            this.effects.push(new PieceFunctionEffect(effectobjects[this.effecttypes[i]](), effecttypesdef[this.effecttypes[i]], (blocks, weights, amount, ind) => effectfunctions[this.effecttypes[ind]](blocks, weights, amount), (obj) => effectdescriptions[this.effecttypes[obj.ind]](obj), this.blocks, this.effectweights[i], i));
         }
         this.updateeffectamounts();
     }
@@ -142,18 +146,41 @@ class EffectsBoardPiece extends BoardPiece {
     }
 
     get savedata(){
-        return [this.defaultshape, this.rotation, this.effecttypes, this.effectweights];
+        if(this.x != undefined && this.y != undefined)
+            return [this.type, this.defaultshape, this.rotation, this.effecttypes, this.effectweights, this.level, this.x, this.y];
+        return [this.type, this.defaultshape, this.rotation, this.effecttypes, this.effectweights, this.level];
+    }
+
+    get scrapvalue(){
+        var value = 0;
+        this.effectweights.forEach((val) => {
+            val.forEach((v)=>{
+                value += v;
+            });
+        });
+        value *= this.blocks;
+        return value;
     }
 
     parse(data){
         if(data[0] != undefined)
-            this.defaultshape = data[0];
+            this.type = data[0];
         if(data[1] != undefined)
-            this.rotation = data[1];
+            this.defaultshape = data[1];
         if(data[2] != undefined)
-            this.effecttypes = data[2];
+            this.rotation = data[2];
         if(data[3] != undefined)
-            this.effectweights = data[3];
+            this.effecttypes = data[3];
+        if(data[4] != undefined)
+            this.effectweights = data[4];
+        if(data[5] != undefined)
+            this.level = data[5];
+        if(data[6] != undefined)
+            this.x = data[6];
+        if(data[7] != undefined)
+            this.y = data[7];
+        this.updateimportantvalues();
+        this.updaterotatedpiece();
     }
 }
 

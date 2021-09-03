@@ -28,7 +28,7 @@
     <a class="menubutton orbitalmenubutton" v-bind:class='{menubuttonactive : screenopen("orbitals")}' onclick='openscreen("orbitals")'
       v-if='hasachievement("1e24electrons")'>Orbitals</a>
       <a class="menubutton nucleonsplitmenubutton" v-bind:class='{menubuttonactive : screenopen("nucelonsplit")}' onclick='openscreen("nucelonsplit")'
-        v-if='hasachievement("250nucleonize")'>Nucleon Split</a>
+        v-if='hasachievement("25nucleonize")'>Nucleon Split</a>
       <a class="menubutton hydrogenmenubutton" v-bind:class='{menubuttonactive : screenopen("hydrogenhill")}' onclick='openscreen("hydrogenhill")'
         v-if='hasachievement("impnucleonize")'>Hydrogen Hill</a>
       <a class="menubutton antiversemenubutton" v-bind:class='{menubuttonactive : screenopen("antiverse")}' onclick='openscreen("antiverse")'
@@ -342,10 +342,13 @@
             <table id="currenciestable">
               <tr class="currenciesrow">
                 <td class="currenciescell">
-                  <currency-display v-bind:currency="player.nucleonstage.split.protons"></currency-display>
+                  <currency-display v-bind:currency="player.nucleonstage.split.neutrons"></currency-display>
                 </td>
                 <td class="currenciescell">
-                  <currency-display v-bind:currency="player.nucleonstage.split.neutrons"></currency-display>
+                  <currency-display v-bind:currency="player.nucleonstage.split.nucleondust"></currency-display>
+                </td>
+                <td class="currenciescell">
+                  <currency-display v-bind:currency="player.nucleonstage.split.protons"></currency-display>
                 </td>
               </tr>
               <tr class="currenciesrow">
@@ -359,6 +362,7 @@
               </tr>
               <tr>
                 <td><span class="pieceinfotitle">Piece Information</span><piece-information-display v-bind:piece="selectedboardpiece"></td>
+                <td><piece-generator v-bind:generator="player.nucleonstage.split.gridinfo.piecegenerator" v-bind:board="player.nucleonstage.split.gridinfo.grid"></piece-generator></td>
               </tr>
             </table>
         </div>

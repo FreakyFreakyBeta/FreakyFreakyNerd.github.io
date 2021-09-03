@@ -1,43 +1,83 @@
 class PieceGenerator{
     constructor(id, basewidth, baseheight, newpiececost, upgradecosts, upgrademaxes, minfuncs, maxfuncs){
         this.id = id;
-        this.basewidth = basewidth;
-        this.baseheight = baseheight;
         this.newpiececost = newpiececost;
         this.boughtpieces = 0;
         this.upgradecosts = upgradecosts;
         this.upgrademaxes = upgrademaxes;
         this.minfuncs = minfuncs;
         this.maxfuncs = maxfuncs;
-        this.upgradelevels = { "width": 0, "height": 0, "effectmax" : 0};
-        for(var i = 0; i < this.minfuncs; i++){
-            this.upgradelevels["min" + i] = 0;
-            this.upgradelevels["max" + i] = 0;
+        this.upgradelevels = { "width": basewidth, "height": baseheight, "effectmax" : 1};
+        for(var i = 0; i < this.minfuncs.length; i++){
+            this.upgradelevels["min" + i] = 1;
+            this.upgradelevels["max" + i] = 1;
         }
     }
 
-    buyupgrade(type){
+    getupgradelevel(type){
+        if(this.upgradelevels[type] != undefined)
+            return formatDecimalNormal(this.upgradelevels[type]);
+    }
 
+    get types(){
+        var out = [];
+        for (let [key, value] of Object.entries(this.upgradelevels)){
+            out.push(key);
+        }
+        return out;
+    }
+
+    buyupgrade(type){
+        if(this.canbuyupgrade(type)){
+            this.upgradelevels[type] += 1;
+            this.upgradecosts[type].subtractcost();
+            this.updateupgradecosts();
+        }
     }
     
     getupgradecost(type){
-
+        if(this.upgradecosts[type] != undefined)
+            return this.upgradecosts[type].description;
     }
 
     canbuyupgrade(type){
+        return this.upgradecosts[type].hascost;
+    }
 
+    updateupgradecosts(){
+        for (let [key, value] of Object.entries(this.upgradelevels)){
+            this.upgradecosts[key].recalculatecost(value, 1)
+        }
     }
 
     getmaxeffects(){
-        return 1 + this.upgradelevels["effectmax"];
+        return this.upgradelevels["effectmax"];
     }
 
     getmaxwidth(){
-        return this.basewidth + this.upgradelevels["width"]
+        return this.upgradelevels["width"]
     }
 
     getmaxheight(){
-        return this.baseheight + this.upgradelevels["height"]
+        return this.upgradelevels["height"]
+    }
+    
+    buypiece(){
+        if(this.newpiececost.hascost){
+            this.boughtpieces += 1;
+            this.newpiececost.subtractcost();
+            this.updatepiececost();
+            return this.generatepiece();
+        }
+        return undefined;
+    }
+
+    get piececost(){
+        return this.newpiececost.description;
+    }
+
+    updatepiececost(){
+        this.newpiececost.recalculatecost(this.boughtpieces, 1)
     }
 
     getmins(){
@@ -70,12 +110,12 @@ class PieceGenerator{
     }
 
     getupgradename(type){
-        if(upgradenames[type] != undefined)
-            return upgradenames[type];
+        if(generatorupgradenames[type] != undefined)
+            return generatorupgradenames[type];
         return "No Name"
     }
 }
-upgradenames = {
+generatorupgradenames = {
     "width": "Maximum Piece Width",
     "height": "Maximum Piece Height",
     "min0": "Weight 1 Minimum Value (Generally Base Value)",
@@ -89,20 +129,29 @@ upgradenames = {
 
 function setpieceupgradeeffects(){
     possibleeffects = {
-        "green" : ["neutrongenbase"]
+        "white" : ["neutrongenbase"],
+        "red" : ["protongenbase"],
+        "orange" : ["protongenbase"],
+        "yellow" : ["protongenbase"],
+        "green" : ["protongenbase"],
+        "blue" : ["protongenbase"]
     }
 
     effectfunctions = {
-        "neutrongenbase": (blocks, weights, level) => {return new Decimal(Decimal.pow((new Decimal(weights[0])).times(weights[1]), weights[2]).times(blocks).times(level))}
+        "neutrongenbase": (blocks, weights, level) => {return new Decimal(Decimal.pow((new Decimal(weights[0])).times(weights[1]), weights[2]).times(blocks).times(level))},
+        "protongenbase": (blocks, weights, level) => {return new Decimal(Decimal.pow((new Decimal(weights[0])).times(weights[1]), weights[2]).times(blocks).times(level))}
     }
     effectdescriptions = {
-        "neutrongenbase": (obj) => "Neutron Base Generation: " + formatDecimalNormal(obj.value)
+        "neutrongenbase": (obj) => "Neutron Base Generation: " + formatDecimalNormal(obj.value),
+        "protongenbase": (obj) => "Proton Base Generation: " + formatDecimalNormal(obj.value)
     }
     effectobjects = {
-        "neutrongenbase": () => player.nucleonstage.split.protongenerator
+        "neutrongenbase": () => player.nucleonstage.split.neutrongenerator,
+        "protongenbase": () => player.nucleonstage.split.ProducerBaseProduction
     }
-    effecttypes = {
-        "neutrongenbase": EffectTypes.ProducerBaseProduction
+    effecttypesdef = {
+        "neutrongenbase": EffectTypes.ProducerBaseProduction,
+        "protongenbase": EffectTypes.ProducerBaseProduction
     }
 }
 
@@ -236,7 +285,7 @@ function horizontalshapecleanup(shape){
     return shape;
 }
 
-var possibletype = ["green"];
+var possibletype = ["white", "red", "blue", "green", "yellow", "orange"];
 var typeran = new Random();
 function generatetype(){
     return possibletype[typeran.nextInt(0,possibletype.length - 1)];
