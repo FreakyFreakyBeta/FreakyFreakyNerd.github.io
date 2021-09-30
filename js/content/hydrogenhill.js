@@ -23,6 +23,8 @@ function setuphydrogenhill(){
     player.nucleonstage.hydrogenhill.mound = [];
 
     player.nucleonstage.hydrogenhill.mound.push({});
-    player.nucleonstage.hydrogenhill.mound[0].currency = new ExponentialGrowingCappedCurrency("h2", "Dueterium (H-2)", 1, 1.001, 1000);
-    player.nucleonstage.hydrogenhill.mound[0].capupgrade = new Upgrade("h2cap", "Increase Cap", -1, null, new FunctionEffect(getcurrency("h2"), EffectTypes.CapacityIncreaseMultiplier, (lvl) => 1, () => "Cap Increase" ), new FunctionCost(getcurrency("h2"), (amt) => 1));
+    player.nucleonstage.hydrogenhill.mound[0].currency = new ExponentialGrowingCappedCurrency("h2", "Dueterium (H-2)", 1, 1.05, 1000);
+    player.nucleonstage.hydrogenhill.mound[0].upgrades = [];
+    player.nucleonstage.hydrogenhill.mound[0].upgrades.push(new Upgrade("h2cap", "Increase Cap", -1, null, new FunctionEffect(getproducer("h2"), EffectTypes.CapacityMultiplier, (lvl) => Decimal.pow(10, 2*lvl), () => "Cap Increase" ), new FunctionCost(getproducer("h2"), (amt) => Decimal.pow(10, amt*2).times(1e3))));
+    player.nucleonstage.hydrogenhill.mound[0].upgrades.push(new Upgrade("h2prod", "Increase Production", -1, null, new FunctionEffect(getproducer("h2"), EffectTypes.ProductionMultiplier, (lvl) => Decimal.pow(lvl, 1/2), () => "Prod Increase" ), new FunctionCost(getproducer("h2"), (amt) => Decimal.pow(5, amt))));
 }

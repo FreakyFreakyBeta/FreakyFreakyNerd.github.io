@@ -101,11 +101,21 @@ class FunctionCost{
     this.cost = new Decimal();
   }
 
+  effectchanged(){}
+
   recalculatecost(amount){
     if(this.costfunc != undefined)
       this.cost = this.costfunc(amount);
     else
       this.cost = new Decimal();
+  }
+
+  subtractcost(){
+    this.costobject.subtract(this.cost); 
+  }
+
+  get hascost(){
+    return this.costobject.has(this.cost);
   }
 }
 

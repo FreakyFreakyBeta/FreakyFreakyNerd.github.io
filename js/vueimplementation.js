@@ -471,9 +471,21 @@ Vue.component("replicator", {
         <span v-bind:class='"replicatoramount " + replicator.currency.colorclass + "amount"'>{{replicator.currency.amountdescription}}</span>
         <span v-bind:class='"replicatoramount " + replicator.currency.colorclass + "amount"'>{{replicator.currency.increasedescription}}</span>
       </div>
+      <div class="replicatorupgrades">
+        <replicator-upgrade v-for="upg in replicator.upgrades" v-bind:upgrade="upg"></replicator-upgrade>
+      </div>
     </div>
   `
 });
+
+Vue.component("replicator-upgrade", {
+  props: ["upgrade"],
+  template: `
+  <div class="replicatorupgrade">
+    <button class="replicatorupgradebutton" v-on:click='console.log(upgrade.buy())'>{{upgrade.displayname}} ({{formatDecimalNormal(upgrade.bought)}}) Cost: / {{formatDecimalNormal(upgrade.getcost(0))}}</button>
+  </div>
+  `
+})
 
 var boringpiece = new BoardPiece([[1]], "green")
 

@@ -226,7 +226,7 @@ class Upgrade {
 
   buy() {
     if (!this.unlocked)
-      return;
+      return "u";
     if (this.canbuy) {
       if (!this.applied)
         this.onunlock();
@@ -237,6 +237,7 @@ class Upgrade {
       this.recalculatecosts();
       this.recalculateeffects();
     }
+    return "b";
   }
 
   get canbuy() {
@@ -298,7 +299,7 @@ class Upgrade {
   }
 
   get buyamount() {
-    if (this.buykey == null || this.buykey == undefined)
+    if (this.buykey == undefined)
       return 1;
     if (player.options.buyamounts[this.buykey] == undefined)
       return 1;
@@ -662,6 +663,7 @@ class DiminishingUpgrade extends Upgrade {
   }
 
   buy() {
+    console.log("Buy");
     if (!this.unlocked)
       return;
     if (this.canbuy) {

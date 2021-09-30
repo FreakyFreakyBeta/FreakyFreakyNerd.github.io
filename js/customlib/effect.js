@@ -532,5 +532,6 @@ const EffectTypes = {
 
   ChallengeScoreMult: 40,
 
-  CapacityIncrease: 50
+  CapacityMultiplier: 50,
+  ProductionMultiplier: 55
 }

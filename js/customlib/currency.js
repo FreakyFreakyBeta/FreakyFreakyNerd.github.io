@@ -75,7 +75,71 @@ class ExponentialGrowingCappedCurrency{
       this.defaultcap = new Decimal(defaultcap);
       this.defaultincrease = new Decimal(defaultincrease);
       this.effects = effects;
+
+      this.productionmult = new Decimal(1);
+      this.productionmulteffects = [];
+
+      this.capmult = new Decimal(1);
+      this.capmulteffects = [];
+
       producerregistry.push(this);
+  }
+
+  recalculatecapmult(){
+    this.capmult = new Decimal(1);
+    this.capmulteffects.forEach(eff => {
+      this.capmult = this.capmult.times(eff.value);
+    });
+  }
+
+  recalculateproductionmult(){
+    this.productionmult = new Decimal(1);
+    this.productionmulteffects.forEach(eff => {
+      this.productionmult = this.productionmult.times(eff.value);
+    });
+  }
+
+  effectchanged() {
+    if (effectneedsrecalculated.indexOf(this) == -1) {
+      effectneedsrecalculated.push(this);
+    }
+  }
+
+  updateeffects() {
+    this.recalculateproductionmult();
+    this.recalculatecapmult();
+  }
+
+  applyeffect(effect){
+    switch(effect.effecttype){
+      case EffectTypes.CapacityMultiplier:
+        this.capmulteffects.push(effect);
+        this.recalculatecapmult();
+        break;
+      case EffectTypes.ProductionMultiplier:
+        this.productionmulteffects.push(effect);
+        this.recalculateproductionmult();
+        break;
+    }
+  }
+
+  removeeffect(effect){
+    switch(effect.effecttype){
+      case EffectTypes.CapacityMultiplier:
+        var ind = this.capmulteffects.indexOf(effect);
+        if (ind > -1) {
+          this.capmulteffects.splice(ind, 1);
+          this.recalculatecapmult();
+        }
+        break;
+      case EffectTypes.ProductionMultiplier:
+        var ind = this.productionmulteffects.indexOf(effect);
+        if (ind > -1) {
+          this.productionmulteffects.splice(ind, 1);
+          this.recalculateproductionmult();
+        }
+        break;
+    }
   }
 
   addamounteffect(effect){
@@ -116,10 +180,10 @@ class ExponentialGrowingCappedCurrency{
   }
 
   get cap(){
-    return this.defaultcap;
+    return this.defaultcap.times(this.capmult);
   }
   get increase(){
-    return this.defaultincrease;
+    return (this.defaultincrease.minus(1)).times(this.productionmult).add(1);
   }
 
   get ratio(){

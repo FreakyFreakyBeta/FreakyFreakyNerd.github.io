@@ -585,4 +585,9 @@ a {
 .specialcurrencyh2amount{
   color: #71c8de;
 }
+.replicatorupgradebutton{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
 

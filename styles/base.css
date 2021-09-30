@@ -835,6 +835,19 @@ a {
   align-content: center;
   text-align: center;
 }
+.replicatorupgrade{
+  margin-left: 20px;
+  width: 280px;
+  height: 32px;
+  margin-top: 4px;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+}
+.replicatorupgradebutton{
+  width: 100%;
+  height: 100%;
+}
 .replicatorlabel{
   font-size: 20px;
   font-weight: bold;
