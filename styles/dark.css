@@ -362,7 +362,7 @@ body{
 .currencyneutrondisplay{
   color: #c3c779;
 }
-.currencynucleondustdisplay{
+.currencyneutrondustdisplay{
   color: #c3c779;
 }
 
@@ -541,7 +541,9 @@ a {
 .pieceinfo{
   color: white;
 }
-
+.boardtitle{
+  color: white;
+}
 .generatorupgrade{
   color:#ccb678;
 }
@@ -560,7 +562,27 @@ a {
   border-color: #ebcb2d;
   color: white;
 }
+.splitupggeneratorupgradebuyamount{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
 /*User Information*/
 .logunlock{
   color: #42b844;
 }
+
+/*Replicator*/
+.specialcurrencyh2background{
+  background-color: #5a8e9c;
+}
+.specialcurrencyh2front{
+  background-color: #71c8de;
+}
+.specialcurrencyh2label{
+  color: #71c8de;
+}
+.specialcurrencyh2amount{
+  color: #71c8de;
+}
+

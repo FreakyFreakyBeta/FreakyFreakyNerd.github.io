@@ -648,11 +648,11 @@ class DiminishingUpgrade extends Upgrade {
   }
 
   get amount() {
-    var amt = this.extraamount.add(this.bought)
+    var amt = this.extraamount.add(this.bought).times(this.amountmultiplier);
     if (!this.diming)
-      return amt.times(this.amountmultiplier);
+      return amt;
     else {
-      return this.dimstart.add(this.dimfunction(amt.minus(this.dimstart))).times(this.amountmultiplier);
+      return this.dimstart.add(this.dimfunction(amt));
     }
   }
 

@@ -26,11 +26,11 @@
     <a class="menubutton challengemenubutton" v-bind:class='{menubuttonactive : screenopen("challenges")}' onclick='openscreen("challenges")'
       v-if='hasachievement("challengeunlock")'>Challenges</a>
     <a class="menubutton orbitalmenubutton" v-bind:class='{menubuttonactive : screenopen("orbitals")}' onclick='openscreen("orbitals")'
-      v-if='hasachievement("1e24electrons")'>Orbitals</a>
+      v-if='hasachievement("1e16electrons")'>Orbitals</a>
       <a class="menubutton nucleonsplitmenubutton" v-bind:class='{menubuttonactive : screenopen("nucelonsplit")}' onclick='openscreen("nucelonsplit")'
         v-if='hasachievement("25nucleonize")'>Nucleon Split</a>
       <a class="menubutton hydrogenmenubutton" v-bind:class='{menubuttonactive : screenopen("hydrogenhill")}' onclick='openscreen("hydrogenhill")'
-        v-if='hasachievement("impnucleonize")'>Hydrogen Hill</a>
+        v-if='hasachievement("25nucleonize")'>Hydrogen Hill</a>
       <a class="menubutton antiversemenubutton" v-bind:class='{menubuttonactive : screenopen("antiverse")}' onclick='openscreen("antiverse")'
         v-if='hasachievement("impnucleonize")'>Antiverse</a>
     <a class="menubutton achievementmenubutton" v-bind:class='{menubuttonactive : screenopen("achievements")}' onclick='openscreen("achievements")'>Achievements</a>
@@ -183,13 +183,13 @@
           <div class="subsidenav">
             <a class="menubutton quarksubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("quark")}' onclick='openproducersscreen("quark")'>Quark Producers</a>
             <a class="menubutton quarksubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("quarkboosts")}' onclick='openproducersscreen("quarkboosts")' v-if='hasachievement("100quarkgenone")'>Quark Boosts</a>
-            <a class="menubutton electronsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("electron")}' onclick='openproducersscreen("electron")' v-if='hasachievement("electrifyunlock")'>Quark Spin</a>
+            <a class="menubutton electronsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("electron")}' onclick='openproducersscreen("electron")' v-if='hasachievement("1electrify")'>Quark Spin</a>
             <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("gluon")}' onclick='openproducersscreen("gluon")'
-              v-if='hasachievement("nucleonizeunlock")'>Gluon</a>
+              v-if='hasachievement("1nucleonize")'>Gluon</a>
               <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("free")}' onclick='openproducersscreen("free")'
-                v-if='hasachievement("nucleonizeunlock")'>Free Electron</a>
+                v-if='hasachievement("1nucleonize")'>Free Electron</a>
                 <a class="menubutton nucleonsubmenubutton" v-bind:class='{menubuttonactive : producerscreenopen("charge")}' onclick='openproducersscreen("charge")'
-                  v-if='hasachievement("nucleonizeunlock")'>Electron Charge</a>
+                  v-if='hasachievement("1nucleonize")'>Electron Charge</a>
           </div>
           <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
             <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark">
@@ -276,10 +276,10 @@
           </div>
           <div id="achievementinfo">
             <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>
-            <span class="achievementname achievementinfo">{{selectedachievement.displayname}}</span><br><br>
-            <span class="achievementrequirement achievementinfo">Requires:
-              {{selectedachievement.requirement}}</span><br>
+            <span class="achievementname achievementinfo">{{selectedachievement.title}}</span><br><br>
+            <span class="achievementrequirement achievementinfo">{{selectedachievement.requirement}}</span><br>
             <span class="achievementeffect achievementinfo">{{selectedachievement.effect}}</span><br><br>
+            <span class="achievementeffect achievementinfo">Achievement Points: {{player.achievements.points}}/{{player.achievements.maxpoints}}</span><br><br>
           </div>
         </div>
         <div id="statsscreen" class="centered" style="display: none">
@@ -345,7 +345,7 @@
                   <currency-display v-bind:currency="player.nucleonstage.split.neutrons"></currency-display>
                 </td>
                 <td class="currenciescell">
-                  <currency-display v-bind:currency="player.nucleonstage.split.nucleondust"></currency-display>
+                  <currency-display v-bind:currency="player.nucleonstage.split.neutrondust"></currency-display>
                 </td>
                 <td class="currenciescell">
                   <currency-display v-bind:currency="player.nucleonstage.split.protons"></currency-display>
@@ -358,11 +358,16 @@
             <table>
               <tr class="gridpiecedisplay">
                 <td><board-grid-display v-bind:board="player.nucleonstage.split.gridinfo.grid"></board-grid-display></td>
-                <td><div class="pendingpiecelist"><piece-display v-for="piece in player.nucleonstage.split.gridinfo.grid.pendingpieces" v-bind:piece="piece" v-bind:board="player.nucleonstage.split.gridinfo.grid"></piece-display></div></td>
+                <td class="pendingpiecelist">
+                  <span class="boardtitle">Piece Bench</span>
+                  <div>
+                    <piece-display v-for="piece in player.nucleonstage.split.gridinfo.grid.pendingpieces" v-bind:piece="piece" v-bind:board="player.nucleonstage.split.gridinfo.grid"></piece-display>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td><span class="pieceinfotitle">Piece Information</span><piece-information-display v-bind:piece="selectedboardpiece"></td>
-                <td><piece-generator v-bind:generator="player.nucleonstage.split.gridinfo.piecegenerator" v-bind:board="player.nucleonstage.split.gridinfo.grid"></piece-generator></td>
+                <td><piece-generator v-bind:generator="player.nucleonstage.split.gridinfo.piecegenerator" v-bind:board="player.nucleonstage.split.gridinfo.grid" typex="splitupg"></piece-generator></td>
               </tr>
             </table>
         </div>
@@ -378,6 +383,7 @@
             <div class="centered">
               <currency-display v-bind:currency="player.electronstage.electrons"></currency-display>
             </div>
+            <replicator v-bind:replicator="player.nucleonstage.hydrogenhill.mound[0]"></replicator>
         </div>
         <div id="challengesscreen" style="display: none;">
           <div class="challengelist">
@@ -469,6 +475,7 @@
   <script src="js/content/challenges.js"> </script>
   <script src="js/content/achievements.js"> </script>
   <script src="js/content/nucleonsplit.js"> </script>
+  <script src="js/content/hydrogenhill.js"> </script>
   <script src="js/content/antiverse.js"> </script>
   <script src="js/math.js"> </script>
   <script src="js/savemanager.js"> </script>

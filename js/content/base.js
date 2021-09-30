@@ -26,17 +26,26 @@ function setupGame() {
   setupbasicnucleonsingletonupgrades();
 
   setupbasicnucelonplit();
+  setuphydrogenhill();
   setupbasicantiverse();
 
   setupautobuyers();
   setpieceupgradeeffects();
-  player.nucleonstage.split.gridinfo.grid.addpendingpiece(new EffectsBoardPiece([[1]],"key", ["neutrongenbase"], [[1,1,1]]));
+  setdefaultnucleonsplitpieces();
 }
 
 function totalproducerbought(producers) {
   var amt = new Decimal();
   producers.forEach(prod => {
     amt = amt.add(prod.bought);
+  });
+  return amt;
+}
+
+function totalupgradebought(upgrades) {
+  var amt = new Decimal();
+  upgrades.forEach(upg => {
+    amt = amt.add(upg.bought);
   });
   return amt;
 }

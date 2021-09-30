@@ -100,28 +100,46 @@ class BoardPiece {
 }
 
 class EffectsBoardPiece extends BoardPiece {
-    constructor(defaultshape, type, effecttypes, effectweights) {
+    constructor(defaultshape, type, raweffects) {
         super(defaultshape, type);
         this.level = 1;
-        this.effecttypes = effecttypes;
-        this.effectweights = effectweights;
+        this.raweffects = raweffects;
         this.effects = [];
         if(this.defaultshape != undefined)
             this.updateimportantvalues();
     }
 
     updateimportantvalues(){
-        for(var i = 0; i < this.effecttypes.length; i++){
-            console.log(effecttypesdef[this.effecttypes[i]]);
-            this.effects.push(new PieceFunctionEffect(effectobjects[this.effecttypes[i]](), effecttypesdef[this.effecttypes[i]], (blocks, weights, amount, ind) => effectfunctions[this.effecttypes[ind]](blocks, weights, amount), (obj) => effectdescriptions[this.effecttypes[obj.ind]](obj), this.blocks, this.effectweights[i], i));
+        if(this.raweffects != undefined){
+            for (var key in this.raweffects){
+                var haseffecton = effectobjects[key]();
+                var effecttype = effecttypesdef[key];
+                var valfunc = function(blocks, weights, amount, key){
+                    var val = new Decimal(1);
+                    val = effectfunctions[key](blocks, weights, amount);
+                    return val;
+                }
+                this.effects.push(new PieceFunctionEffect(haseffecton, effecttype, (b, w, a, k) => valfunc(b, w, a, k), (obj) => effectdescriptions[obj.key](obj), this.blocks, this.raweffects[key], key));
+            }
         }
         this.updateeffectamounts();
+        /*for(var i = 0; i < this.effecttypes.length; i++){
+        }
+        this.updateeffectamounts();*/
+    }
+    
+    get effectamount(){
+        var amount = 0;
+        for(var key in this.raweffects){
+            amount += this.raweffects[key].length;
+        }
+        return amount;
     }
 
     applypiece(){
+        this.updateeffectamounts();
         this.effects.forEach(elem => {
             elem.apply();
-            console.log(elem);
         });
     }
 
@@ -147,18 +165,18 @@ class EffectsBoardPiece extends BoardPiece {
 
     get savedata(){
         if(this.x != undefined && this.y != undefined)
-            return [this.type, this.defaultshape, this.rotation, this.effecttypes, this.effectweights, this.level, this.x, this.y];
-        return [this.type, this.defaultshape, this.rotation, this.effecttypes, this.effectweights, this.level];
+            return [this.type, this.defaultshape, this.rotation, this.raweffects, this.level, this.x, this.y];
+        return [this.type, this.defaultshape, this.rotation, this.raweffects, this.level];
     }
 
     get scrapvalue(){
         var value = 0;
-        this.effectweights.forEach((val) => {
-            val.forEach((v)=>{
-                value += v;
-            });
-        });
-        value *= this.blocks;
+        for (var key in this.raweffects){
+            this.raweffects[key].forEach(val => {
+                value += val;
+            })
+        }
+        value = Math.pow(value, this.blocks/10 + 1) * Math.pow(1.25, this.blocks * this.level * this.effects.length);
         return value;
     }
 
@@ -170,15 +188,13 @@ class EffectsBoardPiece extends BoardPiece {
         if(data[2] != undefined)
             this.rotation = data[2];
         if(data[3] != undefined)
-            this.effecttypes = data[3];
+            this.raweffects = data[3];
         if(data[4] != undefined)
-            this.effectweights = data[4];
+            this.level = data[4];
         if(data[5] != undefined)
-            this.level = data[5];
+            this.x = data[5];
         if(data[6] != undefined)
-            this.x = data[6];
-        if(data[7] != undefined)
-            this.y = data[7];
+            this.y = data[6];
         this.updateimportantvalues();
         this.updaterotatedpiece();
     }

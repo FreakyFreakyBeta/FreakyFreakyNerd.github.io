@@ -190,7 +190,7 @@ Vue.component('tree-line', {
 Vue.component('achievement-item', {
     props: ['achievement'],
     template: `
-      <img v-bind:class="{achievement : true, achievementgot: achievement.unlocked}"" v-bind:src='"images/achievement/"+achievement.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showAchievement(achievement)"/>
+      <img v-bind:class="{achievement : true, achievementgot: achievement.unlocked}"" v-bind:src='"images/achievement/"+achievement.iconpath+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showAchievement(achievement)"/>
     `,
     methods: {
         showAchievement(achievement){
@@ -347,6 +347,7 @@ Vue.component('board-grid-display', {
   props : ["board"],
   template: `
   <div>
+    <span class="boardtitle">Board</span>
     <table class="boardtable">
       <tr class="boardrow" v-for="row in board.rows" v-bind:row="row">
         <td class="boardcell" v-for="cell in row" v-bind:cell="cell">
@@ -356,7 +357,8 @@ Vue.component('board-grid-display', {
     </table>
     <button class="boardoperation" @click="rotate(board)">Rotate</button>
     <button class="boardoperation"  @click="deselectpiece(board)">Deselect</button>
-    <button class="boardoperation"  @click="board.scrapselected()">Scrap Selected</button>
+    <button class="boardoperation"  @click="board.scrapselected()">Scrap Selected</button><br>
+    <button class="boardoperation"  @click="board.scrapbench()">Scrap Bench</button>
   </div>
   `,
   methods: {
@@ -410,10 +412,10 @@ Vue.component('piece-information-display', {
   template: `
     <div>
       <span class="pieceinfo">Block Count: {{piece.blocks}}</span><br>
-      <span class="pieceinfo">Effect Count: {{piece.effects != undefined ? piece.effects.length : 0}}</span><br>
+      <span class="pieceinfo">Effect Count: {{piece.effects != undefined ? piece.effectamount : 0}}</span><br>
       <span class="pieceinfo">Level: {{piece.level != undefined ? piece.level : 0}}</span><br>
       <span class="pieceinfo" v-if='piece.type == "key"'>Cannot Be Scrapped</span>
-      <span class="pieceinfo" v-if='piece.type != "key"'>Scrap Value: {{piece.scrapvalue}}</span><br>
+      <span class="pieceinfo" v-if='piece.type != "key"'>Scrap Value: {{formatDecimalNormal(piece.scrapvalue)}}</span><br>
       <span class="pieceinfo">Shape: </span><br>
       <piece-display v-bind:piece="piece"></piece-display><br>
       <span class="pieceinfotitle">Piece Effects</span><br>
@@ -430,11 +432,15 @@ Vue.component("log-info", {
 })
 
 Vue.component("piece-generator", {
-  props: ["generator", "board"],
+  props: ["generator", "board", "typex"],
   template: `
     <div>
       <table>
         <piece-generator-upgrade v-for="type in generator.types" v-bind:generator="generator" v-bind:type="type"></piece-generator-upgrade>
+        <tr><td>
+        <span>{{generator.a}}</span></td>
+          <td><button v-bind:class='"generatorupgradebuyamount "+typex+"generatorupgradebuyamount"' v-on:click="togglebuyamount(typex)"><span class='buyamounttext'>Buy Amount: {{getbuyamount(typex)}}</span></button></td>
+        </tr>
       </table>
       <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button>
     </div>
@@ -452,6 +458,20 @@ Vue.component("piece-generator-upgrade",{
         <button class="buygeneratorupgrade" @click="generator.buyupgrade(type)">{{generator.getupgradecost(type)}}</button>
       </td>
     </tr>
+  `
+});
+
+Vue.component("replicator", {
+  props: ["replicator"],
+  template: `
+    <div>
+      <div class="replicatorcurrency">
+        <span v-bind:class='"replicatorlabel " + replicator.currency.colorclass + "label"'>{{replicator.currency.displayname}}</span>
+        <div v-bind:class='"replicatorprogressbackground " + replicator.currency.colorclass + "background"'><div v-bind:class=' "replicatorprogressfront " + replicator.currency.colorclass + "front"' v-bind:style='"width:"+replicator.currency.ratio+"%"'></div></div>
+        <span v-bind:class='"replicatoramount " + replicator.currency.colorclass + "amount"'>{{replicator.currency.amountdescription}}</span>
+        <span v-bind:class='"replicatoramount " + replicator.currency.colorclass + "amount"'>{{replicator.currency.increasedescription}}</span>
+      </div>
+    </div>
   `
 });
 

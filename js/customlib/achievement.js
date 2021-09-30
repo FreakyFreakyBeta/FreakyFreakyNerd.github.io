@@ -1,15 +1,35 @@
 class Achievement{
-  constructor(id, displayname, unlockrequirements, showdescriptionrequirements, effects, tags){
+  constructor(id, displayname, unlockrequirements, showdescriptionrequirements, effects, tags, numkey, value){
     this.id = id;
     this.tags = tags;
     this.displayname = displayname;
-    this.requirements = unlockrequirements;
-    this.showdescriptionrequirements = showdescriptionrequirements;
-    this.effects = effects;
+    if(Array.isArray(unlockrequirements))
+      this.requirements = unlockrequirements;
+    else
+      this.requirements = [unlockrequirements];
+    if(Array.isArray(showdescriptionrequirements) || showdescriptionrequirements == undefined)
+      this.showdescriptionrequirements = showdescriptionrequirements;
+    else
+      this.showdescriptionrequirements = [showdescriptionrequirements];
+    if(Array.isArray(effects) || effects == null)
+      this.effects = effects;
+    else
+      this.effects = [effects]; 
     this.unlocked = false;
     this.show = false;
+    this.value = value;
+
+    if(numkey != undefined){
+      this.tag = "[" + numkey + "x" + getCounterTag(numkey)+ "]";
+    }else this.tag = "";
 
     achievementregistry.push(this);
+  }
+
+  get iconpath(){
+    if(this.show)
+      return this.id;
+    return "hidden";
   }
 
   hastag(tag){
@@ -36,6 +56,7 @@ class Achievement{
       return;
     if (this.requirements == null || this.requirements == undefined){
       this.unlocked = true;
+      this.onunlock();
       return;
     }
     var unlock = true;
@@ -56,7 +77,7 @@ class Achievement{
   }
 
   checkforshow(){
-    if (this.showdescriptionrequirements == null || this.showdescriptionrequirements == undefined){
+    if (this.showdescriptionrequirements == undefined || this.unlocked){
       this.show = true;
       return;
     }
@@ -75,6 +96,9 @@ class Achievement{
       this.effects.forEach((effect, i) => {
         effect.apply();
       });
+    if (this.value != undefined){
+      player.achievements.points += this.value;
+    }
   }
 
   onrevoke(){
@@ -102,7 +126,7 @@ class Achievement{
         if(i < this.requirements.length)
           description += "\n"
       });
-      if(this.effects != null && this.effects != undefined && !this.hastag("hideeffects"))
+      if(this.effects != undefined && !this.hastag("hideeffects"))
         description += "\n\n";
     }
     return description;
@@ -113,24 +137,47 @@ class Achievement{
     return this.getdescription();
   }
 
+  get title(){
+    if(this.show)
+      return this.tag + " " + this.displayname;
+    return this.tag + " ???";
+  }
+
   get effect(){
-    if(this.effects == undefined)
-      return "Nothing! Absoluting Nothing"
+    if(!this.show)
+      return "";
     var description = "";
-    if(this.effects != null && this.effects != undefined && !this.hastag("hideeffects")){
-      description += "Effects:\n";
+    description += "Effects:\n";
+    if(this.effects != undefined && !this.hastag("hideeffects")){
       this.effects.forEach((effect, i) => {
         description += effect.geteffect();
         if(i < this.effects.length - 1)
           description += ", "
       });
     }
+    if(this.value != undefined){
+      if(this.effects != undefined)
+        description += ", "
+      description += "+" + formatDecimalNormal(this.value) + " Achievement Points";
+    }
     return description;
   }
+
   get requirement(){
+    if(!this.show)
+      return ""
     if(this.requirements == undefined)
       return "Nothing! Absoluting Nothing"
-    return this.requirements[0].requirementtext;
+    var description = "";
+    if(this.requirements != undefined && !this.hastag("hiderequirements")){
+      description += "Requires:\n";
+      this.requirements.forEach((req, i) => {
+        description += req.requirementtext;
+        if(i < this.requirements.length - 1)
+          description += ", "
+      });
+    }
+    return description;
   }
 
   reset(){

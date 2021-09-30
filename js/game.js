@@ -82,6 +82,17 @@ function getcurrency(id){
   return out;
 }
 
+function getprestige(id){
+  var out = undefined
+  prestigeregistry.forEach(pre => {
+    if(pre.id == id){
+      out = pre;
+      return;
+    }
+  });
+  return out;
+}
+
 function shallowcopy(obj){
   return JSON.parse(JSON.stringify(obj));
 }

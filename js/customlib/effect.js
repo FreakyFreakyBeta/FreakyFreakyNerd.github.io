@@ -243,6 +243,51 @@ class LinkedLinearEffect extends Effect {
   }
 }
 
+class SoftCappedExponentialEffect extends Effect {
+
+  constructor(objectsappliesto, effectdefualtvalue, effectincrease, softeffectcap, softeffectfunc, effecttype, appliestotext, effectdescription, args) {
+    super (objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args);
+    this.softeffectcap = softeffectcap;
+    this.softeffectfunc = softeffectfunc;
+  }
+
+  recalculateincrease() {
+    if(this.defaultincrease.lessThan(2))
+      this.increase = this.defaultincrease.minus(1).add(this.bonusincrease)
+    else
+      this.increase = this.defaultincrease.add(this.bonusincrease)
+    this.increasemultipliereffects.forEach((effect, i) => {
+      if (effect.value)
+        this.increase = this.increase.times(effect.value);
+    });
+    if(this.defaultincrease.lessThan(2))
+      this.increase = this.increase.add(1);
+    
+    if(this.increase.greaterThan(this.softeffectcap))
+      this.increase = this.softeffectfunc(this.increase);
+  }
+
+  recalculatevalue(amount) {
+    this.basevalue = this.defaultval.times(Decimal.pow(this.increase, amount));
+    if (this.queuedamount == undefined || this.queuedamount.notEquals(amount)) {
+      this.queuedamount = this.amount;
+      this.oneffectchanged();
+    }
+  }
+
+  get description() {
+    switch (this.effecttype) {
+      case EffectTypes.ProducerMultiplierProduction:
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.basevalue, 2) + "(x" + formatDecimalOverride(this.increase, 2) + " per level)"
+      case EffectTypes.PrestigeCurrencyBaseGain:
+        return "Adds " + formatDecimal(this.basevalue) + "(x" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
+      case EffectTypes.PrestigeCurrencyMultiplicativeGain:
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.basevalue) + "(x" + formatDecimal(this.increase) + "per bought).";
+    }
+    return "no effect description for this type";
+  }
+}
+
 class ExponentialEffect extends Effect {
 
   recalculateincrease() {
@@ -363,7 +408,7 @@ class FunctionEffect extends Effect {
 }
 
 class PieceFunctionEffect extends Effect {
-  constructor(objectsappliesto, effecttype, effectvaluefunction, effectdescriptionfunction, blocks, weights, ind) {
+  constructor(objectsappliesto, effecttype, effectvaluefunction, effectdescriptionfunction, blocks, weights, key) {
     super(objectsappliesto, new Decimal(), new Decimal(), effecttype, null, null, null);
     this.effectvaluefunction = effectvaluefunction;
     this.effectdescription = effectdescriptionfunction;
@@ -372,7 +417,7 @@ class PieceFunctionEffect extends Effect {
     this.delay = 10;
     this.blocks = blocks;
     this.weights = weights;
-    this.ind = ind;
+    this.key = key;
   }
 
   tick() {
@@ -388,15 +433,13 @@ class PieceFunctionEffect extends Effect {
   recalculatevalue(amount) {
     this.amount = amount;
     if (this.effectvaluefunction != undefined)
-      this.basevalue = this.effectvaluefunction(this.blocks, this.weights, this.amount, this.ind);
+      this.basevalue = this.effectvaluefunction(this.blocks, this.weights, this.amount, this.key);
     else
       this.basevalue = new Decimal(1);
-    console.log(this.effectvaluefunction(this.blocks, this.weights, this.amount, this.ind));
     this.oneffectchanged();
   }
 
   apply() {
-    console.log(this.effecttype);
     if (!this.applied) {
       this.appliesto.forEach((obj, i) => {
         if (obj != undefined)
@@ -487,5 +530,7 @@ const EffectTypes = {
   UpgradeSoftCapMultiplier : 29,
   UpgradeBonusMaxLevel : 30,
 
-  ChallengeScoreMult: 40
+  ChallengeScoreMult: 40,
+
+  CapacityIncrease: 50
 }

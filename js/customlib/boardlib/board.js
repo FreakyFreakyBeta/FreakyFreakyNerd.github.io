@@ -17,9 +17,30 @@ class Board {
         this.pendingpieces = [];
     }
 
+    reset(hard){
+        this.pieces = [];
+        this.selectedpiece = undefined;
+        this.pendingpieces = [];
+        this.updateboardtiles();
+    }
+
     scrapselected(){
         this.scrapcurrency.add(this.selectedpiece.scrapvalue);
         this.selectedpiece = undefined;
+        this.updateboardtiles();
+    }
+
+    scrapbench(){
+        var temp = [];
+        this.pendingpieces.forEach(piece => {
+            if(piece.type != "key"){
+                this.scrapcurrency.add(piece.scrapvalue);
+                temp.push(temp);
+            }
+        });
+        temp.forEach(el => {
+            this.pendingpieces.splice(this.pendingpieces.indexOf(el), 1);
+        });
         this.updateboardtiles();
     }
 

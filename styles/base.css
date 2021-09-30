@@ -369,16 +369,17 @@ td.righttablecolumn {
 
 .achievementdisplay{
   height: 45%;
+  overflow-x: scroll;
 }
 .achievementtable{
-  overflow-y: scroll;
+  height: 100%;
   overflow-x: scroll;
 }
 
 #achievements{
   margin-top: 20px;
 }
-.achievementrow { display: block; float: left; }
+.achievementrow { display: block; float: left; overflow-x: scroll;}
 
 .achievementcell { display: block; }
 
@@ -764,14 +765,19 @@ a {
   padding: 0px;
 }
 .pendingpiecelist{
-  height: 320px;
-  width: 400px;
+  height: 400px;
+  width: 800px;
   overflow-y: scroll;
   display: inline-block;
 }
 
 .pieceinfotitle{
   font-size: 18px;
+}
+
+.boardtitle{
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .pieceinfo{
@@ -801,9 +807,40 @@ a {
 .newpiece:hover{
   cursor: pointer;
 }
+.generatorupgradebuyamount{
+  margin-left: 10px;
+  font-size: 14px;
+}
 
 /*User Information*/
 .logdata{
   font-size: 18px;
   margin: 5px;
+}
+
+/*Replicator*/
+.replicatorprogressbackground{
+  width: 320px;
+  height: 32px;
+  margin-bottom: 6px;
+}
+.replicatorprogressfront{
+  height: 100%;
+
+  text-align: center;
+  vertical-align: middle;
+}
+.replicatorcurrency{
+  width: 320px;
+  align-content: center;
+  text-align: center;
+}
+.replicatorlabel{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.replicatoramount{
+  font-size: 16px;
+  margin-top: 36px;
 }

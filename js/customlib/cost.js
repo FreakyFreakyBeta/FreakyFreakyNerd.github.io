@@ -94,6 +94,21 @@ class Cost{
     }
 }
 
+class FunctionCost{
+  constructor(costobject, costfunc){
+    this.costobject = costobject;
+    this.costfunc = costfunc;
+    this.cost = new Decimal();
+  }
+
+  recalculatecost(amount){
+    if(this.costfunc != undefined)
+      this.cost = this.costfunc(amount);
+    else
+      this.cost = new Decimal();
+  }
+}
+
 class ExponentialCost extends Cost{
     recalculatebasecost(amount, buyamount){
       if(buyamount != undefined)

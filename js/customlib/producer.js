@@ -137,6 +137,9 @@ class Producer {
   hasrequirement(amount) {
     return this.bought.greaterThanOrEqualTo(amount);
   }
+  hastotalrequirement(amount) {
+    return this.amount.greaterThanOrEqualTo(amount);
+  }
 
   save() {
     return [this.bought.toString(), this.produced.toString(), this.buyauto];
