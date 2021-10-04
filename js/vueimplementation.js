@@ -474,6 +474,9 @@ Vue.component("replicator", {
       <div class="replicatorupgrades">
         <replicator-upgrade v-for="upg in replicator.upgrades" v-bind:upgrade="upg"></replicator-upgrade>
       </div>
+      <div class="replicatoreffects">
+        <span class="replicatoreffect">{{replicator.effectsdesc}}</span>
+      </div>
     </div>
   `
 });

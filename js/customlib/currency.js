@@ -110,6 +110,19 @@ class ExponentialGrowingCappedCurrency{
     this.recalculatecapmult();
   }
 
+  addbasedeffect(effect){
+    effect.apply();
+    this.effects.push(effect);
+  }
+
+  removebasedeffect(effect){
+    effect.remove();
+    var ind = this.effects.indexOf(effect);
+    if (ind > -1) {
+      this.effects.splice(ind, 1);
+    }
+  }
+
   applyeffect(effect){
     switch(effect.effecttype){
       case EffectTypes.CapacityMultiplier:
@@ -156,6 +169,15 @@ class ExponentialGrowingCappedCurrency{
 
   get colorclass(){
     return "specialcurrency"+this.id;
+  }
+
+  get effectsdesc(){
+    var out = "";
+    if(this.effects.length > 0){
+      out += "Effects:\n";
+      this.effects
+    }
+    return out;
   }
 
   reset(){
@@ -225,6 +247,6 @@ class ExponentialGrowingCappedCurrency{
   }
 
   hasrequirement(amount){
-    return this.gained.greaterThanOrEqualTo(amount);
+    return this.amount.greaterThanOrEqualTo(amount);
   }
 }
