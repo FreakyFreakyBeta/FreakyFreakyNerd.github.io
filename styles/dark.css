@@ -585,9 +585,27 @@ a {
 .specialcurrencyh2amount{
   color: #71c8de;
 }
+
+.specialcurrencyh3background{
+  background-color: #425863;
+}
+.specialcurrencyh3front{
+  background-color: #346873;
+}
+.specialcurrencyh3label{
+  color: #346873;
+}
+.specialcurrencyh3amount{
+  color: #346873;
+}
+.replicatorcell{
+  border: white solid 1px;
+}
 .replicatorupgradebutton{
   background-color: var(--main-color);
   border-color: #ebcb2d;
   color: white;
 }
-
+.replicatoreffect{
+  color: #ebcb2d;
+}

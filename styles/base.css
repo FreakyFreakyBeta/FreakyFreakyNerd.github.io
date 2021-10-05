@@ -190,7 +190,7 @@ td.righttablecolumn {
 .electronpower{
   border: white;
   height: 70%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /*Upgrade Information*/
@@ -340,7 +340,7 @@ td.righttablecolumn {
   margin: 2px;
   width: 60%;
   height: 50%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .applybutton{
@@ -353,7 +353,7 @@ td.righttablecolumn {
 .challengeinfotable{
   width: 100%;
   height: 20%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .challengeinfocell{
   height: 100%;
@@ -369,17 +369,17 @@ td.righttablecolumn {
 
 .achievementdisplay{
   height: 45%;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .achievementtable{
   height: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 #achievements{
   margin-top: 20px;
 }
-.achievementrow { display: block; float: left; overflow-x: scroll;}
+.achievementrow { display: block; float: left; overflow-x: auto;}
 
 .achievementcell { display: block; }
 
@@ -433,7 +433,7 @@ td.righttablecolumn {
 .subcontent {
   margin-left: 80px; /* Same as the width of the sidebar */
   padding: 0px 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .past10value {
@@ -460,7 +460,7 @@ td.righttablecolumn {
 /*Currency Displays*/
 #currenciesdisplay{
   width:100%;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .currencydisplaydiv{
   width: 120px;
@@ -489,14 +489,14 @@ td.righttablecolumn {
 #prestigedisplay{
   width: 100%;
   height: 56px;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin-top: 1px;
   margin-left: 1px;
 }
 
 #prestigegain{
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin-top: 1px;
   margin-left: 1px;
 }
@@ -546,7 +546,7 @@ td.righttablecolumn {
 }
 
 .producerscreen{
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 70%;
 }
 
@@ -767,7 +767,7 @@ a {
 .pendingpiecelist{
   height: 400px;
   width: 800px;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: inline-block;
 }
 
@@ -856,4 +856,20 @@ a {
 .replicatoramount{
   font-size: 16px;
   margin-top: 36px;
+}
+.replicatorcell{
+  height: 100%;
+  margin-top: 0;
+  vertical-align: top;
+}
+.replicatortable{
+  width: 80%px;
+  overflow-x: auto;
+}
+.replicatoreffects{
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+.replicatoreffect{
+  font-size: 16px;
 }

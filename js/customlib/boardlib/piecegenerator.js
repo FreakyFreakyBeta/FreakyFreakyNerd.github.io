@@ -206,7 +206,7 @@ generatorupgradenames = {
 
 function setpieceupgradeeffects() {
     possibleeffects = {
-        "white": ["neutrongenpow"],//["neutrongenbase", "neutrongenmult", "neutrongenpow"],
+        "white": ["neutrongenbase", "neutrongenmult", "neutrongenpow"],
         "red": ["protongenbase", "protongenmult", "protongenpow"],
         "orange": ["multorbonus", "acceleronbonus"],
         "yellow": ["electrongainbase", "electrongainmult", "electrongainpow"],
@@ -398,7 +398,7 @@ function horizontalshapecleanup(shape) {
     return shape;
 }
 
-var possibletype = ["white"]//, "red", "yellow", "orange"];// "blue", "green",
+var possibletype = ["white", "red", "yellow", "orange"];// "blue", "green",
 var typeran = new Random();
 function generatetype() {
     return possibletype[typeran.nextInt(0, possibletype.length - 1)];

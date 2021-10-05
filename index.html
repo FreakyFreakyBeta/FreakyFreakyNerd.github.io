@@ -351,8 +351,6 @@
                   <currency-display v-bind:currency="player.nucleonstage.split.protons"></currency-display>
                 </td>
               </tr>
-              <tr class="currenciesrow">
-              </tr>
             </table>
             </div>
             <table>
@@ -380,10 +378,31 @@
           </div>
         </div>
         <div id="hydrogenhillscreen" style="display: none">
-            <div class="centered">
-              <currency-display v-bind:currency='player.nucleonstage.split.protons'></currency-display>
-            </div><br>
-            <replicator v-bind:replicator="player.nucleonstage.hydrogenhill.mound[0]"></replicator>
+          <div class="centered">
+            <table id="currenciestable">
+              <tr class="currenciesrow">
+                <td class="currenciescell">
+                  <currency-display v-bind:currency='player.nucleonstage.split.protons'></currency-display>
+                </td>
+                <td class="currenciescell">
+                  <currency-display v-bind:currency='player.nucleonstage.hydrogenhill.primedproton'></currency-display>
+                </td>
+                <td class="currenciescell">
+                  <currency-display v-bind:currency='player.nucleonstage.hydrogenhill.hydrogen'></currency-display>
+                </td>
+              </tr>
+            </table>
+            <br>
+            <div class="replicatortable">
+            <table >
+              <tr class="replicatorrow">
+                <td v-for="replc in player.nucleonstage.hydrogenhill.mound" class="replicatorcell">
+                  <replicator v-bind:replicator="replc" ></replicator>
+                </td>
+              </tr>
+            </table>
+            </div>
+          </div>
         </div>
         <div id="challengesscreen" style="display: none;">
           <div class="challengelist">
