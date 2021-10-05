@@ -31,7 +31,6 @@ Vue.component('quark-producer-item', {
     methods: {
         buyProducer: function(producer){
             producer.buy();
-            recalculateCurrencyPerSec();
         }
     }
 })
@@ -51,7 +50,6 @@ Vue.component('quark-upgrade-item', {
     methods: {
         buyUpgrade: function(upgrade){
             upgrade.buy();
-            recalculateCurrencyPerSec();
         }
     }
 })
@@ -97,7 +95,6 @@ Vue.component('upgrades-display', {
   methods: {
     buyUpgrade: function(upgrade){
       upgrade.buy();
-      recalculateCurrencyPerSec();
     },
     toggleupgrade: function(upgrade){
       upgrade.togglebuystate();
@@ -145,7 +142,6 @@ Vue.component('upgrade-item', {
     methods: {
         buyUpgrade: function(upgrade){
             upgrade.buy();
-            recalculateCurrencyPerSec();
         },
         showUpgrade(upgrade){
           subatomicidlingapp.selectedupgrade = upgrade;
@@ -475,7 +471,7 @@ Vue.component("replicator", {
         <replicator-upgrade v-for="upg in replicator.upgrades" v-bind:upgrade="upg"></replicator-upgrade>
       </div>
       <div class="replicatoreffects">
-        <span class="replicatoreffect">{{replicator.effectsdesc}}</span>
+        <span class="replicatoreffect">{{replicator.currency.effectsdesc}}</span>
       </div>
     </div>
   `
@@ -487,6 +483,15 @@ Vue.component("replicator-upgrade", {
   <div class="replicatorupgrade">
     <button class="replicatorupgradebutton" v-on:click='console.log(upgrade.buy())'>{{upgrade.displayname}} ({{formatDecimalNormal(upgrade.bought)}}) Cost: / {{formatDecimalNormal(upgrade.getcost(0))}}</button>
   </div>
+  `
+})
+
+Vue.component("special-producers", {
+  props: ["producers"],
+  template: `
+    <div>
+      <img v-bind:src='"images/producer/"+producer.id+".png"' @error="$event.target.src='images/missing.png'"/ v-for="prod in producers">
+    </div>
   `
 })
 

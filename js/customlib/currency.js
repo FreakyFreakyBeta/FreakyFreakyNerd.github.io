@@ -74,7 +74,10 @@ class ExponentialGrowingCappedCurrency{
       this.amount = new Decimal(startingamount);
       this.defaultcap = new Decimal(defaultcap);
       this.defaultincrease = new Decimal(defaultincrease);
-      this.effects = effects;
+      if(effects != undefined)
+        this.effects = effects;
+      else
+        this.effects = [];
 
       this.productionmult = new Decimal(1);
       this.productionmulteffects = [];
@@ -84,6 +87,8 @@ class ExponentialGrowingCappedCurrency{
 
       producerregistry.push(this);
   }
+
+  recalculatecosts(){};
 
   recalculatecapmult(){
     this.capmult = new Decimal(1);
@@ -175,7 +180,9 @@ class ExponentialGrowingCappedCurrency{
     var out = "";
     if(this.effects.length > 0){
       out += "Effects:\n";
-      this.effects
+      this.effects.forEach(eff => {
+        out += eff.geteffect();
+      })
     }
     return out;
   }

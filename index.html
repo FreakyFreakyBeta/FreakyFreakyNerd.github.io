@@ -381,8 +381,8 @@
         </div>
         <div id="hydrogenhillscreen" style="display: none">
             <div class="centered">
-              <currency-display v-bind:currency="player.electronstage.electrons"></currency-display>
-            </div>
+              <currency-display v-bind:currency='player.nucleonstage.split.protons'></currency-display>
+            </div><br>
             <replicator v-bind:replicator="player.nucleonstage.hydrogenhill.mound[0]"></replicator>
         </div>
         <div id="challengesscreen" style="display: none;">

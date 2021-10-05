@@ -282,7 +282,7 @@ function setupachievements() {
 
   //hydrogen Hill h-2
   nextbasicachievementcolumn();
-  var baseh2boost = new FunctionEffect(getproducer("ppp1"), EffectTypes.ProducerMultiplierProduction, () => {getproducer("h2").amount}, (obj) => {"Primed producer 1 Production *" + formatDecimalNormal(obj.value)})
+  var baseh2boost = new FunctionEffect(getproducer("ppp1"), EffectTypes.ProducerMultiplierProduction, () => new Decimal(Decimal.log(getproducer("h2").amount, 10)).add(1), (obj) => "Primed producer 1 Production *" + formatDecimalOverride(obj.value, 2))
   addbasicachievement(new Achievement("10h2", "Thats a factor of 10", new NumRequirement(getproducer("h2"), "10"), null, new FunctionalEffect(() => {getproducer("h2").addbasedeffect(baseh2boost)}, () => {getproducer("h2").removebasedeffect(baseh2boost)}), null, getbasictag(), 10));
 
   //Special Achievments
