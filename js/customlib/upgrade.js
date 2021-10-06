@@ -663,7 +663,6 @@ class DiminishingUpgrade extends Upgrade {
   }
 
   buy() {
-    console.log("Buy");
     if (!this.unlocked)
       return;
     if (this.canbuy) {
