@@ -434,11 +434,10 @@ Vue.component("piece-generator", {
       <table>
         <piece-generator-upgrade v-for="type in generator.types" v-bind:generator="generator" v-bind:type="type"></piece-generator-upgrade>
         <tr><td>
-        <span>{{generator.a}}</span></td>
+          <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button></td>
           <td><button v-bind:class='"generatorupgradebuyamount "+typex+"generatorupgradebuyamount"' v-on:click="togglebuyamount(typex)"><span class='buyamounttext'>Buy Amount: {{getbuyamount(typex)}}</span></button></td>
         </tr>
       </table>
-      <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button>
     </div>
   `
 });

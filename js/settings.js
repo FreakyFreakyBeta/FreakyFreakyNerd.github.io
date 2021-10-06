@@ -27,6 +27,18 @@ var settings = {
     past10prestiges: {}
   }
 }
+function getrawbuyamount(type){
+  if (type == undefined)
+    return "type Undefined"
+  var buyamount = player.options.buyamounts[type];
+  if (buyamount == undefined) {
+    player.options.buyamounts[type] = 1;
+    return 1;
+  }
+  if (buyamount != -1)
+    return buyamount;
+  return 1;
+}
 
 function getbuyamount(type, object) {
   if (type == undefined)
@@ -59,15 +71,13 @@ function resetstats() {
 }
 
 function togglebuyamount(type) {
-  var buyamount = getbuyamount(type);
+  var buyamount = getrawbuyamount(type);
   var ind = player.options.toggleamounts.indexOf(buyamount);
   if (ind == undefined || ind == player.options.toggleamounts.length - 1) {
     setbuyamount(type, player.options.toggleamounts[0]);
   }
   else {
     setbuyamount(type, player.options.toggleamounts[ind + 1])
-    console.log("Yepp Changed To Next In Line: " + player.options.toggleamounts[ind + 1])
-    console.log("Buy Amount: " + getbuyamount(type))
   }
 }
 
