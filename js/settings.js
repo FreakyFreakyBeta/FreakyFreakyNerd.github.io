@@ -6,7 +6,7 @@ var settings = {
     notation: "standard",
     notationdecimals: 3,
     theme: "dark",
-    buyamounts: { qp: 1, qsp: 1, freep: 1, chargep: 1, gluonp: 1, upg: 1, special: 1, challengedifficulty: 1, applyelectronpower: 1, qbp: 1, splitupg: 1 },
+    buyamounts: { qp: 1, qsp: 1, freep: 1, chargep: 1, gluonp: 1, upg: 1, special: 1, challengedifficulty: 1, applyelectronpower: 1, qbp: 1, splitupg: 1, pppbuy: 1 },
     toggleamounts: [1, 10, 25, 100, -1],
     currentscreen: "producers",
     currentstatscreen: "general",

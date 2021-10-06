@@ -457,6 +457,34 @@ Vue.component("piece-generator-upgrade",{
   `
 });
 
+Vue.component("toggleable-producers-display", {
+  props: ['producers','type','fasttoggle'],
+  template: `
+    <table>
+      <tr class="producerrow" v-for="producer in producers" v-if="producer.unlocked">
+        <td v-bind:class='"producerimage producer"+type+"image"'><img v-bind:src='"images/producer/"+producer.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
+        <td v-bind:class='"producerimage producerpauseimage producer"+type+"pauseimage"' v-on:click="toggleproducerproduction(producer)"><img v-bind:class='"producer" + producer.productionstatus' v-bind:src='"images/" + producer.productionstatus + ".png"' @error="$event.target.src='images/missing.png'"/></td>
+        <td v-bind:class='"producername producer"+type+"name"'>{{producer.displayname}}: {{Producer.getAmountDescription(producer)}}</td>
+        <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='{producercostbutton:true, producercostbuttonbuyable: producer.canbuy}' v-on:click="buyProducer(producer)">Cost: {{Producer.getCostDescription(producer)}}</button></td>
+        <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: producer.autobuyunlocked && producer.buyauto, autobuttonoff: producer.autobuyunlocked && !producer.buyauto}' v-on:click="toggleproducer(producer)" v-if="producer.autobuyunlocked">AUTO: [{{producer.autostate}}]</button></td>
+        <td v-bind:class='"producerproduction producer"+type+"production"'>{{Producer.getProductionDescription(producer)}}</td>
+      </tr>
+      <fast-toggle v-if='fasttoggle == "true" && producers[0].autobuyunlocked' v-bind:totoggle="producers"></fast-toggle>
+    </table>
+  `,
+  methods: {
+    buyProducer: function(producer){
+      producer.buy();
+    },
+    toggleproducer: function(producer){
+      producer.togglebuystate();
+    },
+    toggleproducerproduction: function(producer){
+      producer.toggleproduction();
+    }
+  }
+})
+
 Vue.component("replicator", {
   props: ["replicator"],
   template: `

@@ -53,6 +53,17 @@ class Producer {
       this.checkForUnlock();
   }
 
+  toggleproduction(){
+    this.doproduce = !this.doproduce;
+  }
+
+  get productionstatus(){
+    if(this.doproduce)
+      return "pause"
+    else
+      return "play"
+  }
+
   get autostate() {
     if (!this.autobuyunlocked)
       return "LOK"
@@ -142,7 +153,7 @@ class Producer {
   }
 
   save() {
-    return [this.bought.toString(), this.produced.toString(), this.buyauto];
+    return [this.bought.toString(), this.produced.toString(), this.buyauto, this.doproduce];
   }
 
   parse(data) {
@@ -154,6 +165,8 @@ class Producer {
       this.produced = Decimal.fromString(data[1]);
     if (data[2] != undefined)
       this.buyauto = data[2];
+    if (data[3] != undefined)
+      this.doproduce = data[3];
     this.recalculatecosts();
     this.recalculateproductions();
   }
@@ -423,7 +436,13 @@ class Producer {
   static getProductionDescription(producer){
     if (producer.productions == undefined)
       return "No Productions WOW!"
-    return formatDecimalNormal(producer.getproduction(0)) + " " + producer.productions[0].productionobject.displayname + "/Second";
+    var val = "";
+    producer.productions.forEach((prod, i) =>{
+      val += formatDecimalOverride(prod.production, 2) + " " + prod.productionobject.displayname + "/Second";
+      if(i < producer.productions.length - 1)
+        val += ", ";
+    });
+    return val;
   }
 
   static getCostDescription(producer){

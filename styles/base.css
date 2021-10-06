@@ -529,7 +529,6 @@ td.righttablecolumn {
   width: 220px;
 }
 .producerproduction{
-  width: 220px;
 }
 .producercost{
   width: 200px;
@@ -548,6 +547,10 @@ td.righttablecolumn {
 .producerscreen{
   overflow-y: auto;
   height: 70%;
+}
+
+.producerpauseimage{
+  cursor: pointer;
 }
 
 /*Auto Button*/
@@ -873,3 +876,4 @@ a {
 .replicatoreffect{
   font-size: 16px;
 }
+
