@@ -37,7 +37,7 @@ class Currency{
           this.gained = Decimal.fromString(data[1]);
       }
       if(this.amount.lessThan(0))
-        this.amount = new Decimal();
+        this.amount = new Decimal(this.startingamount);
     }
 
     subtract(amount){
@@ -189,6 +189,9 @@ class ExponentialGrowingCappedCurrency{
 
   reset(){
     this.amount = new Decimal(this.startingamount);
+    if(this.amount.lessThan(0)){
+      this.amount = new Decimal(this.startingamount);
+    }
   }
 
   get saveData(){
@@ -228,13 +231,16 @@ class ExponentialGrowingCappedCurrency{
   }
 
   add(val){
-      this.addamount(val)
+      this.addamount(val);
   }
 
   addamount(val){
     this.amount = this.amount.times(val);
     if(this.amount.greaterThan(this.cap))
       this.amount = this.cap;
+    if(this.amount.lessThan(0)){
+      this.amount = new Decimal(this.startingamount);
+    }
   }
 
   subtract(amount){

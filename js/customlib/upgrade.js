@@ -282,7 +282,7 @@ class Upgrade {
   getmaxbuyable() {
     var maxamount = undefined;
     this.costs.forEach((cost, i) => {
-      var cmax = cost.getmaxbuyable(this.bought);
+      var cmax = cost.getmax(this.bought);
       if (maxamount == undefined || maxamount.greaterThan(cmax)) {
         maxamount = cmax;
       }

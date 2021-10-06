@@ -92,6 +92,12 @@ class Cost{
     get description(){
       return formatDecimal(this.cost) + " " + this.costobject.displayname;
     }
+
+    getmax(amount){
+      if(this.costobject.amount.lessThan(0))
+        return new Decimal(1);
+      return this.getmaxbuyable(amount);
+    }
 }
 
 class FunctionCost{
@@ -116,6 +122,10 @@ class FunctionCost{
 
   get hascost(){
     return this.costobject.has(this.cost);
+  }
+
+  getmax(amount){
+    return new Decimal(1);
   }
 }
 
@@ -315,5 +325,9 @@ class CombinedCost {
 
   get description(){
     return formatDecimal(this.cost) + " " + this.costobject.displayname;
+  }
+
+  getmax(amount){
+    return this.getmaxbuyable(amount);
   }
 }
