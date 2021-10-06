@@ -34,13 +34,13 @@ function getbuyamount(type, object) {
   var buyamount = player.options.buyamounts[type];
   if (buyamount == undefined) {
     player.options.buyamounts[type] = 1;
-    return 1;
+    return new Decimal(1);
   }
   if (buyamount != -1)
-    return buyamount;
+    return new Decimal(buyamount);
   if (object == undefined)
     return "Max"
-  return object.buyamount;
+  return new Decimal(object.buyamount);
 }
 
 function setbuyamount(type, num) {
