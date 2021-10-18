@@ -20,7 +20,7 @@ class PieceGenerator {
 
     tick() {
         this.updatepiececost();
-        this.a = (this.a + 1) % 10
+        this.updateupgradecosts();
     }
 
     getupgradelevel(type) {
@@ -86,30 +86,29 @@ class PieceGenerator {
     }
 
     updateupgradecosts() {
-        console.log(getbuyamount(this.buykey));
         for (let [key, value] of Object.entries(this.upgradelevels)) {
             this.upgradecosts[key].recalculatecost(value, this.buyamount(key))
         }
     }
 
     buyamount(type) {
+        var amt;
         if (player.options.buyamounts[this.buykey] == -1) {
             var max = this.getmaxbuyable(type);
             if (max.lessThanOrEqualTo(new Decimal(0)))
                 return new Decimal(1);
-            return max;
+            amt = max;
         }
-        return player.options.buyamounts[this.buykey];
+        else{
+            amt = new Decimal(player.options.buyamounts[this.buykey]);
+        }
+        if(this.upgrademaxes[type] != undefined && this.upgradelevels[type].add(amt).greaterThan(this.upgrademaxes[type]))
+            amt = new Decimal(this.upgrademaxes[type]).minus(this.upgradelevels[type]);
+        return amt;
     }
 
     getmaxbuyable(type) {
         var maxamount = this.upgradecosts[type].getmaxbuyable(this.upgradelevels[type]);
-        if (this.upgrademaxes != undefined && this.upgrademaxes[type] != undefined && this.upgradelevels[type].add(maxamount).greaterThan(this.upgrademaxes[type])) {
-            if (new Decimal(this.upgrademaxes[type]).minus(this.upgradelevels[type]).lessThan(0))
-                maxamount = new Decimal();
-            else
-                maxamount = new Decimal(this.upgrademaxes[type]).minus(this.upgradelevels[type]);
-        }
         return maxamount;
     }
 

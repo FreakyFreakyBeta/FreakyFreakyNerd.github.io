@@ -154,6 +154,7 @@ class HyperExponentialCost extends Cost{
   }
 
     recalculatebasecost(amount, buyamount){
+      buyamount = new Decimal(buyamount);
       if(buyamount != undefined && !buyamount.equals(1))
         this.basecost = this.startingcost.times(Decimal.pow(this.scaling, Decimal.pow(amount.add(buyamount), this.hyperscaling)));
       else

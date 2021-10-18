@@ -37,7 +37,7 @@ function getrawbuyamount(type){
   }
   if (buyamount != -1)
     return buyamount;
-  return 1;
+  return -1;
 }
 
 function getbuyamount(type, object) {
