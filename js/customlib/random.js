@@ -3,7 +3,7 @@ class Random {
         if(seed != undefined)
             this.seed = seed;
         else
-            this.seed = 0;
+            this.seed = Date.now();
         if (mult != undefined)
             this.multiplier = mult;
         else

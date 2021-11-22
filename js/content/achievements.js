@@ -12,9 +12,9 @@ function setupachievements() {
   addbasicachievement(new Achievement("10quarkgenone", "A little better, now at 10 Chargers", [new NumRequirement(player.quarkstage.producers[0], 10)], new AchievementRequirement("onequarkgenone"), [new UnlockLogEffect("Spinner Quark Producer"), new UnlockLogEffect("Quark Upgrade that boosts Charger")], null, getbasictag(), 10));
   addbasicachievement(new Achievement("100quarkgenone", "I need the powah!", [new NumRequirement(player.quarkstage.producers[0], 100)], new AchievementRequirement("10quarkgenone"), [new UnlockLogEffect("Acceleron Quark Boost")], null, getbasictag(), 15));
   addbasicachievement(new Achievement("1e3quarkgenone", "Wo! Calm down. ;)", [new NumRequirement(player.quarkstage.producers[0], 1e3)], new AchievementRequirement("100quarkgenone"), [new UnlockLogEffect("Charger Quark Producer autobuyer")], null, getbasictag(), 25));
-  addbasicachievement(new Achievement("1e5quarkgenone", "Getting A large amount.", [new NumRequirement(player.quarkstage.producers[0], "1e5")], new AchievementRequirement("1e3quarkgenone"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 50));
-  addbasicachievement(new Achievement("1e7quarkgenone", "Good Luck Buddy.", [new NumRequirement(player.quarkstage.producers[0], "1e7")], new AchievementRequirement("1e5quarkgenone"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenone", "Ok Ok. A for effort and effect.", [new NumRequirement(player.quarkstage.producers[0], "1e10")], new AchievementRequirement("1e7quarkgenone"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e5quarkgenone", "Getting A large amount.", [new NumRequirement(player.quarkstage.producers[0], "1e5")], new AchievementRequirement("1e3quarkgenone"), [], null, getbasictag(), 50));
+  addbasicachievement(new Achievement("1e7quarkgenone", "Good Luck Buddy.", [new NumRequirement(player.quarkstage.producers[0], "1e7")], new AchievementRequirement("1e5quarkgenone"), [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.quarkstage.producers[0].amount, 2), (obj) => "Quark Production Multiplier Based on Bought Chargers | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenone", "Ok Ok. A for effort and effect.", [new NumRequirement(player.quarkstage.producers[0], "1e10")], new AchievementRequirement("1e7quarkgenone"), [new FunctionEffect(player.quarkstage.producers[0], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Charger Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Spinners
   nextbasicachievementcolumn();
@@ -24,7 +24,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgentwo", "You spin me right round, right round!", [new NumRequirement(player.quarkstage.producers[1], 1e3)], new AchievementRequirement("100quarkgentwo"), [new UnlockLogEffect("Spinner Quark Producer autobuyer.")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgentwo", "Keep at it, eventually your brains will spin out.", [new NumRequirement(player.quarkstage.producers[1], "1e5")], new AchievementRequirement("1e3quarkgentwo"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgentwo", "Just kidding but keep on spinning!", [new NumRequirement(player.quarkstage.producers[1], "1e7")], new AchievementRequirement("1e5quarkgentwo"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgentwo", "Like this will ever happen.", [new NumRequirement(player.quarkstage.producers[1], "1e10")], new AchievementRequirement("1e7quarkgentwo"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgentwo", "Like this will ever happen.", [new NumRequirement(player.quarkstage.producers[1], "1e10")], new AchievementRequirement("1e7quarkgentwo"), [new FunctionEffect(player.quarkstage.producers[1], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Spinner Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Flipper
   nextbasicachievementcolumn();
@@ -34,7 +34,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgenthree", "Flip it and slap it!", [new NumRequirement(player.quarkstage.producers[2], 1e3)], new AchievementRequirement("100quarkgenthree"), [new UnlockLogEffect("Flipper Quark Proucer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgenthree", "Uptown flip.", [new NumRequirement(player.quarkstage.producers[2], "1e5")], new AchievementRequirement("1e3quarkgenthree"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgenthree", "What about the opposite flip, flop?", [new NumRequirement(player.quarkstage.producers[2], "1e7")], new AchievementRequirement("1e5quarkgenthree"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenthree", "I no longer doubt your power.", [new NumRequirement(player.quarkstage.producers[2], "1e10")], new AchievementRequirement("1e7quarkgenthree"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenthree", "I no longer doubt your power.", [new NumRequirement(player.quarkstage.producers[2], "1e10")], new AchievementRequirement("1e7quarkgenthree"), [new FunctionEffect(player.quarkstage.producers[2], EffectTypes.ProducerMultiplierProduction[2], () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Flipper Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Charmer
   nextbasicachievementcolumn();
@@ -44,7 +44,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgenfour", "True loves kiss!", [new NumRequirement(player.quarkstage.producers[3], 1e3)], new AchievementRequirement("100quarkgenfour"), [new UnlockLogEffect("Charm Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgenfour", "Turn the frog!", [new NumRequirement(player.quarkstage.producers[3], "1e5")], new AchievementRequirement("1e3quarkgenfour"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgenfour", "Turns out the kiss did not work, you still got a frog!", [new NumRequirement(player.quarkstage.producers[3], "1e7")], new AchievementRequirement("1e5quarkgenfour"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenfour", "Ok, ya got me drooling now.", [new NumRequirement(player.quarkstage.producers[3], "1e10")], new AchievementRequirement("1e7quarkgenfour"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenfour", "Ok, ya got me drooling now.", [new NumRequirement(player.quarkstage.producers[3], "1e10")], new AchievementRequirement("1e7quarkgenfour"), [new FunctionEffect(player.quarkstage.producers[3], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Charmer Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Eightfold Way
   nextbasicachievementcolumn();
@@ -54,7 +54,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgenfive", "Time to sloooow dooooowwwwwwwwn", [new NumRequirement(player.quarkstage.producers[4], 1e3)], new AchievementRequirement("100quarkgenfive"), [new UnlockLogEffect("Eightfold Way Quark Procuer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgenfive", "Too Many Folds!", [new NumRequirement(player.quarkstage.producers[4], "1e5")], new AchievementRequirement("1e3quarkgenfive"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgenfive", "Not enought Folds!", [new NumRequirement(player.quarkstage.producers[4], "1e7")], new AchievementRequirement("1e5quarkgenfive"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenfive", "Jaw dropped.", [new NumRequirement(player.quarkstage.producers[4], "1e10")], new AchievementRequirement("1e7quarkgenfive"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenfive", "Jaw dropped.", [new NumRequirement(player.quarkstage.producers[4], "1e10")], new AchievementRequirement("1e7quarkgenfive"), [new FunctionEffect(player.quarkstage.producers[4], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Eightfold Way Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought George
   nextbasicachievementcolumn();
@@ -64,7 +64,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgensix", "A college of Georges", [new NumRequirement(player.quarkstage.producers[5], 1e3)], new AchievementRequirement("100quarkgensix"), [new UnlockLogEffect("George Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgensix", "A town of Georges.", [new NumRequirement(player.quarkstage.producers[5], "1e5")], new AchievementRequirement("1e3quarkgensix"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgensix", "Whats better than 1e5 Georges, 1e7!", [new NumRequirement(player.quarkstage.producers[5], "1e7")], new AchievementRequirement("1e5quarkgensix"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgensix", "More Georges than the earths population.", [new NumRequirement(player.quarkstage.producers[5], "1e10")], new AchievementRequirement("1e7quarkgensix"), [new FlavorEffect("Something sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgensix", "More Georges than the earths population.", [new NumRequirement(player.quarkstage.producers[5], "1e10")], new AchievementRequirement("1e7quarkgensix"), [new FunctionEffect(player.quarkstage.producers[5], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "George Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Murray
   nextbasicachievementcolumn();
@@ -74,7 +74,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgenseven", "Should we mix the Murrays and Georges?", [new NumRequirement(player.quarkstage.producers[6], 1e3)], new AchievementRequirement("100quarkgenseven"), [new UnlockLogEffect("Murray Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgenseven", "Timeless, memories.", [new NumRequirement(player.quarkstage.producers[6], "1e5")], new AchievementRequirement("1e3quarkgenseven"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgenseven", "Just impractical.", [new NumRequirement(player.quarkstage.producers[6], "1e7")], new AchievementRequirement("1e5quarkgenseven"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenseven", "You must be a joker.", [new NumRequirement(player.quarkstage.producers[6], "1e10")], new AchievementRequirement("1e7quarkgenseven"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenseven", "You must be a joker.", [new NumRequirement(player.quarkstage.producers[6], "1e10")], new AchievementRequirement("1e7quarkgenseven"), [new FunctionEffect(player.quarkstage.producers[6], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Murray Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Epoch
   nextbasicachievementcolumn();
@@ -84,7 +84,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgeneight", "Time should speed up and slow down.", [new NumRequirement(player.quarkstage.producers[7], 1e3)], new AchievementRequirement("100quarkgeneight"), [new UnlockLogEffect("Epoch Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgeneight", "Wait, there is relativity.", [new NumRequirement(player.quarkstage.producers[7], "1e5")], new AchievementRequirement("1e3quarkgeneight"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgeneight", "Just leave the game running on a ship pc...", [new NumRequirement(player.quarkstage.producers[7], "1e7")], new AchievementRequirement("1e5quarkgeneight"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgeneight", "Then go to another ship and time dilate, PROFIT.", [new NumRequirement(player.quarkstage.producers[7], "1e10")], new AchievementRequirement("1e7quarkgeneight"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgeneight", "Then go to another ship and time dilate, PROFIT.", [new NumRequirement(player.quarkstage.producers[7], "1e10")], new AchievementRequirement("1e7quarkgeneight"), [new FunctionEffect(player.quarkstage.producers[7], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Epoch Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Scattering
   nextbasicachievementcolumn();
@@ -94,7 +94,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgennine", "Lets try some color refraction.", [new NumRequirement(player.quarkstage.producers[8], 1e3)], new AchievementRequirement("100quarkgennine"), [new UnlockLogEffect("Scattering Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgennine", "You need some prisms.", [new NumRequirement(player.quarkstage.producers[8], "1e5")], new AchievementRequirement("1e3quarkgennine"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgennine", "Can I add more scatter?", [new NumRequirement(player.quarkstage.producers[8], "1e7")], new AchievementRequirement("1e5quarkgennine"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgennine", "Can you even scatter more?", [new NumRequirement(player.quarkstage.producers[8], "1e10")], new AchievementRequirement("1e7quarkgennine"), [new FlavorEffect("Something Sometime")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgennine", "Can you even scatter more?", [new NumRequirement(player.quarkstage.producers[8], "1e10")], new AchievementRequirement("1e7quarkgennine"), [new FunctionEffect(player.quarkstage.producers[8], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Scattering Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Bought Big Bang
   nextbasicachievementcolumn();
@@ -104,7 +104,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("1e3quarkgenten", "Time flies.", [new NumRequirement(player.quarkstage.producers[9], 1e3)], new AchievementRequirement("100quarkgenten"), [new UnlockLogEffect("Big Banger Quark Producer autobuyer")], null, getbasictag(), 25));
   addbasicachievement(new Achievement("1e5quarkgenten", "It is on repeat.", [new NumRequirement(player.quarkstage.producers[9], "1e5")], new AchievementRequirement("1e3quarkgenten"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 50));
   addbasicachievement(new Achievement("1e7quarkgenten", "On the edge of time.", [new NumRequirement(player.quarkstage.producers[9], "1e7")], new AchievementRequirement("1e5quarkgenten"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10quarkgenten", "COLLAPSE!", [new NumRequirement(player.quarkstage.producers[9], "1e10")], new AchievementRequirement("1e7quarkgenten"), [new FlavorEffect("Something Sometime.")], null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10quarkgenten", "COLLAPSE!", [new NumRequirement(player.quarkstage.producers[9], "1e10")], new AchievementRequirement("1e7quarkgenten"), [new FunctionEffect(player.quarkstage.producers[9], EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Big Bang Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 100));
 
   //Total Producer Bought
   nextbasicachievementcolumn();
@@ -118,13 +118,13 @@ function setupachievements() {
 
   //Quark Boosts
   nextbasicachievementcolumn();
-  addbasicachievement(new Achievement("10boosts", "Buy 10 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(9), "10 Quark Producers Bought"), new AchievementRequirement("100quarkgenone"), [new FlavorEffect("To easy nothing for you")], null, getbasictag(), 5));
-  addbasicachievement(new Achievement("100boosts", "Buy 100 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(99), "100 Quark Producers Bought"), new AchievementRequirement("10boosts"), null, null, getbasictag(), 25));
-  addbasicachievement(new Achievement("1000boosts", "Buy 1000 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(999), "1000 Quark Producers Bought"), new AchievementRequirement("100boosts"), null, null, getbasictag(), 50));
-  addbasicachievement(new Achievement("1e5boosts", "Buy 1e5 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e5), "1e5 Quark Producers Bought"), new AchievementRequirement("1000boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 75));
-  addbasicachievement(new Achievement("1e7boosts", "Buy 1e7 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e7), "1e7 Quark Producers Bought"), new AchievementRequirement("1e5boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 100));
-  addbasicachievement(new Achievement("1e10boosts", "Buy 1e10 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e10), "1e10 Quark Producers Bought"), new AchievementRequirement("1e7boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 150));
-  addbasicachievement(new Achievement("1e15boosts", "Buy 1e15 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e15), "1e15 Quark Producers Bought"), new AchievementRequirement("1e10boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 250));
+  addbasicachievement(new Achievement("10boosts", "Buy 10 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(9), "10 Quark Boosts Bought"), new AchievementRequirement("100quarkgenone"), [new FlavorEffect("To easy nothing for you")], null, getbasictag(), 5));
+  addbasicachievement(new Achievement("100boosts", "Buy 100 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(99), "100 Quark Boosts Bought"), new AchievementRequirement("10boosts"), null, null, getbasictag(), 25));
+  addbasicachievement(new Achievement("1000boosts", "Buy 1000 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThan(999), "1000 Quark Boosts Bought"), new AchievementRequirement("100boosts"), null, null, getbasictag(), 50));
+  addbasicachievement(new Achievement("1e5boosts", "Buy 1e5 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e5), "1e5 Quark Boosts Bought"), new AchievementRequirement("1000boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 75));
+  addbasicachievement(new Achievement("1e7boosts", "Buy 1e7 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e7), "1e7 Quark Boosts Bought"), new AchievementRequirement("1e5boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 100));
+  addbasicachievement(new Achievement("1e10boosts", "Buy 1e10 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e10), "1e10 Quark Boosts Bought"), new AchievementRequirement("1e7boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 150));
+  addbasicachievement(new Achievement("1e15boosts", "Buy 1e15 Quark Boosts", new FunctionRequirement(() => totalupgradebought(player.quarkstage.upgrades).greaterThanOrEqualTo(1e15), "1e15 Quark Boosts Bought"), new AchievementRequirement("1e10boosts"), new FlavorEffect("Bragging Rights"), null, getbasictag(), 250));
 
 
   //Quark Milestones
@@ -135,7 +135,7 @@ function setupachievements() {
   addbasicachievement(new Achievement("quarkupgradesauto", "Unlocks automation for all upgrades in the Quark Boost tab.", [new NumRequirement(player.quarkstage.quarks, "1e60")], new AchievementRequirement("multronunlock"), [new UnlockLogEffect("10? New Quark Boost autobuyers")], null, getbasictag(), 100));
   addbasicachievement(new Achievement("quarkupgradesunlock", "Unlocks two new upgrades in the Quark Boost tab.", [new NumRequirement(player.quarkstage.quarks, "1e100")], new AchievementRequirement("quarkupgradesauto"), [new UnlockLogEffect("Acceleratron Quark Boost"), new UnlockLogEffect("Multiplier Quark Boost")], null, getbasictag(), 150));
   addbasicachievement(new Achievement("infinityquarks", "What infinity gives more automation, who could have known?", [new NumRequirement(player.quarkstage.quarks, "1.8e308")], new AchievementRequirement("quarkupgradesunlock"), [new UnlockLogEffect("Even more automation, will greatly help when nucleonizing! (Recommended before nucleonizing for the first time)")], null, getbasictag(), 250));
-  addbasicachievement(new Achievement("over9000quarks", "Its over 9000!!", [new NumRequirement(player.quarkstage.quarks, "1e9001")], new AchievementRequirement("infinityquarks"), [new FlavorEffect("IDK Yet")], null, getbasictag(), 1000));
+  addbasicachievement(new Achievement("over9000quarks", "Its over 9000!!", [new NumRequirement(player.quarkstage.quarks, "1e9001")], new AchievementRequirement("infinityquarks"), [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => Decimal.pow(player.achievements.points, Decimal.log(player.achievements.points, 2)), (obj) => "Quark Production Multiplier Based on Achievment Points | Currently *" + formatDecimalNormal(obj.value))], null, getbasictag(), 1000));
 
   //Electrolize Milestone
   nextbasicachievementcolumn();
@@ -272,18 +272,44 @@ function setupachievements() {
   addbasicachievement(new Achievement("1nucleonize", "You made it V2, Congrats!!", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 1, "Nucleonize 1 Time")], new AchievementRequirement("nucleonizeunlock"), [new FlavorEffect("Lots of new Electron and Quark Upgrades")], null, getbasictag(), 10));
   //var antielectronreward = new PrestigeReward(player.nucleonstage.antiverse.positrons, player.electronstage.nucleonize.rewards[0], (num) => Decimal.pow(num, .5));
   addbasicachievement(new Achievement("10nucleonize", "Buying electron upgrades is getting repetative no?", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 10, "Nucleonize 10 Times")], new AchievementRequirement("1nucleonize"), [new FlavorEffect("Electron upgrade autobuyer, yay!")], null, getbasictag(), 25));//, new FunctionalEffect(() => player.electronstage.nucleonize.addreward(antielectronreward),() => player.electronstage.nucleonize.removereward(antielectronreward))], null, getbasictag()));
-  addbasicachievement(new Achievement("25nucleonize", "Getting Up There", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 25, "Nucleonize 25 Times")], new AchievementRequirement("10nucleonize"), [new UnlockLogEffect("Nucleon Split (New Mechanic)", new UnlockLogEffect("Nucleon Gain Formula Much Better"))], null, getbasictag(), 50));
-  addbasicachievement(new Achievement("100nucleonize", "I want progress", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 100, "Nucleonize 100 Times")], new AchievementRequirement("25nucleonize"), [new FlavorEffect("")], null, getbasictag(), 75));
-  addbasicachievement(new Achievement("250nucleonize", "I want progress", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 250, "Nucleonize 250 Times")], new AchievementRequirement("100nucleonize"), [new FlavorEffect("")], null, getbasictag()), 100);
+  addbasicachievement(new Achievement("25nucleonize", "Getting Up There", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 25, "Nucleonize 25 Times")], new AchievementRequirement("10nucleonize"), [new UnlockLogEffect("Nucleon Gain Formula Much Better")], null, getbasictag(), 50));
+  addbasicachievement(new Achievement("100nucleonize", "I want progress", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 100, "Nucleonize 100 Times")], new AchievementRequirement("25nucleonize"), [new UnlockLogEffect("Nucleon Split (New Mechanic)")], null, getbasictag(), 75));
+  addbasicachievement(new Achievement("250nucleonize", "I want progress", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 250, "Nucleonize 250 Times")], new AchievementRequirement("100nucleonize"), [new StaticEffect(player.electronstage.nucleonize, EffectTypes.PrestigeMultiplicativeGain, 2, null, () => "Nucleon Gain *2")], null, getbasictag()), 100);
   addbasicachievement(new Achievement("1000nucleonize", "I want progress", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 1000, "Nucleonize 1000 Times")], new AchievementRequirement("250nucleonize"), [new FlavorEffect("")], null, getbasictag()), 200);
   addbasicachievement(new Achievement("1e100nucleonize", "Insane?", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 1e100, "Nucleonize 1e100 Times")], new AchievementRequirement("1000nucleonize"), [new FlavorEffect("")], null, getbasictag(), 10000));
 
   //On To Achievements Past Nucleonize
+  //Nucleon Split
+  split = player.nucleonstage.split.gridinfo;
+  //Neutron Achievements (Mostly for unlocking split piece type, ect.)
+  nextbasicachievementcolumn();
+  addbasicachievement(new Achievement("1e3neutron", "A good jump start", new NumRequirement(getcurrency("neutron"), "1e3"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Multiplier"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenmult")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenmult")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e6neutron", "A better overall count", new NumRequirement(getcurrency("neutron"), "1e6"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Power"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenpow")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenpow")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e12neutron", "Time to unlock something new.", new NumRequirement(getcurrency("neutron"), "1e12"), null, [new UnlockLogEffect("Piece Type: Red"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("red", "protongenbase")}, () => {split.piecegenerator.removepossibleeffect("red", "protongen base")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e25neutron", "A new type of effect", new NumRequirement(getcurrency("neutron"), "1e25"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Multiplier"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenmult")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenmult")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e100neutron", "Yep, not broken at all", new NumRequirement(getcurrency("neutron"), "1e100"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Multiplier"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenmult")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenmult")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e1000neutron", "Better Dust Production", new NumRequirement(getcurrency("neutron"), "1e1000"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Multiplier"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenmult")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenmult")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+  addbasicachievement(new Achievement("1e1e5neutron", "Way to much, but someday", new NumRequirement(getcurrency("neutron"), "1e100000"), null, [new UnlockLogEffect("Piece Type: White, Effect + Nuetron Production Multiplier"), new FunctionalEffect(() => {split.piecegenerator.addpossibleeffect("white", "neutrongenmult")}, () => {split.piecegenerator.removepossibleeffect("white", "neutrongenmult")}, () => "Adds 1 Chance for white type to generate with nuetron multiplier")], null, getbasictag(), 10));
+
+  //Proton Achievements
+  nextbasicachievementcolumn();
+  addbasicachievement(new Achievement("1e40proton", "Lots of protons", new NumRequirement(getcurrency("proton"), "1e40"), null, new UnlockLogEffect("Hydrogen Hill, A new mechanic"),null , getbasictag(), 10));
+
+  //Starting Hydrogen Hill
+  nextbasicachievementcolumn();
+  addbasicachievement(new Achievement("1e40primedproton", "Why? Boosts of course", new NumRequirement(getcurrency("primedproton"), "1e40"), null, [new UnlockLogEffect("H-2 Replicator"), new UnlockLogEffect("Hydrogen Prestige")], null, getbasictag(), 10))
 
   //hydrogen Hill h-2
   nextbasicachievementcolumn();
   var baseh2boost = new FunctionEffect(getproducer("protongen"), EffectTypes.ProducerMultiplierProduction, () => new Decimal(Decimal.log(getproducer("h2").amount, 10)).add(1), (obj) => "Proton Production *" + formatDecimalOverride(obj.value, 2))
-  addbasicachievement(new Achievement("10h2", "Thats a factor of 10", new NumRequirement(getproducer("h2"), "10"), null, new FunctionalEffect(() => {getproducer("h2").addbasedeffect(baseh2boost)}, () => {getproducer("h2").removebasedeffect(baseh2boost)}), null, getbasictag(), 10));
+  addbasicachievement(new Achievement("10h2", "Thats a factor of 10", new NumRequirement(getproducer("h2"), "10"), null, new FunctionalEffect(() => {getproducer("h2").addbasedeffect(baseh2boost)}, () => {getproducer("h2").removebasedeffect(baseh2boost)}, () => "Replicator H-2 Now Has New Effect"), null, getbasictag(), 50))
+  addbasicachievement(new Achievement("1e40h2", "That Is A Lot", new NumRequirement(getproducer("h2"), "1e40"), null, new UnlockLogEffect("H-3 Replicator"), null, getbasictag(), 100))
+  var h2boost2 = new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => Decimal.max(getproducer("h2").amount.divide("1e100"), 1), (obj) => "Quark Production *" + formatDecimalNormal(obj.value))
+  addbasicachievement(new Achievement("1e100h2", "A Google!", new NumRequirement(getproducer("h2"), "1e100"), null, new FunctionalEffect(() => {getproducer("h2").addbasedeffect(h2boost2)}, () => {getproducer("h2").removebasedeffect(h2boost2)}, () => "Replicator H-2 Now Has New Effect"), null, getbasictag(), 250))
+  addbasicachievement(new Achievement("1e500h2", "Still a long ways to go", new NumRequirement(getproducer("h2"), "1e500"), null, new FlavorEffect("ADD EFFECT DUMMY"), null, getbasictag(), 500))
+  addbasicachievement(new Achievement("1e2500h2", "Having Fun?", new NumRequirement(getproducer("h2"), "1e2500"), null, new FlavorEffect("ADD EFFECT DUMMY"), null, getbasictag(), 1000))
+  addbasicachievement(new Achievement("1e10000h2", "Now comes the grind", new NumRequirement(getproducer("h2"), "1e10000"), null, new FlavorEffect("ADD EFFECT DUMMY"), null, getbasictag(), 2500))
+  addbasicachievement(new Achievement("1e1000000h2", "You Made It", new NumRequirement(getproducer("h2"), "1e10000"), null, new FlavorEffect("ADD EFFECT DUMMY"), null, getbasictag(), 10000))
 
   //Special Achievments
   player.achievements.special = [];
@@ -303,6 +329,15 @@ function updateachievementpointmax(){
 function resetachievements() {
   achievementregistry.forEach((achieve, i) => {
     achieve.reset();
+  });
+}
+
+function resetachievement(achieveid){
+  achievementregistry.forEach((achieve, i) => {
+    if (achieve.id == achieveid) {
+      achieve.forcelock();
+      return;
+    }
   });
 }
 

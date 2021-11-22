@@ -109,6 +109,8 @@ class FunctionCost{
 
   effectchanged(){}
 
+  reset(){}
+
   recalculatecost(amount){
     if(this.costfunc != undefined)
       this.cost = this.costfunc(amount);
@@ -239,6 +241,7 @@ class CombinedCost {
   }
 
   getmaxbuyable(amount){
+    return new Decimal();
     var costind = 0;
     for(var i = 0; i < this.startingamounts.length; i++){
       if(amount.greaterThanOrEqualTo(this.startingamounts[i]))

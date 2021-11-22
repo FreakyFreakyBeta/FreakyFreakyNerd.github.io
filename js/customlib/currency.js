@@ -67,7 +67,7 @@ class Currency{
 }
 
 class ExponentialGrowingCappedCurrency{
-  constructor(id, displayname, startingamount, defaultincrease, defaultcap, effects){
+  constructor(id, displayname, startingamount, defaultincrease, defaultcap, effects, unlockrequirement){
       this.id = id;
       this.displayname = displayname;
       this.startingamount = new Decimal(startingamount)
@@ -85,7 +85,35 @@ class ExponentialGrowingCappedCurrency{
       this.capmult = new Decimal(1);
       this.capmulteffects = [];
 
+      if(Array.isArray(unlockrequirement) || unlockrequirement == undefined)
+        this.unlockrequirement = unlockrequirement
+      else
+        this.unlockrequirement = [unlockrequirement]
+      this.unlocked = false;
+
       producerregistry.push(this);
+      updaterequiredregistry.push(this);
+  }
+
+  tick(){
+    if(this.unlocked)
+      updaterequiredregistry.splice(updaterequiredregistry.indexOf(this),1)
+    this.checkunlock();
+  }
+
+  checkunlock(){
+    if(this.unlockrequirement == undefined){
+      this.unlocked = true;
+      return
+    }
+    this.unlocked = true;
+    this.unlockrequirement.forEach((unl) => {
+      if(!unl.hasRequirement()){
+        this.unlocked = false;
+        return
+      }
+    })
+    return
   }
 
   recalculatecosts(){};
@@ -165,7 +193,8 @@ class ExponentialGrowingCappedCurrency{
   }
 
   produce(millis){
-    this.add(Decimal.pow(this.increase, millis));
+    if(this.unlocked)
+      this.add(Decimal.pow(this.increase, millis));
   }
 
   get iconpath(){
@@ -180,9 +209,14 @@ class ExponentialGrowingCappedCurrency{
     var out = "";
     if(this.effects.length > 0){
       out += "Effects:\n";
-      this.effects.forEach(eff => {
-        out += eff.geteffect();
+      this.effects.forEach((eff, i) => {
+        if(i != 0 || this.amount.greaterThan("1e40")){
+          out += eff.geteffect();
+          if(i < this.effects.length -1)
+            out += "\n";
+        }
       })
+      
     }
     return out;
   }
@@ -219,7 +253,7 @@ class ExponentialGrowingCappedCurrency{
   }
 
   get ratio(){
-    return Math.floor((this.amount.divide(this.cap)).toNumber()*10000)/100;
+    return Math.floor((Decimal.log(this.amount, 10)/(Decimal.log(this.cap, 10)))*10000)/100;
   }
 
   get amountdescription(){

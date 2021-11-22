@@ -84,6 +84,16 @@ class LinearProduction {
     this.productionobject.add(this.production.times(prodratio));
   }
 
+  getbestprodratio(ratio){
+    if(this.productionper.greaterThan(0))
+      return ratio;
+    if(this.productionobject.amount.lessThanOrEqualTo(0))
+      return 0;
+    var temp = this.productionobject.amount.divide(this.production).times(-1);
+    if(temp.lessThan(ratio))
+      return temp;
+  }
+
   get productionper() {
     return Decimal.pow((this.productionincrease.add(this.additionproduction)).times(this.multiplier), this.exponent);
   }
@@ -105,6 +115,7 @@ class LinearProduction {
       this.staticeffects.push(effect);
       this.recalculatestaticproduction();
     }
+    this.recalculateproduction(this.queuedamount);
   }
 
 
@@ -114,6 +125,7 @@ class LinearProduction {
       if (ind > -1) {
         this.additioneffects.splice(ind, 1);
         this.recalculateproductionaddition();
+        console.log("Remove", ind, this.additionproduction);
       }
     }
     if (effect.effecttype == EffectTypes.ProducerMultiplierProduction) {
@@ -137,5 +149,6 @@ class LinearProduction {
         this.recalculatestaticproduction();
       }
     }
+    this.recalculateproduction(this.queuedamount);
   }
 }

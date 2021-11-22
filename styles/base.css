@@ -486,7 +486,7 @@ td.righttablecolumn {
 }
 
 /* Prestige Display */
-#prestigedisplay{
+.prestigedisplay{
   width: 100%;
   height: 56px;
   overflow-x: auto;
@@ -494,7 +494,7 @@ td.righttablecolumn {
   margin-left: 1px;
 }
 
-#prestigegain{
+.prestigegain{
   width: 100%;
   overflow-x: auto;
   margin-top: 1px;
@@ -517,6 +517,22 @@ td.righttablecolumn {
 .prestigeicon:hover{
   cursor: pointer;
 }
+
+.hydrogenprestige{
+  width: 500px !important;
+  height: 34px;
+}
+
+.hydrogenprestigdisplay{
+  float: left;
+  display: inline;
+}
+
+.hydrogenprestigegain{
+  float: left;
+  display: inline;
+}
+
 
 /*Producer Display*/
 .producerrow{

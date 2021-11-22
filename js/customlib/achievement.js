@@ -27,7 +27,7 @@ class Achievement{
   }
 
   get iconpath(){
-    if(this.show)
+    if(this.show || !player.options.hideachievements)
       return this.id;
     return "hidden";
   }
@@ -75,6 +75,11 @@ class Achievement{
     this.show = true;
     this.onunlock();
   }
+  forcelock(){
+    this.unlocked = false;
+    this.show = false;
+    this.onrevoke();
+  }
 
   checkforshow(){
     if (this.showdescriptionrequirements == undefined || this.unlocked){
@@ -106,6 +111,9 @@ class Achievement{
       this.effects.forEach((effect, i) => {
         effect.remove();
       });
+    if (this.value != undefined){
+      player.achievements.points -= this.value;
+    }
   }
 
   recalculateeffects(){
@@ -138,13 +146,13 @@ class Achievement{
   }
 
   get title(){
-    if(this.show)
+    if(this.show || !player.options.hideachievements)
       return this.tag + " " + this.displayname;
     return this.tag + " ???";
   }
 
   get effect(){
-    if(!this.show)
+    if(!this.show && player.options.hideachievements)
       return "";
     var description = "";
     description += "Effects:\n";

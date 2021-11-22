@@ -145,6 +145,7 @@ class EffectsBoardPiece extends BoardPiece {
 
     unapplypiece(){
         this.effects.forEach(elem => {
+            console.log("unapply");
             elem.remove();
         });
     }
@@ -177,7 +178,7 @@ class EffectsBoardPiece extends BoardPiece {
             })
         }
         value = Math.pow(value, this.blocks/10 + 1) * Math.pow(1.25, this.blocks * this.level * this.effects.length);
-        return value;
+        return new Decimal(value);
     }
 
     parse(data){

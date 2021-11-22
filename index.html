@@ -30,7 +30,7 @@
       <a class="menubutton nucleonsplitmenubutton" v-bind:class='{menubuttonactive : screenopen("nucelonsplit")}' onclick='openscreen("nucelonsplit")'
         v-if='hasachievement("25nucleonize")'>Nucleon Split</a>
       <a class="menubutton hydrogenmenubutton" v-bind:class='{menubuttonactive : screenopen("hydrogenhill")}' onclick='openscreen("hydrogenhill")'
-        v-if='hasachievement("25nucleonize")'>Hydrogen Hill</a>
+        v-if='hasachievement("1e40proton")'>Hydrogen Hill</a>
       <a class="menubutton antiversemenubutton" v-bind:class='{menubuttonactive : screenopen("antiverse")}' onclick='openscreen("antiverse")'
         v-if='hasachievement("impnucleonize")'>Antiverse</a>
     <a class="menubutton achievementmenubutton" v-bind:class='{menubuttonactive : screenopen("achievements")}' onclick='openscreen("achievements")'>Achievements</a>
@@ -378,8 +378,8 @@
           </div>
         </div>
         <div id="hydrogenhillscreen" style="display: none">
-          <div class="centered">
-            <table id="currenciestable">
+          <div>
+            <table>
               <tr class="currenciesrow">
                 <td class="currenciescell">
                   <currency-display v-bind:currency='player.nucleonstage.split.protons'></currency-display>
@@ -387,19 +387,30 @@
                 <td class="currenciescell">
                   <currency-display v-bind:currency='player.nucleonstage.hydrogenhill.primedproton'></currency-display>
                 </td>
-                <td class="currenciescell">
-                  <currency-display v-bind:currency='player.nucleonstage.hydrogenhill.hydrogen'></currency-display>
+                <td id="hydrogenprestige" v-if='hasachievement("1e40hydrogen")'>
+                  <div id="hydrogenprestigedisplay">
+                    <prestige-icon-noselect v-bind:prestige="player.nucleonstage.hydrogenhill.createprotons">
+                    </prestige-icon-noselect>
+                  </div>
+                  <div id="hydrogenprestigegain">
+                    <prestige-requirement v-bind:requirement="player.nucleonstage.hydrogenhill.createprotons.requirement"></prestige-requirement>
+                    <prestige-reward v-for="reward in player.nucleonstage.hydrogenhill.createprotons.rewards" v-bind:reward="reward"></prestige-reward>
+                  </div>
                 </td>
               </tr>
             </table>
             <br>
+            <div v-if='hasachievement("1e40hydrogen")'>
+              <upgrade-bonus v-bind:upgrade="player.nucleonstage.hydrogenhill.hydrogen"></upgrade-bonus>
+            </div>
+            <br>
             <div>
               <toggleable-producers-display type="primedproton" v-bind:producers="player.nucleonstage.hydrogenhill.primedprotonproducers"></toggleable-producers-display>
             </div>
-            <div class="replicatortable">
+            <div class="replicatortable" v-if='hasachievement("1e40hydrogen")'>
             <table >
               <tr class="replicatorrow">
-                <td v-for="replc in player.nucleonstage.hydrogenhill.mound" class="replicatorcell">
+                <td v-for="replc in player.nucleonstage.hydrogenhill.mound" class="replicatorcell" v-if="replc.currency.unlocked">
                   <replicator v-bind:replicator="replc" ></replicator>
                 </td>
               </tr>
@@ -468,6 +479,7 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="js/lib/tslib.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>

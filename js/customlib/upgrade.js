@@ -89,6 +89,10 @@ class Upgrade {
     }
   }
 
+  get iconpath() {
+    return "images/upgrade/"+this.id+".png";
+  }
+
   get extraamount() {
     return this.produced.add(this.bonus.times(this.bonusmult));
   }
@@ -293,7 +297,7 @@ class Upgrade {
       else
         maxamount = this.limit.minus(this.bought);
     }
-    if ((maxamount.greaterThan(this.maxbuyable) && this.maxbuyable.greaterThan(0)))
+    if (this.maxbuyable != undefined && (maxamount.greaterThan(this.maxbuyable) && this.maxbuyable.greaterThan(0)))
       maxamount = this.maxbuyable;
     return maxamount;
   }

@@ -18,6 +18,9 @@ class Board {
     }
 
     reset(hard){
+        this.pieces.forEach(piece =>{
+            piece.unapplypiece();
+        })
         this.pieces = [];
         this.selectedpiece = undefined;
         this.pendingpieces = [];
@@ -30,11 +33,11 @@ class Board {
         this.updateboardtiles();
     }
 
-    scrapbench(){
+    scrapbench(mult = 1){
         var temp = [];
         this.pendingpieces.forEach(piece => {
             if(piece.type != "key"){
-                this.scrapcurrency.add(piece.scrapvalue);
+                this.scrapcurrency.add(piece.scrapvalue.times(mult));
                 temp.push(temp);
             }
         });
@@ -44,18 +47,68 @@ class Board {
         this.updateboardtiles();
     }
 
+    get width(){
+        return this.basewidth;
+    }
+    get height(){
+        return this.baseheight;
+    }
+
+    psuedopopulate(){
+        var removed = [];
+        this.pendingpieces.forEach(piece => {
+            var breaker = false;
+            for(var x = 0; x < this.width; x++){
+                for(var y = 0; y < this.height; y++){
+                    if(this.placepiecetoposition(x,y,piece)){
+                        removed.push(piece);
+                        breaker = true;
+                        return;
+                    }
+                }
+                if(breaker)
+                    return;
+            }
+        })
+        removed.forEach(tmp => {
+            this.pendingpieces.splice(this.pendingpieces.indexOf(tmp), 1);
+        })
+        this.updateboardtiles();    
+    }
+
+    clear(){
+        this.pieces.forEach(piece => {
+            this.pendingpieces.push(piece);
+            piece.unapplypiece();
+        })
+        this.pieces = [];
+        this.updateboardtiles();
+    }
+
+    scrapall(mult = 1){
+        this.clear();
+        this.scrapbench(mult);
+    }
+
     addpendingpiece(piece){
         if(piece != undefined)
             this.pendingpieces.push(piece);
     }
 
+    addpendingpieces(pieces){
+        if(pieces != undefined)
+            this.pendingpieces = [...this.pendingpieces, ...pieces];
+    }
+
     placepiecetoposition(x, y, piece) {
-        if (piece == undefined || this.haspiececollision(piece))
-            return;
+        if (piece == undefined || this.haspiececollision(piece, x, y))
+            return false;
         //piece.positionpiece(x, y);
         this.pieces.push(piece);
+        piece.positionpiece(x,y);
         piece.applypiece();
         this.selectedpiece = undefined;
+        return true;
     }
 
     placepiecetotile(tile, piece) {
@@ -110,7 +163,7 @@ class Board {
         });
     }
 
-    haspiececollision(piece) {
+    haspiececollision(piece, x, y) {
         var collision = false;
         piece.rotatedpiece.forEach((rp, yt) => {
             if (collision)
@@ -119,7 +172,7 @@ class Board {
                 if (collision)
                     return;
                 if (cell == 1) {
-                    var tp = this.getpieceat(piece.x + xt, piece.y + yt);
+                    var tp = this.getpieceat(x + xt, y + yt);
                     if (tp != undefined)
                         collision = true;
                 }
@@ -189,6 +242,8 @@ class Board {
         this.pendingpieces.forEach(piece => {
             pending.push(piece.savedata);
         });
+        if(this.selectedpiece != undefined)
+            pending.push(this.selectedpiece.savedata);
         data.pending = pending;
 
         return data

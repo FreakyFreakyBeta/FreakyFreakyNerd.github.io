@@ -17,9 +17,11 @@ var settings = {
     doconsoleoutput: false,
     confirmations: {
       electrify: true,
-      nucleonize: true
+      nucleonize: true,
+      gensplitpiecegen: true
     },
-    gamespeedmodifier: 1
+    gamespeedmodifier: 1,
+    hideachievements : true
   },
   defaultstats: {
     times: { game: Date.now() },

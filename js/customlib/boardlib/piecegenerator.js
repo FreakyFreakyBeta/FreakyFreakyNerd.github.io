@@ -1,5 +1,5 @@
 class PieceGenerator {
-    constructor(id, basewidth, baseheight, newpiececost, upgradecosts, upgrademaxes, minfuncs, maxfuncs, buykey) {
+    constructor(id, basewidth, baseheight, newpiececost, upgradecosts, upgrademaxes, minfuncs, maxfuncs, buykey, board) {
         this.id = id;
         this.newpiececost = newpiececost;
         this.boughtpieces = 0;
@@ -7,20 +7,108 @@ class PieceGenerator {
         this.upgrademaxes = upgrademaxes;
         this.minfuncs = minfuncs;
         this.maxfuncs = maxfuncs;
-        this.upgradelevels = { "width": new Decimal(basewidth), "height": new Decimal(baseheight), "effectmax": new Decimal(1) };
+        this.basewidth = basewidth;
+        this.baseheight = baseheight;
+        this.setuplevels();
+        this.buykey = buykey;
+        this.board = board;
+        this.typeran = new Random();
+        this.effectran = new Random();
+
+        updaterequiredregistry.push(this)
+
+        this.possibletypes = [];
+        this.possibleeffects = {};
+
+        this.reset = async (gen) => {
+            console.log("gen"+gen.id);
+            if (player.options.confirmations["gen"+gen.id]) {
+              var confirm = await confirmtest("Reset Piece Costs, and keep all Upgrades bought with dust, but automatically scraps all pieces with a multiplier. Will also make the Generator go on cooldown!");
+              if (!confirm)
+                return false;
+            }
+            gen.boughtpieces = 0;
+            gen.board.scrapall(gen.getupgradevalue("scrapmult"));
+            return true;
+          }
+    }
+
+    prestige(){
+        this.reset(this);
+    }
+
+
+    setuplevels(){
+        this.upgradelevels = { "width": new Decimal(this.basewidth), "height": new Decimal(this.baseheight), "effectmax": new Decimal(1) };
         for (var i = 0; i < this.minfuncs.length; i++) {
             this.upgradelevels["min" + i] = new Decimal();
             this.upgradelevels["max" + i] = new Decimal();
         }
-        this.buykey = buykey;
+        this.upgradelevels = {...this.upgradelevels, "scrapmult" : new Decimal(2)}
+    }
 
-        updaterequiredregistry.push(this)
-        this.a = 0;
+    reset(hard){
+        this.setuplevels();
+        this.boughtpieces = 0;
+        this.tick();
+    }
+
+    get savedata(){
+        return [this.boughtpieces, this.upgradelevelssave]
+    }
+
+    parse(data){
+        if(data == undefined)
+            return;
+        if(data[0] != undefined)
+            this.boughtpieces = data[0];
+        if(data[1] != undefined)
+            this.parselevels(data[1]);
+        
+        this.tick();
+    }
+
+    parselevels(data){
+        var split = data.split(',');
+        this.types.forEach((type, i) => {
+            if(i < split.length - 1)
+                this.upgradelevels[type] = new Decimal(split[i]);
+        })
+    }
+
+    get upgradelevelssave(){
+        var out = "";
+        this.types.forEach((type, i) =>{
+            out += this.upgradelevels[type].toString();
+            if(i < this.types.length)
+                out += ","
+        })
+        return out;
     }
 
     tick() {
         this.updatepiececost();
         this.updateupgradecosts();
+    }
+
+    addpossibletype(type){
+        if(this.possibletypes.indexOf(type) > 0)
+            return;
+        this.possibletypes.push(type);
+        this.possibleeffects[type] = [];
+    }
+
+    addpossibleeffect(type, effect, amount = 1){
+        if(this.possibletypes.indexOf(type) < 0)
+            this.addpossibletype(type);
+        for(var i = 0; i < amount; i++)
+            this.possibleeffects[type].push(effect);
+    }
+
+    removepossibleeffect(type, effect, amount = 1){
+        if(this.possibletypes.indexOf(type) < 0)
+            return
+        this.possibleeffects[type] = undefined;
     }
 
     getupgradelevel(type) {
@@ -31,6 +119,10 @@ class PieceGenerator {
             return formatDecimalOverride(this.getmaxvalue(ind), 2);
         if (this.upgradelevels[type] != undefined)
             return formatDecimalNormal(this.upgradelevels[type]);
+    }
+
+    getupgradevalue(type){
+        return this.upgradelevels[type];
     }
 
     getmincapped(ind) {
@@ -134,6 +226,18 @@ class PieceGenerator {
         return undefined;
     }
 
+    bulkbuypieces(){
+        var tmp = [];
+        var i = 0;
+        while(this.newpiececost.hascost){
+            tmp.push(this.buypiece())
+            i++;
+            if(i > 100)
+                break;
+        }
+        return tmp;
+    }
+
     get piececost() {
         return this.newpiececost.description;
     }
@@ -160,7 +264,7 @@ class PieceGenerator {
 
     generatepiece() {
         var shape = generatepieceshape(1, 1, this.getmaxwidth(), this.getmaxheight());
-        var type = generatetype();
+        var type = this.generatetype();
         var effectamounts = generateeffectamounts(this.getmaxeffects());
         var effects = {};
         if(effectamounts >= possibleeffects[type].length)
@@ -173,7 +277,7 @@ class PieceGenerator {
                 var temp = true
                 var count = 0
                 while (temp && count  < 1000){
-                    var eff = generateeffecttype(type)
+                    var eff = this.generateeffecttype(type)
                     if(effects[eff] == undefined){
                         effects[eff] = generateweights(this.getmins(), this.getmaxs());
                         temp = false;
@@ -190,6 +294,14 @@ class PieceGenerator {
             return generatorupgradenames[type];
         return "No Name"
     }
+
+    generatetype() {
+        return this.possibletypes[this.typeran.nextInt(0, this.possibletypes.length - 1)];
+    }
+
+    generateeffecttype(type) {
+        return this.possibleeffects[type][this.effectran.nextInt(0, this.possibleeffects[type].length - 1)];
+    }
 }
 generatorupgradenames = {
     "width": "Maximum Piece Width",
@@ -200,10 +312,12 @@ generatorupgradenames = {
     "max0": "Weight 1 Maximum Value (Generally Base Value)",
     "max1": "Weight 2 Maximum Value (Generally Multipler to Effect Value)",
     "max2": "Weight 3 Maximum Value (Generally Power to Effect Value)",
-    "effectmax": "Maximum Amount of unique Effects On Each Piece"
+    "effectmax": "Maximum Amount of unique Effects On Each Piece",
+    "scrapmult": "Multiplier to Scrap When Reseting Piece Price"
 }
 
 function setpieceupgradeeffects() {
+    //Reference Only No Actual Use
     possibleeffects = {
         "white": ["neutrongenbase", "neutrongenmult", "neutrongenpow"],
         "red": ["protongenbase", "protongenmult", "protongenpow"],
@@ -214,11 +328,11 @@ function setpieceupgradeeffects() {
     }
 
     effectfunctions = {
-        "neutrongenbase": (blocks, weights, level) => new Decimal(Math.pow(weights[0] * weights[1], weights[2])*Math.pow(1.5, blocks*level)),
-        "neutrongenmult": (blocks, weights, level) => new Decimal(1 + Math.pow((weights[0]/10+1) * (weights[1]/100+1), weights[2]/1000 + 1)*Math.pow(1.5, blocks*level)),
-        "neutrongenpow": (blocks, weights, level) => new Decimal(Math.pow((weights[0]/100+1) * (weights[1]/1000+1), weights[2]/10000 + 1)*Math.pow(1.01, blocks*level)),
-        "protongenbase": (blocks, weights, level) => new Decimal(Math.pow(weights[0] * weights[1], weights[2])*Math.pow(1.5, blocks*level)),
-        "protongenmult": (blocks, weights, level) => new Decimal(1 + Math.pow((weights[0]/10+1) * (weights[1]/100+1), weights[2]/1000 + 1)*Math.pow(1.5, blocks*level)),
+        "neutrongenbase": (blocks, weights, level) => new Decimal(Math.pow(weights[0]*blocks, 10) * Math.pow(weights[0]*blocks * weights[1]*blocks + 1, weights[2])*(blocks + Math.pow(1.5, blocks*level))),
+        "neutrongenmult": (blocks, weights, level) => new Decimal(1 + Math.pow((weights[0]/10+.1) * (weights[1]/100+1), weights[2]/1000 + 1)*Math.pow(1.1, (blocks-1)*level)),
+        "neutrongenpow": (blocks, weights, level) => new Decimal(Math.pow((weights[0]/100+1) * (weights[1]/1000 + 1), weights[2]/10000 )*Math.pow(1.01, blocks*level)),
+        "protongenbase": (blocks, weights, level) => new Decimal(Math.pow(weights[0] * weights[1], weights[2])*(blocks + Math.pow(1.5, blocks*level))),
+        "protongenmult": (blocks, weights, level) => new Decimal((1 + Math.pow((weights[0]/10+.1) * (weights[1]/100+1), weights[2]/1000 + 1))*(blocks * Math.pow(1.1, (blocks)*level))),
         "protongenpow": (blocks, weights, level) => new Decimal(Math.pow((weights[0]/100+1) * (weights[1]/1000+1), weights[2]/10000 + 1)*Math.pow(1.01, blocks*level)),
         "multorbonus": (blocks, weights, level) => new Decimal(1 + Math.pow((weights[0]/10+1) * (weights[1]/100+1), weights[2]/1000 + 1)*Math.pow(1.5, blocks*level)),
         "acceleronbonus": (blocks, weights, level) => new Decimal(Math.pow(weights[0] * weights[1], weights[2])*Math.pow(1.5, blocks*level)),
@@ -265,11 +379,6 @@ function setpieceupgradeeffects() {
         "electrongainmult": EffectTypes.PrestigeMultiplicativeGain,
         "electrongainpow": EffectTypes.PrestigeExponentialGain
     }
-}
-
-var effecttypesrandom = new Random(98743567);
-function generateeffecttype(type) {
-    return possibleeffects[type][effecttypesrandom.nextInt(0, possibleeffects[type].length - 1)];
 }
 
 var effectamountrandom = new Random(657493);
@@ -397,8 +506,3 @@ function horizontalshapecleanup(shape) {
     return shape;
 }
 
-var possibletype = ["white", "red", "yellow", "orange"];// "blue", "green",
-var typeran = new Random();
-function generatetype() {
-    return possibletype[typeran.nextInt(0, possibletype.length - 1)];
-}

@@ -220,6 +220,9 @@ body{
 .bonusquarkspinupgrade{
   color: #ebcb2d;
 }
+.bonushydrogenupgrade{
+  color: #ebcb2d;
+}
 .bonusfreeelectronsupgrade{
   color: #ebcb2d;
 }
@@ -570,6 +573,15 @@ a {
 /*User Information*/
 .logunlock{
   color: #42b844;
+}
+
+/*Hydrogen Hill*/
+.producerprimedprotonname{
+  color: #dbac65;
+}
+
+.producerprimedprotonproduction{
+  color: #dbac65;
 }
 
 /*Replicator*/

@@ -1,5 +1,5 @@
 class Producer {
-  constructor(id, displayname, costs, productions, unlockrequirements, buykey, autobuyrequirements) {
+  constructor(id, displayname, costs, productions, unlockrequirements, buykey, autobuyrequirements, consumes) {
     this.id = id;
     this.buykey = buykey;
     this.displayname = displayname;
@@ -10,6 +10,7 @@ class Producer {
     this.autobuyunlocked = false;
     this.doproduce = true;
     this.unlocked = false;
+    this.consumes = consumes;
 
     if (Array.isArray(productions))
       this.productions = productions;
@@ -224,9 +225,21 @@ class Producer {
   produce(prodratio) {
     if(!this.doproduce)
       return;
+    if(this.consumes)
+      prodratio = this.hascurrency(prodratio);
     this.productions.forEach((prod, i) => {
       prod.produce(prodratio);
     });
+  }
+  
+  hascurrency(prodratio) {
+    var lowest = prodratio;
+    this.productions.forEach((prod) => {
+      var temp = prod.getbestprodratio(prodratio);
+      if(temp < lowest)
+        lowest = temp;
+    })
+    return lowest;
   }
 
   getproduction(index) {

@@ -224,6 +224,13 @@ Vue.component('prestige-icon', {
     }
 })
 
+Vue.component('prestige-icon-noselect', {
+    props: ['prestige'],
+    template: `
+      <img v-bind:class="{prestigeicon : true}"" v-bind:src='"images/prestige/"+prestige.id+".png"' @error="$event.target.src='images/missing.png'" v-on:click="prestige.doprestige()"/>
+    `
+})
+
 Vue.component('prestige-requirement', {
     props: ['requirement'],
     template: `
@@ -244,7 +251,10 @@ Vue.component('prestige-reward', {
 Vue.component('upgrade-bonus', {
   props: ['upgrade', 'type'],
   template:`
+  <div>
+    <img v-bind:class="{upgrade : true}"" v-bind:src='upgrade.iconpath' @error="$event.target.src='images/missing.png'"/>
     <span v-bind:class='"bonusupgrade bonus"+upgrade.id+"upgrade"'>{{upgrade.effects[0].geteffect()}}</span>
+  </div>
   `
 });
 
@@ -355,6 +365,8 @@ Vue.component('board-grid-display', {
     <button class="boardoperation"  @click="deselectpiece(board)">Deselect</button>
     <button class="boardoperation"  @click="board.scrapselected()">Scrap Selected</button><br>
     <button class="boardoperation"  @click="board.scrapbench()">Scrap Bench</button>
+    <button class="boardoperation"  @click="board.psuedopopulate()">Auto-Populate Board</button>
+    <button class="boardoperation"  @click="board.clear()">Clear Board</button>
   </div>
   `,
   methods: {
@@ -434,7 +446,7 @@ Vue.component("piece-generator", {
       <table>
         <piece-generator-upgrade v-for="type in generator.types" v-bind:generator="generator" v-bind:type="type"></piece-generator-upgrade>
         <tr><td>
-          <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button></td>
+          <button class="newpiece" @click="board.addpendingpiece(generator.buypiece())">Buy New Piece Costs : {{generator.piececost}}</button><button class="newpiece" @click="board.addpendingpieces(generator.bulkbuypieces())">Buy Bulk Pieces</button><button class="newpiece" @click="generator.prestige()">Reset Price</button></td>
           <td><button v-bind:class='"generatorupgradebuyamount "+typex+"generatorupgradebuyamount"' v-on:click="togglebuyamount(typex)"><span class='buyamounttext'>Buy Amount: {{getbuyamount(typex)}}</span></button></td>
         </tr>
       </table>

@@ -187,8 +187,9 @@ class Effect {
     if (this.applied) {
       this.applied = false;
       this.appliesto.forEach((obj, i) => {
-        if (obj != undefined)
-          obj.removeeffect(this);
+        if (obj != undefined){
+          console.log(obj.removeeffect(this));
+        }
       });
     }
   }

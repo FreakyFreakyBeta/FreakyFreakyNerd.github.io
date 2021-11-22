@@ -31,7 +31,7 @@ function setupGame() {
 
   setupautobuyers();
   setpieceupgradeeffects();
-  setdefaultnucleonsplitpieces();
+  setdefaultnucleonsplit();
 }
 
 function totalproducerbought(producers) {
