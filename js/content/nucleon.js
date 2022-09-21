@@ -6,8 +6,8 @@ function setupbasicnucleonstage() {
     if (amount.lessThan("1e100"))
       return new Decimal();
     var dec = 1000;
-    if(hasachievement("100nucleonize"))
-      dec /= 10;
+    if(hasachievement("15nucleonize"))
+      dec /= 25;
     return Decimal.floor(Decimal.pow(amount.divide("1e100"), 1 / dec));
   }
 
@@ -26,7 +26,7 @@ function setupbasicnucleonstage() {
     return true;
   }
 
-  player.electronstage.nucleonize = new Prestige("nucleonize", "Nucleonize", donucleonize, () => { resetQuarkStage(); resetElectronStage(); if(!hasachievement("100nucleonize")) resetchallenges(1, 4); }, new NumRequirement(player.electronstage.electrons, "1e100"), new PrestigeReward(player.nucleonstage.nucleons, player.electronstage.electrons, nucleongain));
+  player.electronstage.nucleonize = new Prestige("nucleonize", "Nucleonize", donucleonize, () => { resetQuarkStage(); resetElectronStage(); if(!hasupgrade("nu12") ) resetchallenges(1, 4); }, new NumRequirement(player.electronstage.electrons, "1e100"), new PrestigeReward(player.nucleonstage.nucleons, player.electronstage.electrons, nucleongain));
 }
 
 //Setup nucleon producers
@@ -106,6 +106,7 @@ function setupbasicnucleonsingletonupgrades() {
   player.nucleonstage.upgrades.push(new Upgrade("nu0", "Give Me Quarks", 5, null, new ExponentialEffect(player.quarkstage.producers, 1, 2, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark Production x" + formatDecimalNormal(obj.value) + "(x" + formatDecimalNormal(obj.increase) + ")"), new ExponentialCost(player.nucleonstage.nucleons, 1, 4), "upg", {tag : "nu"}));
   player.nucleonstage.upgrades.push(new Upgrade("nu1", "Give Me Quark Spin", 5, null, new ExponentialEffect(player.electronstage.quarkspinproducers, 1, 2, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark Spin Production x" + formatDecimalNormal(obj.value) + "(x" + formatDecimalNormal(obj.increase) + ")"), new ExponentialCost(player.nucleonstage.nucleons, 1, 4), "upg", {tag : "nu"}));
   player.nucleonstage.upgrades.push(new Upgrade("nu2", "Give Me Electrons", 5, null, new ExponentialEffect(player.quarkstage.electrify, 1, 2, EffectTypes.PrestigeMultiplicativeGain, null, (obj) => "Electron Gain x" + formatDecimalNormal(obj.value) + "(x" + formatDecimalNormal(obj.increase) + ")"), new ExponentialCost(player.nucleonstage.nucleons, 1, 4), "upg", {tag : "nu"}));
+  player.nucleonstage.upgrades.push(new Upgrade("nu12", "Challenges are getting boring", 1, null, new FlavorEffect("Challenges 1-4 score no longer resets on nucleonize."), new StaticCost(player.nucleonstage.nucleons, "3"), "upg", {tag : "nu"}));
   player.nucleonstage.upgrades.push(new Upgrade("nu10", "Electron Power Who?", 1, null, new FunctionEffect(getupgrades("1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p", "6s"), EffectTypes.ProducerStaticProduction, () => player.electronstage.clouds.power.amount.divide(10), (obj) => "Orbital's 1S through 6S produce progress equal to Electron Power/10 (Stacks with other similar upgrades) || Currently: " + formatDecimal(obj.value)), new StaticCost(player.nucleonstage.nucleons, "3"), "upg", {tag : "nu"}));
   player.nucleonstage.upgrades.push(new Upgrade("nu3", "Base Acceleron Power Based On Bought Accelerons", 1, null, new FunctionEffect(player.quarkstage.upgrades[0], EffectTypes.UpgradeIncreaseAddition, () => Decimal.pow(player.quarkstage.upgrades[0].bought, 2), (obj) => "Base Acceleron Power +" + formatDecimalNormal(obj.value)), new StaticCost(player.nucleonstage.nucleons, "3"), "upg", {tag : "nu"}));
   player.nucleonstage.upgrades.push(new Upgrade("nu4", "Base Acceleration Boost Power Based On Bought Acceleration Boost", 1, null, new FunctionEffect(player.quarkstage.upgrades[4], EffectTypes.UpgradeIncreaseAddition, () => player.quarkstage.upgrades[0].bought, (obj) => "Base Acceleration Boost Power +" + formatDecimalNormal(obj.value)), new StaticCost(player.nucleonstage.nucleons, "3"), "upg", {tag : "nu"}));

@@ -29,9 +29,11 @@ function setupGame() {
   setuphydrogenhill();
   setupbasicantiverse();
 
-  setupautobuyers();
   setpieceupgradeeffects();
   setdefaultnucleonsplit();
+
+  //Should Always Be Last
+  setupautobuyers();
 }
 
 function totalproducerbought(producers) {

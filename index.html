@@ -33,11 +33,12 @@
         v-if='hasachievement("1e40proton")'>Hydrogen Hill</a>
       <a class="menubutton antiversemenubutton" v-bind:class='{menubuttonactive : screenopen("antiverse")}' onclick='openscreen("antiverse")'
         v-if='hasachievement("impnucleonize")'>Antiverse</a>
+        <a class="menubutton autobuyermenubutton" v-bind:class='{menubuttonactive : screenopen("autobuyer")}' onclick='openscreen("autobuyer")'>Autobuyers</a>
+        <a class="menubutton offlinemenubutton" v-bind:class='{menubuttonactive : screenopen("offline")}' onclick='openscreen("offline")'>Offline</a>
     <a class="menubutton achievementmenubutton" v-bind:class='{menubuttonactive : screenopen("achievements")}' onclick='openscreen("achievements")'>Achievements</a>
-    <a class="menubutton logmenubutton" v-bind:class='{menubuttonactive : screenopen("log")}' onclick='openscreen("log")'>Log</a>
     <a class="menubutton statisticsmenubutton" v-bind:class='{menubuttonactive : screenopen("stats")}' onclick='openscreen("stats")'>Statistics</a>
+    <a class="menubutton logmenubutton" v-bind:class='{menubuttonactive : screenopen("log")}' onclick='openscreen("log")'>Log</a>
     <a class="menubutton settingsmenubutton" v-bind:class='{menubuttonactive : screenopen("options")}' onclick='openscreen("options")'>Settings</a>
-    <a class="menubutton changelogmenubutton" v-bind:class='{menubuttonactive : screenopen("changelog")}' onclick='openscreen("changelog")'>Changelog</a>
   </div>
   <div id="gamecontent">
     <div id=notifications>
@@ -267,7 +268,6 @@
             <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
             <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount:
               {{getbuyamount("upg")}}</button>
-            <button class="upgradescreenauto" v-on:click="toggleupgradeautostate()">Automatic: {{getupgradeautostate()}}</button>
           </div>
         </div>
         <div id="achievementsscreen" style="display: none">
@@ -377,6 +377,13 @@
             <currency-display v-bind:currency="player.nucleonstage.antiverse.antineutrons"></currency-display>
           </div>
         </div>
+        <div id="autobuyerscreen" style="display: none">
+          <div id="autobuyers">
+            <autobuyer-display v-for="autobuyer in player.autobuyers" v-bind:autobuyer="autobuyer" v-if="autobuyer.unlocked"></autobuyer-display>
+          </div>
+        </div>
+        <div id="offlinescreen" style="display: none">
+        </div>
         <div id="hydrogenhillscreen" style="display: none">
           <div>
             <table>
@@ -478,7 +485,7 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
   <script src="js/lib/tslib.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
@@ -494,7 +501,7 @@
   <script src="js/customlib/prestige.js"> </script>
   <script src="js/customlib/achievement.js"> </script>
   <script src="js/customlib/challenge.js"> </script>
-  <script src="js/customlib/upgradeautobuyer.js"> </script>
+  <script src="js/customlib/autobuyer.js"> </script>
   <script src="js/customlib/random.js"> </script>
   <script src="js/customlib//boardlib/piece.js"> </script>
   <script src="js/customlib//boardlib/board.js"> </script>

@@ -1,16 +1,24 @@
-class UpgradeAutoBuyer {
-    constructor(id, buyupgrades, unlockrequirements) {
+class AutoBuyer {
+    constructor(id, buys, unlockrequirements, buystring) {
         this.id = id;
-        if (Array.isArray(buyupgrades))
-            this.buyupgrades = buyupgrades;
+        if (Array.isArray(buys))
+            this.buys = buys;
         else
-            this.buyupgrades = [buyupgrades];
+            this.buys = [buys];
         if (Array.isArray(unlockrequirements))
             this.unlockrequirements = unlockrequirements;
         else
             this.unlockrequirements = [unlockrequirements];
+
+        if(buystring != undefined)
+            this.buystring = buystring;
+        else
+            this.buystring = this.buys[0].displayname;
+
         this.unlocked = false;
         this.autobuyon = false;
+
+        this.buyamount = 1;
 
         autobuyerregistry.push(this);
         updaterequiredregistry.push(this);
@@ -44,8 +52,8 @@ class UpgradeAutoBuyer {
     }
 
     dobuy() {
-        this.buyupgrades.forEach((elem) => {
-            elem.buymax();
+        this.buys.forEach((elem) => {
+            elem.buy();
         });
     }
 
@@ -54,7 +62,7 @@ class UpgradeAutoBuyer {
     }
 
     save() {
-        return [this.autobuyon];
+        return [this.autobuyon, this.buyamount];
     }
 
     parse(data) {
@@ -62,6 +70,10 @@ class UpgradeAutoBuyer {
             return;
         if (data[0] != undefined)
             this.autobuyon = data[0];
+        if (data[1] != undefined)
+            this.buyamount = data[1];
+
+        this.updatebuyamounts();
     }
 
     get state() {
@@ -76,5 +88,33 @@ class UpgradeAutoBuyer {
         if(!this.unlocked)
             return;
         this.autobuyon = !this.autobuyon;
+        this.updatebuyamounts();
+    }
+
+    updatebuyamounts(){
+        if(this.autobuyon){
+            this.buys.forEach((elem) => {
+                elem.setbuyamountoverride(this.buyamount);
+            })
+        }else{
+            this.buys.forEach((elem) => {
+                elem.setbuyamountoverride(undefined);
+            })
+        }
+    }
+
+    togglebuyamount(){
+        this.buyamount = getnextbuyamount(this.buyamount);
+        this.updatebuyamounts();
+    }
+
+    get buyamounttext(){
+        if(this.buyamount == -1)
+            return "Max";
+        return this.buyamount;
+    }
+
+    get displayname(){
+        return "Autobuys " + this.buystring;
     }
 }

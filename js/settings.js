@@ -79,7 +79,17 @@ function togglebuyamount(type) {
     setbuyamount(type, player.options.toggleamounts[0]);
   }
   else {
-    setbuyamount(type, player.options.toggleamounts[ind + 1])
+    setbuyamount(type, player.options.toggleamounts[ind + 1]);
+  }
+}
+
+function getnextbuyamount(buyamount){
+  var ind = player.options.toggleamounts.indexOf(buyamount);
+  if (ind == undefined || ind == player.options.toggleamounts.length - 1) {
+    return player.options.toggleamounts[0];
+  }
+  else {
+    return player.options.toggleamounts[ind + 1];
   }
 }
 
