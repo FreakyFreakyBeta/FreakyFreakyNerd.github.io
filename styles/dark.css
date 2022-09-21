@@ -621,3 +621,36 @@ a {
 .replicatoreffect{
   color: #ebcb2d;
 }
+
+/*Autobuyers*/
+.autobuyer{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
+
+.autobuyername{
+  color: #BBB;
+}
+
+.autobuyerbutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 2px;
+  border: 2px solid #9f32c9;
+}
+
+.autobuyeramountbutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 2px;
+  border: 2px solid #9f32c9;
+}
+
+.autobuyerbuttontrue{
+  border-color: green !important;
+}
+
+.autobuyerbuttonfalse{
+  border-color: red !important;
+}

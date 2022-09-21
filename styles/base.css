@@ -882,7 +882,7 @@ a {
   vertical-align: top;
 }
 .replicatortable{
-  width: 80%px;
+  width: 80%;
   overflow-x: auto;
 }
 .replicatoreffects{
@@ -891,5 +891,45 @@ a {
 }
 .replicatoreffect{
   font-size: 16px;
+}
+
+/*Autobuyers*/
+.autobuyer{
+  width: 200px;
+  height: 80px;
+
+  display: inline-block;
+
+  margin: 2px;
+
+  border: 1px solid;
+  border-radius: 5px;
+
+  padding: 4px 4px 4px 4px;
+  align-content: center;
+  text-align: center;
+}
+
+.autobuyername{
+  width: 80%;
+  height: 12px;
+
+  font-size: 12px;
+}
+
+.autobuyerbutton{
+  font-size: 12px;
+  width: 60px;
+  height: 20px;
+
+  margin-top: 4px;
+}
+
+.autobuyeramountbutton{
+  font-size: 12px;
+  width: 60px;
+  height: 20px;
+
+  margin-top: 4px;
 }
 

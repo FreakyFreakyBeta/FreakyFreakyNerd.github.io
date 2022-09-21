@@ -25,7 +25,8 @@ var player = {
   achievements : {},
   challenges : [],
   stats : {
-  }
+  },
+  autobuyers : []
 }
 
 function getevery(list, stepsize, step, offset){
@@ -122,6 +123,7 @@ function gameLogicTick(){
   updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
+
   doprogress(timedif);
 }
 

@@ -142,6 +142,8 @@ class Effect {
   }
 
   geteffect() {
+    if(typeof this.effectdescription == 'string')
+      return this.effectdescription;
     if (this.effectdescription != undefined)
       return this.effectdescription(this);
     else {

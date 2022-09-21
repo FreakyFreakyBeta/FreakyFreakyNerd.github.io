@@ -1,16 +1,15 @@
 class Producer {
-  constructor(id, displayname, costs, productions, unlockrequirements, buykey, autobuyrequirements, consumes) {
+  constructor(id, displayname, costs, productions, unlockrequirements, buykey, consumes) {
     this.id = id;
     this.buykey = buykey;
     this.displayname = displayname;
     this.bought = new Decimal(0);
     this.produced = new Decimal(0);
     this.onbuymax = false;
-    this.buyauto = false;
-    this.autobuyunlocked = false;
     this.doproduce = true;
     this.unlocked = false;
     this.consumes = consumes;
+    this.buyamountoverride = undefined;
 
     if (Array.isArray(productions))
       this.productions = productions;
@@ -27,11 +26,6 @@ class Producer {
     else
       this.unlockrequirements = [unlockrequirements];
 
-    if (Array.isArray(autobuyrequirements) || autobuyrequirements == undefined)
-      this.autobuyrequirements = autobuyrequirements;
-    else
-      this.autobuyrequirements = [autobuyrequirements];
-
     producerregistry.push(this);
     updaterequiredregistry.push(this);
     this.limiteffect = undefined;
@@ -41,14 +35,6 @@ class Producer {
   tick() {
     if (this.onbuymax) {
       this.recalculatecosts();
-    }
-    if (this.buyauto && !this.autobuylocked) {
-      this.buy();
-    }
-    if (!this.autobuyunlocked) {
-      if (this.checkforautounlock()) {
-        this.autobuyunlocked = true;
-      }
     }
     if(!this.unlocked)
       this.checkForUnlock();
@@ -65,35 +51,9 @@ class Producer {
       return "play"
   }
 
-  get autostate() {
-    if (!this.autobuyunlocked)
-      return "LOK"
-    if (!this.buyauto)
-      return "OFF"
-    return "ON"
-  }
-
-  get autobuystate() {
-    return this.buyauto;
-  }
-
-  setautobuystate(state) {
-    if (this.autobuyunlocked)
-      this.buyauto = state;
-  }
-
-  togglebuystate() {
-    if (this.autobuyunlocked)
-      this.buyauto = !this.buyauto;
-  }
-
   reset(hard) {
     this.bought = new Decimal(0);
     this.produced = new Decimal(0);
-    if (hard) {
-      this.buyauto = false;
-      this.autobuyunlocked = false;
-    }
     this.unlocked = false;
     this.effectchanged();
   }
@@ -119,19 +79,6 @@ class Producer {
     }
   }
 
-  checkforautounlock() {
-    if (this.autobuyrequirements == undefined)
-      return false;
-    var unlock = true;
-    this.autobuyrequirements.forEach(element => {
-      if (!element.hasrequirement) {
-        unlock = false;
-        return false;
-      }
-    });
-    return unlock;
-  }
-
   get saveData() {
     return this.save()
   }
@@ -154,7 +101,7 @@ class Producer {
   }
 
   save() {
-    return [this.bought.toString(), this.produced.toString(), this.buyauto, this.doproduce];
+    return [this.bought.toString(), this.produced.toString(), this.doproduce];
   }
 
   parse(data) {
@@ -165,9 +112,7 @@ class Producer {
     if (data[1] != undefined)
       this.produced = Decimal.fromString(data[1]);
     if (data[2] != undefined)
-      this.buyauto = data[2];
-    if (data[3] != undefined)
-      this.doproduce = data[3];
+      this.doproduce = true;
     this.recalculatecosts();
     this.recalculateproductions();
   }
@@ -176,6 +121,7 @@ class Producer {
     this.produced = this.produced.add(amount);
     this.recalculateproductions();
   }
+  
 
   buy() {
     if (!this.unlocked)
@@ -205,6 +151,12 @@ class Producer {
     return boolcan;
   }
 
+  setbuyamountoverride(amount) {
+    this.buyamountoverride = amount;
+
+    this.recalculatecosts();
+  }
+
   getmaxbuyable() {
     var maxamount = undefined;
     this.costs.forEach((cost, i) => {
@@ -213,6 +165,10 @@ class Producer {
         maxamount = cmax;
       }
     });
+
+    if(this.buyamountoverride != undefined)
+      maxamount = maxamount.divide(10);
+
     if (!this.limit.equals(-1) && this.bought.add(maxamount).greaterThan(this.limit)) {
       if (this.limit.minus(this.bought).lessThan(0))
         maxamount = new Decimal();
@@ -225,8 +181,8 @@ class Producer {
   produce(prodratio) {
     if(!this.doproduce)
       return;
-    if(this.consumes)
-      prodratio = this.hascurrency(prodratio);
+    //if(this.consumes)
+    //  prodratio = this.hascurrency(prodratio);
     this.productions.forEach((prod, i) => {
       prod.produce(prodratio);
     });
@@ -257,15 +213,25 @@ class Producer {
   get buyamount() {
     if (!this.unlocked)
       return "Locked";
+    if(this.buyamountoverride != undefined){
+      if(this.buyamountoverride == -1){
+        var max = this.getmaxbuyable();
+        if (max.lessThanOrEqualTo(new Decimal(0)))
+          return new Decimal(1);
+          this.onbuymax = true;
+        return max;
+      }else{
+        this.onbuymax = false;
+      }
+      return this.buyamountoverride;
+    }
     if (player.options.buyamounts[this.buykey] == -1) {
       var max = this.getmaxbuyable();
-      if (this.buyauto)
-        max = Decimal.floor(max.divide(10));
-      this.onbuymax = true;
       if (max.lessThanOrEqualTo(new Decimal(0)))
         return new Decimal(1);
+        this.onbuymax = true;
       return max;
-    } else {
+    }else{
       this.onbuymax = false;
     }
 
@@ -275,6 +241,7 @@ class Producer {
   recalculatecosts() {
     if (this.costs == undefined)
       return;
+    var buyam = this.buyamount;
     this.costs.forEach((cost, i) => {
       cost.recalculatecost(this.bought, this.buyamount);
     });
